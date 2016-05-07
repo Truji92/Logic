@@ -13,7 +13,7 @@ object Types {
   /**
     * Interpretación de una fórmula
     */
-  type Interpretation = Map[Symbol, Boolean]
+  type Interpretation = Map[Atom, Boolean]
 
   /**
     * Proposición
@@ -45,9 +45,9 @@ object Types {
       *
       * @return
       */
-    def symbols: Set[Symbol] = this match {
+    def symbols: Set[Atom] = this match {
       case Const(_) => Set.empty
-      case Atom(symbol) => Set(symbol)
+      case Atom(symbol) => Set(Atom(symbol))
       case Neg(prop) => prop.symbols
       case Conj(p, q) => p.symbols ++ q.symbols
       case Disj(p, q) => p.symbols ++ q.symbols
@@ -65,10 +65,10 @@ object Types {
       */
     def meaning(interp: Interpretation): Boolean = this match {
       case Const(value) => value
-      case Atom(symbol) => interp.getOrElse(symbol, false)
+      case Atom(symbol) => interp.getOrElse(Atom(symbol), false)
       case Neg(prop) =>  !prop.meaning(interp)
-      case Conj(p, q) => p.meaning(interp) && p.meaning(interp)
-      case Disj(p, q) => p.meaning(interp) || p.meaning(interp)
+      case Conj(p, q) => p.meaning(interp) && q.meaning(interp)
+      case Disj(p, q) => p.meaning(interp) || q.meaning(interp)
       case Impl(p, q) => (no(p) OR q) meaning interp
       case Equi(p, q) => ((p -> q) AND (q -> p)) meaning interp
     }
