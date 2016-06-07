@@ -25,11 +25,11 @@ object Types {
     override def toString = this match {
       case Const(bool: Boolean) => if (bool) "true" else "false"
       case Atom(symbol) => symbol
-      case Neg(prop) => s"no $prop"
-      case Conj(p, q) => s"$p AND $q"
-      case Disj(p, q) => s"$p OR $q"
-      case Impl(p, q) => s"$p => $q"
-      case Equi(p, q) => s"$p <=> $q"
+      case Neg(prop) => s"no($prop)"
+      case Conj(p, q) => s"($p) AND ($q)"
+      case Disj(p, q) => s"($p) OR ($q)"
+      case Impl(p, q) => s"($p) => ($q)"
+      case Equi(p, q) => s"($p) <=> ($q)"
     }
 
     def negate = Neg(this)
