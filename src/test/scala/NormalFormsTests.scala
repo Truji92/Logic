@@ -27,6 +27,36 @@ class NormalFormsTests extends FunSuite {
     )
   }
 
+  test("Forma Normal Conjutiva 1") {
+    assert(
+      NormalForm.conjunctive( p AND (q -> r) ) == ( p AND (no(q) OR r) )
+    )
+  }
+
+  test("Forma Normal Conjutiva 2") {
+    assert(
+      NormalForm.conjunctive( no(p AND (q -> r)) ) == ( (q OR no(p)) AND (no(r) OR no(p)) )
+    )
+  }
+
+  test("Forma Normal Conjutiva 3") {
+    assert(
+      NormalForm.conjunctive( no(p <-> r) ) equivalent ( ((p OR r) AND (p OR no(p))) AND ( (no(r) OR r) AND (no(r) OR no(p)) ) )
+    )
+  }
+
+  test("Forma Normal Disyuntiva 1") {
+    assert(
+      NormalForm.disjunctive( p AND (q -> r) ) == ( (no(q) AND p) OR (r AND p) )
+    )
+  }
+
+  test("Forma Normal Disyuntiva 2") {
+    assert(
+      NormalForm.disjunctive( no(p OR (q -> r)) ) == ( no(p) OR (q OR no(r)) )
+    )
+  }
+
 
 
 }
