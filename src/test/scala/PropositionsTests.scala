@@ -1,4 +1,6 @@
+import types.{Types, PropCollectionOperations}
 import Types._
+import types.PropCollectionOperations
 import PropCollectionOperations._
 import org.scalatest.FunSuite
 

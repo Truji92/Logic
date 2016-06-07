@@ -1,4 +1,6 @@
-import Types._
+package types
+
+import types.Types._
 
 import scala.language.postfixOps
 
@@ -47,6 +49,7 @@ object PropCollectionOperations {
 
   /**
     * Indica si un conjunto de proposiciones es consistente
+    *
     * @param props
     * @return
     */
@@ -55,6 +58,7 @@ object PropCollectionOperations {
 
   /**
     * Indica si un conjunto de proposiciones es inconsistente
+    *
     * @param props
     * @return
     */
@@ -63,6 +67,7 @@ object PropCollectionOperations {
 
   /**
     * Indica si cons es consecuencia lógica de un conjunto de proposiciones
+    *
     * @param props
     * @param cons
     * @return
