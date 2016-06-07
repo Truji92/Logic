@@ -151,4 +151,24 @@ class PropositionsTests extends FunSuite {
       !logicalConsequence(Set(p)) (p AND q)
     )
   }
+
+  test("Equivalencia 1") {
+    assert {
+      (p <-> q) equivalent ( (p -> q) AND (q -> p) )
+    }
+  }
+
+  test("Equivalencia 2") {
+    assert {
+      (p -> q) equivalent ( no(p) OR q )
+    }
+  }
+
+  test("Equivalencia 3") {
+    assert {
+      (p OR q) equivalent no(no(p) AND no(q))
+    }
+  }
+
+
 }
