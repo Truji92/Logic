@@ -17,11 +17,10 @@ object NormalForm {
     case Conj(f, g) => Conj(removeEquiv(f), removeEquiv(g))
     case Disj(f, g) => Disj(removeEquiv(f), removeEquiv(g))
     case Impl(f, g) => Impl(removeEquiv(f), removeEquiv(g))
-    case Equi(f, g) => {
+    case Equi(f, g) =>
       val _f = removeEquiv(f)
       val _g = removeEquiv(g)
       Conj(Impl(_f,_g), Impl(_g, _f))
-    }
   }
 
   private def removeImpl(prop: Prop): Prop = prop match {

@@ -21,8 +21,6 @@ object PropCollectionOperations {
   /**
     * Todas las interpretaciones de un conjunto de proposiciones
     *
-    * @param props
-    * @return
     */
   def interpretations(props: Iterable[Prop]) =
     symbols(props).subsets().map( interp => {
@@ -32,9 +30,6 @@ object PropCollectionOperations {
   /**
     * Indica si una interpretación es modelo de un conjunto
     *
-    * @param interpretation
-    * @param props
-    * @return
     */
   def isModel(interpretation: Interpretation, props: Iterable[Prop]) =
     props.forall(_.isModel(interpretation))
@@ -42,7 +37,6 @@ object PropCollectionOperations {
   /**
     * Devuelve todos los modelos de un conjunto de proposiciones
     *
-    * @param props
     */
   def models(props: Iterable[Prop]) =
     interpretations(props).filter(isModel(_, props))
@@ -50,7 +44,6 @@ object PropCollectionOperations {
   /**
     * Indica si un conjunto de proposiciones es consistente
     *
-    * @param props
     * @return
     */
   def inconsistent(props: Iterable[Prop]) =
@@ -59,8 +52,6 @@ object PropCollectionOperations {
   /**
     * Indica si un conjunto de proposiciones es inconsistente
     *
-    * @param props
-    * @return
     */
   def consistent(props: Iterable[Prop]) =
     !inconsistent(props)
@@ -68,9 +59,6 @@ object PropCollectionOperations {
   /**
     * Indica si cons es consecuencia lógica de un conjunto de proposiciones
     *
-    * @param props
-    * @param cons
-    * @return
     */
   def logicalConsequence(props: Iterable[Prop])(cons: Prop) =
     interpretations(props ++ Iterable(cons)) forall {
