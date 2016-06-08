@@ -23,15 +23,16 @@ object Clause {
     * @param literals
     * @return
     */
-  def apply(literals: Iterable[Literal]) = literals.toSet
+  def apply(literals: Iterable[Literal]): Clause = literals.toSet
 
   /**
     * Genera una clausula a partir de una fórmula-clausal (Solo contiene Literales y Disyunciones)
     *
     */
-  private def fromClausalProp(prop: Prop): Clause = prop match {
-    case l: Literal => Set(l)
+  def fromClausalProp(prop: Prop): Clause = prop match {
+    case Neg(Atom(s)) => Set(NegL(Atom(s)))
     case Disj(f, g) => fromClausalProp(f) ++ fromClausalProp(g)
+    case l: Literal => Set(l)
     case _ => throw new Exception(s"$prop no es una fórmula clausal")
   }
 
@@ -114,7 +115,7 @@ object Clause {
   def isInConsistent(clauses: Iterable[Clause]) = !isConsistent(clauses)
 
   def consequenceBetweenClauses(c1: Iterable[Clause], c2: Iterable[Clause]) =
-    ! interpretations(c1 ++ c2).exists(i => isModel(i, c1) != isModel(i, c2))
+    ! interpretations(c1 ++ c2).exists(i => isModel(i, c1) && !isModel(i, c2))
 
   def logicalConsequenceByClauses(props: Iterable[Prop], prop: Prop) =
     consequenceBetweenClauses(clauses(props), Clause(prop))
