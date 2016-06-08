@@ -1,6 +1,6 @@
 package types
 
-import scala.language.implicitConversions
+import scala.language.{postfixOps, implicitConversions}
 
 /**
   * Estructuras de datos básicas
@@ -95,7 +95,31 @@ object Types {
     def satisfiable = !unSatisfiable
 
     def equivalent(other: Prop) = (this <-> other) isValid
+
+    def isLiteral = this match {
+      case _: Atom => true
+      case Neg(Atom(_)) => true
+      case _ => false
+    }
   }
+
+  sealed trait Literal {
+
+    def complementary = this match {
+      case l: Atom => NegL(l)
+      case NegL(atom) => atom
+    }
+  }
+
+  case class NegL(atom: Atom) extends Literal
+
+  implicit def toLiteral(prop: Prop): Literal = prop match {
+    case atom: Atom => atom
+    case Neg(Atom(s)) => NegL(Atom(s))
+    case _ => throw new Exception(s"$prop is not a Literal")
+   }
+
+  type Clause = Set[Literal]
 
   /**
     * Constante lógica
@@ -109,7 +133,7 @@ object Types {
     *
     * @param symbol Símbolo que compone la formula
     */
-  case class Atom(symbol: Symbol) extends Prop
+  case class Atom(symbol: Symbol) extends Prop with Literal
 
   /**
     * Fórmula de Negación
