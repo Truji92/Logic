@@ -73,10 +73,10 @@ object NormalForm {
       val _g = takeInsideDisj(g)
       val _f1 = takeInsideDisj(f1)
       val _f2 = takeInsideDisj(f2)
-      Conj(Disj(_f1, _g), Disj(_f2, _g))
+      takeInsideDisj(Conj(Disj(_f1, _g), Disj(_f2, _g)))
 
     case Disj(f, Conj(g1, g2)) => takeInsideDisj(Disj(Conj(g1,g2), f))
-    case Disj(f,g) => Conj(takeInsideDisj(f), takeInsideDisj(g))
+    case Conj(f,g) => Conj(takeInsideDisj(f), takeInsideDisj(g))
     case _ => prop
   }
 
@@ -90,10 +90,10 @@ object NormalForm {
       val _g = takeInsideDisj(g)
       val _f1 = takeInsideDisj(f1)
       val _f2 = takeInsideDisj(f2)
-      Disj(Conj(_f1, _g), Conj(_f2, _g))
+      takeInsideConj(Disj(Conj(_f1, _g), Conj(_f2, _g)))
 
     case Conj(f, Disj(g1,g2)) => takeInsideConj(Conj(Disj(g1,g2), f))
-    case Conj(f, g) => Disj(takeInsideConj(f), takeInsideConj(g))
+    case Disj(f, g) => Disj(takeInsideConj(f), takeInsideConj(g))
     case _ => prop
   }
  }

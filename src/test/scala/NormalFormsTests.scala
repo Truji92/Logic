@@ -53,7 +53,7 @@ class NormalFormsTests extends FunSuite {
 
   test("Forma Normal Disyuntiva 2") {
     assert(
-      NormalForm.disjunctive( no(p OR (q -> r)) ) == ( no(p) OR (q OR no(r)) )
+      NormalForm.disjunctive( no(p AND (q -> r)) ) == ( no(p) OR (q AND no(r)) )
     )
   }
 
