@@ -101,9 +101,17 @@ object Types {
       case Neg(Atom(_)) => true
       case _ => false
     }
+
+    /** Operations using clauses**/
+    def isValidByClauses = Clause.isValid(Clause(this))
+
   }
 
   sealed trait Literal {
+
+    def symbols: Set[Atom]
+
+    def isModel(interpretation: Interpretation): Boolean
 
     def complementary = this match {
       case l: Atom => NegL(l)
@@ -111,7 +119,12 @@ object Types {
     }
   }
 
-  case class NegL(atom: Atom) extends Literal
+  case class NegL(atom: Atom) extends Literal {
+
+    override def symbols: Set[Atom] = Set(atom)
+    override def isModel(interpretation: Interpretation) =
+      !interpretation.getOrElse(atom, false)
+  }
 
   implicit def toLiteral(prop: Prop): Literal = prop match {
     case atom: Atom => atom
@@ -133,7 +146,12 @@ object Types {
     *
     * @param symbol Símbolo que compone la formula
     */
-  case class Atom(symbol: Symbol) extends Prop with Literal
+  case class Atom(symbol: Symbol) extends Prop with Literal {
+    //Overrides para evitar problemas con herencia multiple
+    override def symbols = Set(this)
+    override def isModel(interpretation: Interpretation) =
+      interpretation.getOrElse(this, false)
+  }
 
   /**
     * Fórmula de Negación
