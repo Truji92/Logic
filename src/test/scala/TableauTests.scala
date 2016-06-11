@@ -93,57 +93,44 @@ class TableauTests extends FunSuite {
       successors(List(p1, p2, r, q OR s)) == Set(Set(q, p1, p2, r), Set(s, p1,p2,r))
     )
   }
-//  "modelosTab ej 1" ~:
-//    modelosTab [p --> q, no(q --> p)]
-//  ==> [[no p,q],[q,no p]],
+
   test("Models By tab") {
     assert(
       modelsByTableaux(List(p -> q, no(q -> p))) == Set(Set(no(p), q), Set(q, no(p)))
     )
   }
-//  "modelosTab ej 2" ~:
-//    modelosTab [p --> q, no q --> no p]
-//  ==> [[q,no p],[no p],[q],[no p,q]],
+
   test("Models By tab 2") {
     assert(
       modelsByTableaux(List(p -> q, no(q) -> no(p))) == Set(Set(no(p), q), Set(no(p)), Set(q), Set(q, no(p)))
     )
   }
-//  "modelosGenerales ej 1" ~:
-//    modelosGenerales [p --> q, no q --> no p]
-//  ==> [[no p],[q]],
+
+
   test("General Models ") {
     assert(
       generalModels(List(p -> q, no(q) -> no(p))) == Set(Set(no(p)), Set(q))
     )
   }
-//  "esTeoremaPorTableros ej 1" ~:
-//    esTeoremaPorTableros (p --> p)
-//  ==> True,
+
   test("theorem by tabs") {
     assert(
       isTheoremByTableaux(p -> p)
     )
   }
-//  "esTeoremaPorTableros ej 2" ~:
-//    esTeoremaPorTableros (p --> q)
-//  ==> False,
+
   test("theorem by tabs 2") {
     assert(
      ! isTheoremByTableaux(p -> q)
     )
   }
-//  "esDeduciblePorTableros ej 1"
-//  esDeduciblePorTableros [p -->
-//    ==> True,
+
   test("deducible by tabs") {
     assert(
       isDeductibleByTableaux(List(p -> q, q -> r), p -> r)
     )
   }
-//  "esDeduciblePorTableros ej 2"
-//  esDeduciblePorTableros [p -->
-//    ==> False
+
   test("deducible by tabs 2") {
     assert(
       ! isDeductibleByTableaux(List(p -> q, q -> r), p <-> r)
