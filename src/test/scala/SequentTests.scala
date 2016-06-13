@@ -88,4 +88,64 @@ class SequentTests extends FunSuite {
       Sequent(s)(p <-> q, r).rightRule(p <-> q) == Set(Sequent(p, s)(q, r), Sequent(q, s)(p, r))
     )
   }
+
+  test("Copuestas izq") {
+    assert(
+      Sequent(no(p), q, r AND s)(no(q)).nonAtomicLefts == Set(no(p), r AND s)
+    )
+  }
+
+  test("Copuestas der") {
+    assert(
+      Sequent(no(p), q, r AND s)(no(q), s -> p, r).nonAtomicRights == Set(no(q), s -> p)
+    )
+  }
+
+  test("Provable") {
+    assert(
+      Sequent(p -> q, q -> r)(p -> r).isProvable
+    )
+  }
+
+  test("Provable2") {
+    assert(
+      ! Sequent(p -> q, q -> r)(p <-> r).isProvable
+    )
+  }
+//  esProbablePorSecuentes' ([],[p --> p]) ==> True,
+  test("Provable3") {
+    assert(
+      Sequent()(p -> p).isProvable
+    )
+  }
+
+  test("Provable4") {
+    assert(
+      Sequent(p AND no(p))().isProvable
+    )
+  }
+
+  test("Provable by seq") {
+    assert(
+      isProvableBySequents( (p -> q) OR (q -> p) )
+    )
+  }
+
+  test("Provable by seq 2" ) {
+    assert(
+      ! isProvableBySequents( (p -> q) )
+    )
+  }
+
+  test("deductible by seq") {
+    assert(
+      isDeductibleBySequents( Set(p -> q, q -> r), p -> r )
+    )
+  }
+
+  test("deductible by seq 2") {
+    assert(
+      ! isDeductibleBySequents( Set(p -> q, q -> r), p <-> r )
+    )
+  }
 }

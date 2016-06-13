@@ -103,7 +103,7 @@ object Sequent {
     * @param prop
     * @return
     */
-  def isDeducibleBySequents(props: Iterable[Prop], prop: Prop) =
+  def isDeductibleBySequents(props: Iterable[Prop], prop: Prop) =
     Sequent(props.toSet, Set(prop)) isProvable
 
   /**
