@@ -77,6 +77,22 @@ case class Sequent(left: Set[Prop], right: Set[Prop]) {
     else false
   }
 
+  private def proof(n: Int): Boolean = {
+    def mark(n: Int) = 1 to n map(_ => "|" ) mkString " "
+
+    lazy val lefts = nonAtomicLefts
+    lazy val rights= nonAtomicRights
+
+    println(mark(n) + left.mkString("[", ", ", "]") + "==>" + right.mkString("[", ", ", "]"))
+
+    if (isAxiom) true
+    else if (lefts.nonEmpty) proofBySequents(leftRule(lefts.head), n)
+    else if (rights.nonEmpty) proofBySequents(rightRule(rights.head), n)
+    else false
+  }
+
+  def proof: Boolean = proof(1)
+
   /**
     * Si todos los secuentes de seqs son provables
     * @param seqs
@@ -84,6 +100,9 @@ case class Sequent(left: Set[Prop], right: Set[Prop]) {
     */
   private def areProvableBySequents(seqs : Iterable[Sequent]): Boolean =
     seqs forall (_.isProvable)
+
+  private def proofBySequents(seqs : Iterable[Sequent], n: Int): Boolean =
+    seqs forall (_.proof(n + 1))
 
 }
 
@@ -96,6 +115,9 @@ object Sequent {
     */
   def isProvableBySequents(prop: Prop) =
     Sequent(Set.empty[Prop], Set(prop)) isProvable
+
+  def proofBySequents(prop: Prop) =
+    Sequent()(prop) proof
 
   /**
     * Indica si una fórmula es deducible de un conjunto mediante secuentes
