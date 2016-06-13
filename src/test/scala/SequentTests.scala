@@ -112,7 +112,7 @@ class SequentTests extends FunSuite {
       ! Sequent(p -> q, q -> r)(p <-> r).isProvable
     )
   }
-//  esProbablePorSecuentes' ([],[p --> p]) ==> True,
+
   test("Provable3") {
     assert(
       Sequent()(p -> p).isProvable
@@ -133,7 +133,7 @@ class SequentTests extends FunSuite {
 
   test("Provable by seq 2" ) {
     assert(
-      ! isProvableBySequents( (p -> q) )
+      ! isProvableBySequents( p -> q )
     )
   }
 
