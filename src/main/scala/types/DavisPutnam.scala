@@ -2,7 +2,7 @@ package types
 
 import types.Types._
 import types.Clause._
-import types.Clause.Clause
+
 
 /**
   * Created by Truji on 14/06/2016.

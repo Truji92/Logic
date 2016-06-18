@@ -2,14 +2,111 @@ package types
 
 import types.Types._
 
-import scala.language.implicitConversions
+import scala.language.{postfixOps, implicitConversions}
 
-/**
-  * Created by Truji on 08/06/2016.
-  */
 object Clause {
 
+  /**
+    * Class Clause
+    *
+    *
+    */
+  case class Clause(literals: Set[Literal]) {
+
+    /**
+      * Símbolos proposicionales de la cláusula
+      *
+      * @return
+      */
+    def symbols = literals.flatMap(_.symbols)
+
+    /**
+      * Interpretaciones de una cláusula
+      *
+      * @return
+      */
+    def interpretations = symbols.subsets().map( interp => {
+      interp.map(elem => (elem, true)).toMap
+    })
+
+    /**
+      * Si una interpretación es modelo de la cláusula
+      *
+      * @param interpretation
+      * @return
+      */
+    def isModel(interpretation: Interpretation) = literals.exists(_.isModel(interpretation))
+
+    /**
+      * Todos los modelos de la cláusula
+      *
+      * @return
+      */
+    def models = interpretations.filter(isModel)
+
+    /**
+      * Indica si una cláusula es válida
+      *
+      * @return
+      */
+    def isValid = interpretations.forall(isModel)
+
+    /**
+      * Resolvente de esta clausula y otra respecto a un literal
+      *
+      * @param other
+      * @param literal
+      * @return
+      */
+    def resolvente(other: Clause, literal: Literal): Clause =
+      Clause((this - literal) ++ (other - literal.complementary))
+
+    /**
+      * Conjunto de resolventes de esta clausula con otra
+      *
+      * @param other
+      * @return
+      */
+    def resolventes(other: Clause): Set[Clause] =
+      for {
+        literal <- literals
+        if other contains literal.complementary
+      } yield this resolvente(other, literal)
+
+    /**
+      * Conjunto de resolventes de esta clausula y un conjunto de clausas
+      *
+      * @param others
+      * @return
+      */
+    def resolventes(others: Set[Clause]): Set[Clause] = others flatMap (_.resolventes(this))
+
+    def isTautology = literals.exists(f => literals.contains(f.complementary))
+
+    def unSatisfiable = literals.isEmpty
+
+    def satisfiable = !unSatisfiable
+
+    def ++(other: Clause) = Clause(literals ++ other.literals)
+
+    def - (literal: Literal) = Clause(literals - literal)
+
+    override def toString = literals.mkString("Clause(", ",", ")")
+  }
+
+  /**
+    * Constructor con lista infinita de parámetros literales
+    * @param literals
+    * @return
+    */
   def apply(literals: Literal*): Clause = Clause(literals.toSet)
+
+  /**
+    * Conversión implicita para poder operar directamente sobre el set de literales
+    * @param clause
+    * @return
+    */
+  implicit def clauseToSet(clause: Clause): Set[Literal] = clause.literals
 
   /**
     * Creación de Cláusulas a partir de conjuntos de literales
@@ -106,6 +203,11 @@ object Clause {
     */
   def isConsistent(clauses: Iterable[Clause]) = interpretations(clauses).exists(isModel(_, clauses))
 
+  /**
+    * Si un conjunto de cláusulas es inconsistente
+    *
+    * @param clauses
+    */
   def isInConsistent(clauses: Iterable[Clause]) = !isConsistent(clauses)
 
   def consequenceBetweenClauses(c1: Iterable[Clause], c2: Iterable[Clause]) =
@@ -114,62 +216,50 @@ object Clause {
   def logicalConsequenceByClauses(props: Iterable[Prop], prop: Prop) =
     consequenceBetweenClauses(clauses(props), fromProp(prop))
 
+  def withoutTautologys(clauses: Iterable[Clause]) = clauses filterNot (_.isTautology)
+
   /**
-    * Clase Clause
-    *
-    * @param clause
+    * Indica si un conjunto de clausulas es incosistente por resolución
+    * @param clauses
+    * @return
     */
-  case class Clause(clause: Set[Literal]) {
+  def isIncosistentByResolution(clauses: Set[Clause]) = {
 
-    /**
-      * Símbolos proposicionales de la cláusula
-      *
-      * @return
-      */
-    def symbols = clause.flatMap(_.symbols)
+    def inconsistent(support: Set[Clause], usables: Set[Clause]): Boolean =
+      if (support isEmpty) false
+      else if (support contains Clause(Set.empty)) true
+      else {
+        val actual = support.head
+        val newUsables = usables + actual
+        val newSupport = support.tail ++ (
+            for {
+              c <- actual.resolventes(newUsables)
+              if !c.isTautology
+              if !support.contains(c)
+              if !newUsables.contains(c)
+            } yield c
+          )
 
-    /**
-      * Interpretaciones de una cláusula
-      *
-      * @return
-      */
-    def interpretations = symbols.subsets().map( interp => {
-      interp.map(elem => (elem, true)).toMap
-    })
+        inconsistent(newSupport, newUsables)
+      }
 
-    /**
-      * Si una interpretación es modelo de la cláusula
-      *
-      * @param interpretation
-      * @return
-      */
-    def isModel(interpretation: Interpretation) = clause.exists(_.isModel(interpretation))
-
-    /**
-      * Todos los modelos de la cláusula
-      *
-      * @return
-      */
-    def models = interpretations.filter(isModel)
-
-    /**
-      * Indica si una cláusula es válida
-      *
-      * @return
-      */
-    def isValid = interpretations.forall(isModel)
-
-    def unSatisfiable = clause.isEmpty
-
-    def satisfiable = !unSatisfiable
-
-    def ++(other: Clause) = Clause(clause ++ other.clause)
-
-    def - (literal: Literal) = Clause(clause - literal)
-
-    override def toString = clause.mkString("Clause(", ",", ")")
+    inconsistent(clauses, Set.empty)
   }
 
-  implicit def clauseToSet(clause: Clause): Set[Literal] = clause.clause
+  /**
+    * Indica si una propsición es valida mediante resolución
+    * @param prop
+    * @return
+    */
+  def isValidByResolution(prop: Prop): Boolean = isIncosistentByResolution(withoutTautologys(fromProp(Neg(prop))).toSet)
+
+  /**
+    * Indica si una formula es consecuencia lógica de un conjunto mediante resolucion
+    * @param props
+    * @param prop
+    * @return
+    */
+  def isConsequenceByResolution(props: Iterable[Prop], prop: Prop) =
+    isIncosistentByResolution(withoutTautologys(clauses(Set(Neg(prop)) ++ props)).toSet)
 
 }
