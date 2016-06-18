@@ -9,13 +9,7 @@ import scala.language.implicitConversions
   */
 object Clause {
 
-  /**
-    * Para poder crear cláusulas a partir de proposiciones de forma directa
-    *
-    * @param prop
-    * @return
-    */
-  def apply(prop: Prop) = fromProp(prop)
+  def apply(literals: Literal*): Clause = Clause(literals.toSet)
 
   /**
     * Creación de Cláusulas a partir de conjuntos de literales
@@ -23,16 +17,16 @@ object Clause {
     * @param literals
     * @return
     */
-  def apply(literals: Iterable[Literal]): Clause = literals.toSet
+  def fromLiterals(literals: Iterable[Literal]): Clause = Clause(literals.toSet)
 
   /**
     * Genera una clausula a partir de una fórmula-clausal (Solo contiene Literales y Disyunciones)
     *
     */
   def fromClausalProp(prop: Prop): Clause = prop match {
-    case Neg(Atom(s)) => Set(NegL(Atom(s)))
+    case Neg(Atom(s)) => Clause(Set(NegL(Atom(s))))
     case Disj(f, g) => fromClausalProp(f) ++ fromClausalProp(g)
-    case l: Literal => Set(l)
+    case l: Literal => Clause(Set(l))
     case _ => throw new Exception(s"$prop no es una fórmula clausal")
   }
 
@@ -118,14 +112,14 @@ object Clause {
     ! interpretations(c1 ++ c2).exists(i => isModel(i, c1) && !isModel(i, c2))
 
   def logicalConsequenceByClauses(props: Iterable[Prop], prop: Prop) =
-    consequenceBetweenClauses(clauses(props), Clause(prop))
+    consequenceBetweenClauses(clauses(props), fromProp(prop))
 
   /**
     * Clase con conversión implicita para añadir operaciones al tipo Clause
     *
     * @param clause
     */
-  class RichClause(clause: Clause) {
+  case class Clause(clause: Set[Literal]) {
 
     /**
       * Símbolos proposicionales de la cláusula
@@ -168,14 +162,11 @@ object Clause {
     def unSatisfiable = clause.isEmpty
 
     def satisfiable = !unSatisfiable
+
+    def ++(other: Clause) = Clause(clause ++ other.clause)
+
+    override def toString = clause.mkString("Clause(", ",", ")")
   }
 
-  /**
-    * Conversión implicita para las operaciones sobre clausulas
- *
-    * @param clause
-    * @return
-    */
-  implicit def toRichClause(clause: Clause): RichClause = new RichClause(clause)
 
 }

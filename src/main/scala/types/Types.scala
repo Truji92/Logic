@@ -103,7 +103,7 @@ object Types {
     }
 
     /** Operations using clauses**/
-    def isValidByClauses = Clause.isValid(Clause(this))
+    def isValidByClauses = Clause.isValid(Clause.fromProp(this))
 
   }
 
@@ -131,8 +131,6 @@ object Types {
     case Neg(Atom(s)) => NegL(Atom(s))
     case _ => throw new Exception(s"$prop is not a Literal")
    }
-
-  type Clause = Set[Literal]
 
   /**
     * Constante lógica

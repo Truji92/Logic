@@ -12,73 +12,73 @@ class ClausesTests extends FunSuite {
 
   test("Clause 1") {
     assert(
-      Clause(List(p,q,r)) == Set(p,q,r)
+      Clause(p,q,r) == Clause(p,q,r)
     )
   }
 
   test("Clause from ClausalProp") {
     assert(
-      Clause.fromClausalProp( (no(p) OR r) OR (no(p) OR q) ) == Set(q, r, NegL(p))
+      Clause.fromClausalProp( (no(p) OR r) OR (no(p) OR q) ) == Clause(q, r, NegL(p))
     )
   }
 
   test("Clause from Prop") {
     assert(
-      Clause(p AND (q -> r)) == Set(Set(p), Set(r, NegL(q)))
+      Clause.fromProp(p AND (q -> r)) == Set(Clause(p), Clause(r, NegL(q)))
     )
   }
 
   test("Clause form neg Prop") {
     assert(
-      Clause(no(p AND (q -> r))) == Set(Set(NegL(p), q), Set(NegL(p), NegL(r)))
+      Clause.fromProp(no(p AND (q -> r))) == Set(Clause(NegL(p), q), Clause(NegL(p), NegL(r)))
     )
   }
 
   test("Clause from prop double implication") {
     assert(
-      Clause(no(p <-> r)) == Set(Set(p,r), Set(p, NegL(p)), Set(r, NegL(r)), Set(NegL(p), NegL(r)))
+      Clause.fromProp(no(p <-> r)) == Set(Clause(p,r), Clause(p, NegL(p)), Clause(r, NegL(r)), Clause(NegL(p), NegL(r)))
     )
   }
 
   test("Clauses collection 1") {
     assert(
-      Clause.clauses(List(p -> q, q -> r)) == Set(Set(q, NegL(p)), Set(r, NegL(q)))
+      Clause.clauses(List(p -> q, q -> r)) == Set(Clause(q, NegL(p)), Clause(r, NegL(q)))
     )
   }
 
   test("Clauses collection 2") {
     assert(
-      Clause.clauses(List(p -> q, q <-> p)) == Set(Set(q, NegL(p)), Set(p, NegL(q)))
+      Clause.clauses(List(p -> q, q <-> p)) == Set(Clause(q, NegL(p)), Clause(p, NegL(q)))
     )
   }
 
   test("Clause symbols") {
     assert(
-      Clause(List(p, q, NegL(p))).symbols == Set(p, q)
+      Clause.fromLiterals(List(p, q, NegL(p))).symbols == Set(p, q)
     )
   }
 
   test("Clause Collection Symbols") {
     assert(
-      symbols(List(Clause(List(p,q)), Clause(List(no(q), r)))) == Set(p,q,r)
+      symbols(List(Clause(p,q), Clause(no(q), r))) == Set(p,q,r)
     )
   }
 
   test("Clause Interpretations") {
     assert(
-      Clause(List(p, q, NegL(p))).interpretations.toSet == Iterator(Map(p->true, q->true), Map(p->true), Map(q->true), Map.empty).toSet
+      Clause.fromLiterals(List(p, q, NegL(p))).interpretations.toSet == Iterator(Map(p->true, q->true), Map(p->true), Map(q->true), Map.empty).toSet
     )
   }
 
   test("Clause Interpretations empty") {
     assert(
-      Clause(Nil).interpretations.toSet == Iterator(Map.empty).toSet
+      Clause.fromLiterals(Nil).interpretations.toSet == Iterator(Map.empty).toSet
     )
   }
 
   test("Clause Collection Interpretations") {
     assert(
-      interpretations( List(Clause(List(p, NegL(q))), Clause(List(no(p), q)) )).toSet == Iterator(Map(p->true, q->true), Map(p->true), Map(q->true), Map.empty).toSet
+      interpretations( List(Clause(p, NegL(q)), Clause(no(p), q) )).toSet == Iterator(Map(p->true, q->true), Map(p->true), Map(q->true), Map.empty).toSet
     )
   }
 
@@ -108,49 +108,49 @@ class ClausesTests extends FunSuite {
 
   test("Clause isModel") {
     assert(
-      Clause(List(p, q)).isModel(Map(p->true, r->true))
+      Clause.fromLiterals(List(p, q)).isModel(Map(p->true, r->true))
     )
   }
 
   test("Clause isModel 2") {
     assert(
-      Clause(List(p, NegL(q))).isModel(Map(r->true))
+      Clause.fromLiterals(List(p, NegL(q))).isModel(Map(r->true))
     )
   }
 
   test("Clause no isModel") {
     assert(
-      Clause(List(p, NegL(q))).isModel(Map(p->true, r->true))
+      Clause.fromLiterals(List(p, NegL(q))).isModel(Map(p->true, r->true))
     )
   }
 
   test("Clause models") {
     assert(
-      Clause(List(q, NegL(p))).models.toSet == Iterator(Map(p->true, q->true), Map(q->true), Map.empty).toSet
+      Clause.fromLiterals(List(q, NegL(p))).models.toSet == Iterator(Map(p->true, q->true), Map(q->true), Map.empty).toSet
     )
   }
 
   test("Clause models 2") {
     assert(
-      Clause(List(p, NegL(p))).models.toSet == Iterator(Map(p->true), Map.empty).toSet
+      Clause.fromLiterals(List(p, NegL(p))).models.toSet == Iterator(Map(p->true), Map.empty).toSet
     )
   }
 
   test("Clause models empty") {
     assert(
-      Clause(Nil).models.toSet == Set.empty
+      Clause.fromLiterals(Nil).models.toSet == Set.empty
     )
   }
 
   test("Clause Collection isModel") {
     assert(
-      isModel(Map(p->true, r-> true), List(Clause(List(p, NegL(q))), Clause(List(r))))
+      isModel(Map(p->true, r-> true), List(Clause(p, NegL(q)), Clause(r)))
     )
   }
 
   test("Clause Collection no isModel") {
     assert(
-     ! isModel(Map(p->true, r->false), List(Clause(List(p, NegL(q))), Clause(List(r))))
+     ! isModel(Map(p->true, r->false), List(Clause(p, NegL(q)), Clause(r)))
     )
   }
 
@@ -162,61 +162,61 @@ class ClausesTests extends FunSuite {
 
   test("Clause Collection models") {
     assert(
-      models(List(Clause(List(NegL(p), q)), Clause(List(NegL(q), p)))).toSet == List(Map(p->true, q->true), Map.empty).toSet
+      models(List(Clause(NegL(p), q), Clause(NegL(q), p))).toSet == List(Map(p->true, q->true), Map.empty).toSet
     )
   }
 
   test("Clause Collection models none") {
     assert(
-      models(List(Clause(List(NegL(p), q)), Clause(List(p)), Clause(List(NegL(q))))).toSet == List().toSet
+      models(List(Clause(NegL(p), q), Clause(p), Clause(NegL(q)))).toSet == List().toSet
     )
   }
 
   test("Clause isValid") {
     assert(
-      Clause(List(p, q, NegL(p))).isValid
+      Clause.fromLiterals(List(p, q, NegL(p))).isValid
     )
   }
 
   test("Clause no isValid") {
     assert(
-      !Clause(List(p, q, NegL(r))).isValid
+      !Clause.fromLiterals(List(p, q, NegL(r))).isValid
     )
   }
 
   test("Clause empty isValid") {
     assert(
-      !Clause(Nil).isValid
+      !Clause.fromLiterals(Nil).isValid
     )
   }
 
   test("Clause unsatis") {
     assert(
-      !Clause(List(p, q, NegL(p))).unSatisfiable
+      !Clause.fromLiterals(List(p, q, NegL(p))).unSatisfiable
     )
   }
 
   test("Clause unsatis 2") {
     assert(
-      !Clause(List(p, q, NegL(r))).unSatisfiable
+      !Clause.fromLiterals(List(p, q, NegL(r))).unSatisfiable
     )
   }
 
   test("Clause empty unsatis") {
     assert(
-      Clause(Nil).unSatisfiable
+      Clause.fromLiterals(Nil).unSatisfiable
     )
   }
 
   test("Clause collection isValid 1") {
     assert(
-     ! isValid(List(Clause(List(NegL(p), q)), Clause(List(NegL(q), p))))
+     ! isValid(List(Clause(NegL(p), q), Clause(NegL(q), p)))
     )
   }
 
   test("Clause collection isValid 2") {
     assert(
-      isValid(List(Clause(List(NegL(p), p)), Clause(List(NegL(q), q))))
+      isValid(List(Clause(NegL(p), p), Clause(NegL(q), q)))
     )
   }
 
@@ -228,13 +228,13 @@ class ClausesTests extends FunSuite {
 
   test("Clause collection Consistence") {
     assert(
-      isConsistent(List(Clause(List(NegL(p), q)), Clause(List(NegL(q), p))))
+      isConsistent(List(Clause(NegL(p), q), Clause(NegL(q), p)))
     )
   }
 
   test("Clause collection Consistence 2") {
     assert(
-      isConsistent(List(Clause(List(NegL(p), p)), Clause(List(NegL(q), q))))
+      isConsistent(List(Clause(NegL(p), p), Clause(NegL(q), q)))
     )
   }
 
@@ -258,13 +258,13 @@ class ClausesTests extends FunSuite {
 
   test("consequence between clauses") {
     assert(
-      consequenceBetweenClauses(List(Clause(List(NegL(p), q)), Clause(List(NegL(q), r))), List(Clause(List(NegL(p), r))))
+      consequenceBetweenClauses(List(Clause(NegL(p), q), Clause(NegL(q), r)), List(Clause(NegL(p), r)))
     )
   }
 
   test("consequence between clauses 2") {
     assert(
-      !consequenceBetweenClauses(List(Clause(List(p))), List(Clause(List(p)), Clause(List(q))))
+      !consequenceBetweenClauses(List(Clause(p)), List(Clause(p), Clause(q)))
     )
   }
 
