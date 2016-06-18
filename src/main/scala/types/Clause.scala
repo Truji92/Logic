@@ -115,7 +115,7 @@ object Clause {
     consequenceBetweenClauses(clauses(props), fromProp(prop))
 
   /**
-    * Clase con conversión implicita para añadir operaciones al tipo Clause
+    * Clase Clause
     *
     * @param clause
     */
@@ -165,8 +165,11 @@ object Clause {
 
     def ++(other: Clause) = Clause(clause ++ other.clause)
 
+    def - (literal: Literal) = Clause(clause - literal)
+
     override def toString = clause.mkString("Clause(", ",", ")")
   }
 
+  implicit def clauseToSet(clause: Clause): Set[Literal] = clause.clause
 
 }
