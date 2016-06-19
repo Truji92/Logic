@@ -120,6 +120,13 @@ object Clause {
         if other.isUnitary
       } yield resolventes(other)) flatten
 
+    def entryResolvents(entry: Set[Clause], others: Set[Clause]): Set[Clause] =
+      if (entry.contains(this)) resolventes(others)
+      else (for {
+        other <- others
+        if entry.contains(other)
+      } yield resolventes(other)) flatten
+
     def isTautology = literals.exists(f => literals.contains(f.complementary))
 
     def isPositive = literals.forall(_.isPositive)
@@ -379,6 +386,50 @@ object Clause {
   }
 
   /**
+    * Indica si un conjunto de clausulas es incosistente por resolución por entradas
+    *
+    * @param clauses
+    * @return
+    */
+  def isInconsistentByEntryResolution(entry: Set[Clause], clauses: Set[Clause]): Boolean = {
+
+    def inconsistent(entry: Set[Clause], support: Set[Clause], usables: Set[Clause]): Boolean =
+      if (support isEmpty) false
+      else if (support contains Clause(Set.empty)) true
+      else {
+        val actual = support.head
+        val newUsables = usables + actual
+        val newSupport = support.tail ++ (
+          for {
+            c <- actual.entryResolvents(entry, newUsables)
+            if !c.isTautology
+            if !support.contains(c)
+            if !newUsables.contains(c)
+          } yield c)
+
+        inconsistent(entry, newSupport, newUsables)
+      }
+
+    inconsistent(entry, clauses, Set.empty)
+  }
+
+  /**
+    * Indica si un conjunto de clausulas es incosistente por resolución por Lineal
+    *
+    * @param clauses
+    * @return
+    */
+  def isInconsistentByLinearResolution(clauses: Set[Clause], clause: Clause): Boolean =
+    if (clauses.isEmpty) false
+    else if(clause.isEmpty) true
+    else {
+      val all = clauses + clause
+      clause.resolventes(clauses).diff(all).exists(
+        res => isInconsistentByLinearResolution(all, res)
+      )
+    }
+
+  /**
     * Indica si una propsición es valida mediante resolución
     *
     * @param prop
@@ -409,6 +460,17 @@ object Clause {
     * @return
     */
   def isValidByUnitaryResolution(prop: Prop): Boolean = isInconsistentByUnitaryResolution(withoutTautologys(fromProp(Neg(prop))).toSet)
+
+  /**
+    * Indica si una propsición es valida mediante resolución por entradas
+    *
+    * @param prop
+    * @return
+    */
+  def isValidByEntryResolution(prop: Prop): Boolean = {
+    val c = withoutTautologys(fromProp(Neg(prop))).toSet
+    isInconsistentByEntryResolution(c, c)
+  }
 
   /**
     * Indica si una formula es consecuencia lógica de un conjunto mediante resolucion
@@ -449,5 +511,17 @@ object Clause {
     */
   def isConsequenceByUnitaryResolution(props: Iterable[Prop], prop: Prop) =
     isInconsistentByUnitaryResolution(withoutTautologys(clauses(Set(Neg(prop)) ++ props)).toSet)
+
+  /**
+    * Indica si una formula es consecuencia lógica de un conjunto mediante resolucion por entradas
+    *
+    * @param props
+    * @param prop
+    * @return
+    */
+  def isConsequenceByEntryResolution(props: Iterable[Prop], prop: Prop) ={
+    val c = withoutTautologys(clauses(Set(Neg(prop)) ++ props)).toSet
+    isInconsistentByEntryResolution(c,c)
+  }
 
 }
