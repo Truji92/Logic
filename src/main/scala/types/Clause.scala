@@ -107,11 +107,26 @@ object Clause {
         if other.isNegative
       } yield resolventes(other)) flatten
 
+    /**
+      * Conjunto de resolventes unitarias de esta clausula y un conjunto
+      *
+      * @param others
+      * @return
+      */
+    def unitaryResolventes(others: Set[Clause]): Set[Clause] =
+      if (isUnitary) resolventes(others)
+      else (for {
+        other <- others
+        if other.isUnitary
+      } yield resolventes(other)) flatten
+
     def isTautology = literals.exists(f => literals.contains(f.complementary))
 
     def isPositive = literals.forall(_.isPositive)
 
     def isNegative = literals.forall(_.isNegative)
+
+    def isUnitary = literals.size == 1
 
     def unSatisfiable = literals.isEmpty
 
@@ -336,6 +351,34 @@ object Clause {
   }
 
   /**
+    * Indica si un conjunto de clausulas es incosistente por resolución unitaria
+    *
+    * @param clauses
+    * @return
+    */
+  def isInconsistentByUnitaryResolution(clauses: Set[Clause]): Boolean = {
+
+    def inconsistent(support: Set[Clause], usables: Set[Clause]): Boolean =
+      if (support isEmpty) false
+      else if (support contains Clause(Set.empty)) true
+      else {
+        val actual = support.head
+        val newUsables = usables + actual
+        val newSupport = support.tail ++ (
+          for {
+            c <- actual.unitaryResolventes(newUsables)
+            if !c.isTautology
+            if !support.contains(c)
+            if !newUsables.contains(c)
+          } yield c)
+
+        inconsistent(newSupport, newUsables)
+      }
+
+    inconsistent(clauses, Set.empty)
+  }
+
+  /**
     * Indica si una propsición es valida mediante resolución
     *
     * @param prop
@@ -358,6 +401,14 @@ object Clause {
     * @return
     */
   def isValidByNegativeResolution(prop: Prop): Boolean = isInconsistentByNegativeResolution(withoutTautologys(fromProp(Neg(prop))).toSet)
+
+  /**
+    * Indica si una propsición es valida mediante resolución Unitaria
+    *
+    * @param prop
+    * @return
+    */
+  def isValidByUnitaryResolution(prop: Prop): Boolean = isInconsistentByUnitaryResolution(withoutTautologys(fromProp(Neg(prop))).toSet)
 
   /**
     * Indica si una formula es consecuencia lógica de un conjunto mediante resolucion
@@ -388,5 +439,15 @@ object Clause {
     */
   def isConsequenceByNegativeResolution(props: Iterable[Prop], prop: Prop) =
     isInconsistentByNegativeResolution(withoutTautologys(clauses(Set(Neg(prop)) ++ props)).toSet)
+
+  /**
+    * Indica si una formula es consecuencia lógica de un conjunto mediante resolucion Unitaria
+    *
+    * @param props
+    * @param prop
+    * @return
+    */
+  def isConsequenceByUnitaryResolution(props: Iterable[Prop], prop: Prop) =
+    isInconsistentByUnitaryResolution(withoutTautologys(clauses(Set(Neg(prop)) ++ props)).toSet)
 
 }
