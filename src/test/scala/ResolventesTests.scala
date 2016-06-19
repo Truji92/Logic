@@ -49,25 +49,25 @@ class ResolventesTests extends FunSuite {
 
   test("Inconsistente por resolución") {
     assert(
-      Clause.isIncosistentByResolution(Set(Clause(p), Clause(no(p), q), Clause(no(q))))
+      Clause.isInconsistentByResolution(Set(Clause(p), Clause(no(p), q), Clause(no(q))))
     )
   }
 
   test("Inconsistente por resolución 2") {
     assert(
-      !Clause.isIncosistentByResolution(Set(Clause(p), Clause(no(q))))
+      !Clause.isInconsistentByResolution(Set(Clause(p), Clause(no(q))))
     )
   }
 
   test("Inconsistente por resolución 3") {
     assert(
-      Clause.isIncosistentByResolution(Set(Clause(p, q), Clause(no(p), q), Clause(no(q)), Clause(q, no(p)), Clause(no(p), no(q))))
+      Clause.isInconsistentByResolution(Set(Clause(p, q), Clause(no(p), q), Clause(no(q)), Clause(q, no(p)), Clause(no(p), no(q))))
     )
   }
 
   test("Inconsistente por resolución 4") {
     assert(
-      Clause.isIncosistentByResolution(Set(Clause(p, q), Clause(p, r), Clause(no(q), no(r)), Clause(no(p))))
+      Clause.isInconsistentByResolution(Set(Clause(p, q), Clause(p, r), Clause(no(q), no(r)), Clause(no(p))))
     )
   }
 

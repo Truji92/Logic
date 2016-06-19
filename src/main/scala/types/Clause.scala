@@ -81,7 +81,37 @@ object Clause {
       */
     def resolventes(others: Set[Clause]): Set[Clause] = others flatMap (_.resolventes(this))
 
+    /**
+      * Conjunto de resolventes positivas de esta clausula y un conjunto
+      *
+      * @param others
+      * @return
+      */
+    def positiveResolventes(others: Set[Clause]): Set[Clause] =
+      if (isPositive) resolventes(others)
+      else (for {
+        other <- others
+        if other.isPositive
+      } yield resolventes(other)) flatten
+
+    /**
+      * Conjunto de resolventes positivas de esta clausula y un conjunto
+      *
+      * @param others
+      * @return
+      */
+    def negativeResolventes(others: Set[Clause]): Set[Clause] =
+      if (isNegative) resolventes(others)
+      else (for {
+        other <- others
+        if other.isNegative
+      } yield resolventes(other)) flatten
+
     def isTautology = literals.exists(f => literals.contains(f.complementary))
+
+    def isPositive = literals.forall(_.isPositive)
+
+    def isNegative = literals.forall(_.isNegative)
 
     def unSatisfiable = literals.isEmpty
 
@@ -96,6 +126,7 @@ object Clause {
 
   /**
     * Constructor con lista infinita de parámetros literales
+    *
     * @param literals
     * @return
     */
@@ -103,6 +134,7 @@ object Clause {
 
   /**
     * Conversión implicita para poder operar directamente sobre el set de literales
+    *
     * @param clause
     * @return
     */
@@ -220,10 +252,11 @@ object Clause {
 
   /**
     * Indica si un conjunto de clausulas es incosistente por resolución
+    *
     * @param clauses
     * @return
     */
-  def isIncosistentByResolution(clauses: Set[Clause]) = {
+  def isInconsistentByResolution(clauses: Set[Clause]) = {
 
     def inconsistent(support: Set[Clause], usables: Set[Clause]): Boolean =
       if (support isEmpty) false
@@ -247,19 +280,113 @@ object Clause {
   }
 
   /**
+    * Indica si un conjunto de clausulas es incosistente por resolución positiva
+    *
+    * @param clauses
+    * @return
+    */
+  def isInconsistentByPositiveResolution(clauses: Set[Clause]): Boolean = {
+
+    def inconsistent(support: Set[Clause], usables: Set[Clause]): Boolean =
+      if (support isEmpty) false
+      else if (support contains Clause(Set.empty)) true
+      else {
+        val actual = support.head
+        val newUsables = usables + actual
+        val newSupport = support.tail ++ (
+          for {
+            c <- actual.positiveResolventes(newUsables)
+            if !c.isTautology
+            if !support.contains(c)
+            if !newUsables.contains(c)
+          } yield c)
+
+        inconsistent(newSupport, newUsables)
+      }
+
+    inconsistent(clauses, Set.empty)
+  }
+
+  /**
+    * Indica si un conjunto de clausulas es incosistente por resolución negativa
+    *
+    * @param clauses
+    * @return
+    */
+  def isInconsistentByNegativeResolution(clauses: Set[Clause]): Boolean = {
+
+    def inconsistent(support: Set[Clause], usables: Set[Clause]): Boolean =
+      if (support isEmpty) false
+      else if (support contains Clause(Set.empty)) true
+      else {
+        val actual = support.head
+        val newUsables = usables + actual
+        val newSupport = support.tail ++ (
+          for {
+            c <- actual.negativeResolventes(newUsables)
+            if !c.isTautology
+            if !support.contains(c)
+            if !newUsables.contains(c)
+          } yield c)
+
+        inconsistent(newSupport, newUsables)
+      }
+
+    inconsistent(clauses, Set.empty)
+  }
+
+  /**
     * Indica si una propsición es valida mediante resolución
+    *
     * @param prop
     * @return
     */
-  def isValidByResolution(prop: Prop): Boolean = isIncosistentByResolution(withoutTautologys(fromProp(Neg(prop))).toSet)
+  def isValidByResolution(prop: Prop): Boolean = isInconsistentByResolution(withoutTautologys(fromProp(Neg(prop))).toSet)
+
+  /**
+    * Indica si una propsición es valida mediante resolución Positiva
+    *
+    * @param prop
+    * @return
+    */
+  def isValidByPositiveResolution(prop: Prop): Boolean = isInconsistentByPositiveResolution(withoutTautologys(fromProp(Neg(prop))).toSet)
+
+  /**
+    * Indica si una propsición es valida mediante resolución Negativa
+    *
+    * @param prop
+    * @return
+    */
+  def isValidByNegativeResolution(prop: Prop): Boolean = isInconsistentByNegativeResolution(withoutTautologys(fromProp(Neg(prop))).toSet)
 
   /**
     * Indica si una formula es consecuencia lógica de un conjunto mediante resolucion
+    *
     * @param props
     * @param prop
     * @return
     */
   def isConsequenceByResolution(props: Iterable[Prop], prop: Prop) =
-    isIncosistentByResolution(withoutTautologys(clauses(Set(Neg(prop)) ++ props)).toSet)
+    isInconsistentByResolution(withoutTautologys(clauses(Set(Neg(prop)) ++ props)).toSet)
+
+  /**
+    * Indica si una formula es consecuencia lógica de un conjunto mediante resolucion Positiva
+    *
+    * @param props
+    * @param prop
+    * @return
+    */
+  def isConsequenceByPositiveResolution(props: Iterable[Prop], prop: Prop) =
+    isInconsistentByPositiveResolution(withoutTautologys(clauses(Set(Neg(prop)) ++ props)).toSet)
+
+  /**
+    * Indica si una formula es consecuencia lógica de un conjunto mediante resolucion Negativa
+    *
+    * @param props
+    * @param prop
+    * @return
+    */
+  def isConsequenceByNegativeResolution(props: Iterable[Prop], prop: Prop) =
+    isInconsistentByNegativeResolution(withoutTautologys(clauses(Set(Neg(prop)) ++ props)).toSet)
 
 }

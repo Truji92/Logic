@@ -117,6 +117,16 @@ object Types {
       case l: Atom => NegL(l)
       case NegL(atom) => atom
     }
+
+    def isPositive = this match {
+      case _: Atom => true
+      case _ => false
+    }
+
+    def isNegative = this match {
+      case NegL(atom) => true
+      case _ => false
+    }
   }
 
   case class NegL(atom: Atom) extends Literal {
