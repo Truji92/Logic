@@ -18,6 +18,8 @@ class PolynomialTests extends PropSpec with GeneratorDrivenPropertyChecks with M
     ms <- Gen.listOfN(k, monomials)
   } yield Polynomial(ms.toSet)
 
+
+
   /** tests **/
   property("Polynomials operations") {
     forAll(polynomials, polynomials, polynomials){
@@ -33,6 +35,12 @@ class PolynomialTests extends PropSpec with GeneratorDrivenPropertyChecks with M
         p * p should equal (p)
         p *(q+r) should equal ((p*q)+(p*r))
       }
+    }
+  }
+
+  property("Reversible") {
+    forAll(polynomials) {
+      (p) => tr(theta(p)) should equal (p)
     }
   }
 }
