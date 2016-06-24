@@ -143,6 +143,10 @@ object Clause {
 
     def - (literal: Literal) = Clause(literals - literal)
 
+    def toProp: Prop = if (literals.isEmpty) Const(false) else literals.tail.foldLeft(literals.head.toProp)((p, l) => {
+      p OR l.toProp
+    })
+
     override def toString = literals.mkString("Clause(", ",", ")")
   }
 
@@ -175,6 +179,7 @@ object Clause {
     *
     */
   def fromClausalProp(prop: Prop): Clause = prop match {
+    case Const(false) => Clause(Set.empty)
     case Neg(Atom(s)) => Clause(Set(NegL(Atom(s))))
     case Disj(f, g) => fromClausalProp(f) ++ fromClausalProp(g)
     case l: Literal => Clause(Set(l))

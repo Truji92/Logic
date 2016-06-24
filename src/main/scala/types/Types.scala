@@ -127,6 +127,11 @@ object Types {
       case NegL(atom) => true
       case _ => false
     }
+
+    def toProp: Prop = this match {
+      case a: Atom => a
+      case NegL(l) => Neg(l)
+    }
   }
 
   case class NegL(atom: Atom) extends Literal {
