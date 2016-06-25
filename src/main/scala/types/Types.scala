@@ -32,7 +32,10 @@ object Types {
       case Equi(p, q) => s"($p) <=> ($q)"
     }
 
-    def negate = Neg(this)
+    def negate = this match {
+      case Const(b) => Const(!b)
+      case _ => Neg(this)
+    }
 
     def AND(other: Prop) = Conj(this, other)
 

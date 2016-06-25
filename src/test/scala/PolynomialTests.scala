@@ -2,7 +2,7 @@ import org.scalatest._
 import org.scalacheck.Gen
 import prop._
 import polynomial.Types._
-import types.Clause
+import types.{PropCollectionOperations, Clause}
 import types.Types._
 
 import scala.util.Random
@@ -31,7 +31,9 @@ class PolynomialTests extends PropSpec with GeneratorDrivenPropertyChecks with M
     )
   )
 
-  var props = clauses.map(c => c.toProp)
+  val props = clauses.map(c => c.toProp)
+
+  val propSet = Gen.listOf(props).map(_.toSet)
 
   /** tests **/
   property("Polynomials operations") {
@@ -68,4 +70,36 @@ class PolynomialTests extends PropSpec with GeneratorDrivenPropertyChecks with M
       p => theta(tr(p)) equivalent p should be (true)
     }
   }
+
+  property("regla delta") {
+    forAll (props, props) {
+      (p1, p2) =>
+
+        (p1 AND p2).symbols.map{case Atom(c) => c}.forall( x =>
+          PropCollectionOperations.logicalConsequence(Set(p1, p2))(delta(p1, p2, x))
+        ) should be (true)
+    }
+  }
+
+  property("Delta adecuada y completa") {
+    forAll (propSet, maxSize(10)) {
+      props =>
+        PropCollectionOperations.inconsistent(props) should equal (deltaRefutable(simpleVarSelection)(props))
+    }
+  }
+
+  property("DeltaDemostrable adecuada y completa") {
+    forAll(propSet, props, maxSize(10)) {
+      (props, prop) =>
+        PropCollectionOperations.logicalConsequence(props)(prop) should equal (simpleDeltaDemostrable(props, prop))
+    }
+  }
+
+  property("DeltaTeorema Adecuada y completa") {
+    forAll(props) {
+      p =>
+        p.isValid should equal (simpleDeltaTeorema(p))
+    }
+  }
+
 }

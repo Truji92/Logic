@@ -29,6 +29,16 @@ object Types {
       }
     }
 
+    def contains(v: Var) = this match {
+      case Mzero => false
+      case M(vars) => vars.contains(v)
+    }
+
+    def without(v: Var) = this match {
+      case Mzero => Mzero
+      case M(vars) => M(vars-v)
+    }
+
   }
   case object Mzero extends Monomial
   case class M(vars: Set[Var]) extends Monomial
@@ -58,6 +68,13 @@ object Types {
         (ms.head * other) + (other * Polynomial(ms.tail))
     }
 
+    def deriv(v: Var) = Polynomial(
+      for {
+        m <- monomials
+        if m.contains(v)
+      } yield m.without(v)
+    )
+
   }
 
   def tr(prop: Prop): Polynomial = prop match {
@@ -80,5 +97,44 @@ object Types {
     case Mzero => Const(false)
     case M(vars) => vars.map(Atom).foldLeft[Prop](Const(true))((p1, p2) => p1 AND p2)
   }
+
+  def deriv(prop: Prop, v: Var) = theta(tr(prop).deriv(v))
+
+  def deltaP(a1: Polynomial, a2: Polynomial, v: Var) = {
+    val c1 = a1.deriv(v)
+    val c2 = a2.deriv(v)
+
+    Pone + ((Pone+a1*a2)*(Pone+a1*c2+a2*c1+c1*c2))
+  }
+
+  def delta(p1: Prop, p2: Prop, v: Var) = theta(deltaP(tr(p1), tr(p2), v))
+
+  def derivatives(props: Set[Prop], v: Var): Set[Prop] = {
+    val propL = props.toList
+    val pairs = propL.combinations(2).map{
+      case e1::e2::Nil => (e1,e2)
+    }.toList ::: propL.map(e => (e, e))
+
+    (for {
+      (p1, p2) <- pairs
+      d = delta(p1, p2, v)
+      if d != Const(true)
+    } yield d).toSet
+  }
+
+  def deltaRefutable(varSelection: Iterable[Prop] => Var)(props: Set[Prop]): Boolean =
+    if (!props.exists(p => p != Const(true))) false //Meh
+    else if (props.contains(Const(false))) true
+    else {
+      deltaRefutable(varSelection)(derivatives(props, varSelection(props)))
+    }
+
+  def simpleVarSelection(props: Iterable[Prop]): Var = props.find(_.symbols.nonEmpty).map(_.symbols.head.symbol).get
+
+  def simpleDeltaDemostrable(props: Set[Prop], prop: Prop): Boolean = deltaRefutable(simpleVarSelection)(props + no(prop))
+
+  def simpleDeltaTeorema(prop: Prop) =
+    deltaRefutable(simpleVarSelection)(Set(no(prop)))
+
 
 }
