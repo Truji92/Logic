@@ -39,6 +39,12 @@ object Types {
       case M(vars) => M(vars-v)
     }
 
+    override def toString = this match {
+      case Mzero => "0"
+      case Mone => "1"
+      case M(vs) => vs.mkString(" ", "*", " ")
+    }
+
   }
   case object Mzero extends Monomial
   case class M(vars: Set[Var]) extends Monomial
@@ -75,6 +81,12 @@ object Types {
       } yield m.without(v)
     )
 
+    override def toString = this match {
+      case Pzero => "0"
+      case Pone => "1"
+      case Polynomial(ms) => ms.mkString(" + ")
+    }
+
   }
 
   def tr(prop: Prop): Polynomial = prop match {
@@ -95,7 +107,11 @@ object Types {
 
   def th2(monomial: Monomial): Prop = monomial match {
     case Mzero => Const(false)
-    case M(vars) => vars.map(Atom).foldLeft[Prop](Const(true))((p1, p2) => p1 AND p2)
+    case M(vars) => {
+      if (vars.isEmpty) Const(true)
+      else if (vars.size == 1) Atom(vars.head)
+      else vars.tail.map(Atom).foldLeft[Prop](Atom(vars.head))((p1, p2) => p1 AND p2)
+    }
   }
 
   def deriv(prop: Prop, v: Var) = theta(tr(prop).deriv(v))
