@@ -69,14 +69,19 @@ object Types {
       * @return
       */
     def meaning(interp: Interpretation): Boolean = this match {
-      case Const(value) => value
-      case Atom(symbol) => interp.getOrElse(Atom(symbol), false)
-      case Neg(prop) =>  !prop.meaning(interp)
-      case Conj(p, q) => p.meaning(interp) && q.meaning(interp)
-      case Disj(p, q) => p.meaning(interp) || q.meaning(interp)
-      case Impl(p, q) => (no(p) OR q) meaning interp
-      case Equi(p, q) => ((p -> q) AND (q -> p)) meaning interp
-    }
+        case Const(value) => value
+        case Atom(symbol) => interp.getOrElse(Atom(symbol), false)
+        case Neg(prop) =>  !prop.meaning(interp)
+        case Conj(p, q) => p.meaning(interp) && q.meaning(interp)
+        case Disj(p, q) => p.meaning(interp) || q.meaning(interp)
+        case Impl(p, q) => (!(p meaning interp)) || (q meaning interp)
+        case Equi(p, q) => {
+          lazy val pm = p.meaning(interp)
+          lazy val qm = q.meaning(interp)
+          (!pm || qm) && (!qm || pm)
+        }
+      }
+
 
     def isModel(interpretation: Interpretation) = meaning(interpretation)
 
