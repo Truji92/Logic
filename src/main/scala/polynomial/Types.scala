@@ -139,7 +139,7 @@ object Types {
   }
 
   def deltaRefutable(varSelection: Iterable[Prop] => Var)(props: Set[Prop]): Boolean =
-    if (!props.exists(p => p != Const(true))) false //Meh
+    if (!props.exists(p => p != Const(true))) false
     else if (props.contains(Const(false))) true
     else {
       deltaRefutable(varSelection)(derivatives(props, varSelection(props)))
