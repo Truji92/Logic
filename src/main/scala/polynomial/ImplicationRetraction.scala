@@ -1,6 +1,8 @@
 package polynomial
 
 import polynomial.Types.Var
+import types.Clause._
+import types.{Clause, PropCollectionOperations}
 import types.Types._
 
 import scala.language.implicitConversions
@@ -30,9 +32,32 @@ object ImplicationRetraction {
     def ->(other: CConj) = CImpl(this, other)
   }
 
-  case class CImpl(l: CConj, r: CConj) {
+  class CImpl(_l: CConj, _r: CConj) {
+
+    val l = _l
+    val r = CConj(_r.vars.diff(_l.vars))
+
     override def toString = l.toString +" => "+ r.toString
+
     def symbols = l.symbols ++ r.symbols
+
+    override def equals(o: scala.Any): Boolean = o match {
+      case CImpl(ol, or) => ol.vars == l.vars && or.vars == r.vars
+      case _ => false
+    }
+
+    override def hashCode(): Int = {
+      val prime = 31
+      var result = 1
+      result = result * prime + l.hashCode()
+      result = result * prime + r.hashCode()
+      result
+    }
+  }
+  object CImpl {
+    def apply(l: CConj, r: CConj) = new CImpl(l, r)
+
+    def unapply(imp: CImpl): Option[(CConj, CConj)] = Some((imp.l, imp.r))
   }
   object TRUE extends CImpl(CConj(Set.empty), CConj(Set.empty))
 
@@ -105,7 +130,8 @@ object ImplicationRetraction {
     println(base.mkString("\n","\n", "\n"))
     println("\n====================================\n")
 
-    val order = List(a,b,c,d,g,p,n)
+//    val order = List(a,b,c,d,g,p,n)
+    val order = List(a)
 
     def iterate(set: Set[CImpl], vs: List[Atom]): Set[CImpl] =
       if (vs.isEmpty) set
@@ -120,6 +146,51 @@ object ImplicationRetraction {
       }
 
 
-    iterate(base, order)
+    def CImpltoProp(impl: CImpl): Prop = impl match {
+      case CImpl(l, r) => l.asProp -> r.asProp
+    }
+    val result = iterate(base, order).foldLeft[Prop](Const(false)){
+      case (acc, cimpl) => acc OR CImpltoProp(cimpl)
+    }
+
+//    val expected = Set (
+//      t -> r,
+//      r -> t,
+//      Const( true ) -> (r AND t),
+//      r -> Const( true ),
+//      t -> Const( true ),
+//      Const( true ) -> t,
+//      Const( true ) -> r
+//    ).foldLeft[Prop](Const(false)){
+//      case (acc, prop) => acc OR prop
+//    }
+    
+    val expected = Set (
+      (g) -> (c),
+      (d AND t) -> (n),
+      (b AND c) -> (r AND t),
+      (n) -> (c AND d),
+      (d AND r) -> (n),
+      (r) -> (b AND c AND g AND p AND t),
+      (b AND c AND d AND g) -> (n),
+      (c AND g) -> (p AND r AND t),
+      (t) -> (b AND c AND g AND p AND r),
+      Const(true) -> (g AND t),
+      Const(true) -> (g AND r),
+      (d) -> (c),
+      (b AND c AND g) -> (p AND r AND t)
+    ).foldLeft[Prop](Const(false)){
+            case (acc, prop) => acc OR prop
+          }
+
+
+    if (expected.equivalent(result))
+      println("TODO OK")
+    else
+      println("JODETE")
+
+
+
+
   }
 }

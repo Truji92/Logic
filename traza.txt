@@ -1,0 +1,203 @@
+Inicial:
+Tamaño 9
+
+[n] => [c, d]
+[a, b, c, p] => [g, r, t]
+[d] => [c]
+[g] => [c]
+[r] => [p, t, a, b, g, c]
+[a] => [b, p]
+[p, t, a, d, b, g, c, r] => [n]
+[t] => [p, a, b, g, c, r]
+[b, c, g] => [a, p, r, t]
+
+
+====================================
+
+Eliminando a
+Tamaño 13
+
+[r] => [p, t, b, g, c]
+[n] => [c, d]
+[b, c, g] => [b, p]
+[r, b, c, p] => [g, r, t]
+[d] => [c]
+[r] => [b, p]
+[b, c, g, p] => [g, r, t]
+[g] => [c]
+[t] => [p, b, g, c, r]
+[t, b, c, p] => [g, r, t]
+[b, c, g] => [p, r, t]
+[t] => [b, p]
+[p, t, d, b, g, c, r] => [n]
+
+
+====================================
+
+Eliminando b
+Tamaño 15
+
+[n] => [c, d]
+[r, c, g] => [p, r, t]
+[r] => [p]
+[t, c, g] => [p, r, t]
+[r, c, g, p] => [g, r, t]
+[r] => [p, t, g, c]
+[d] => [c]
+[t] => [p, g, c, r]
+[g] => [c]
+[t, c, p] => [g, r, t]
+[r, t, c, p] => [g, r, t]
+[t, c, g, p] => [g, r, t]
+[t] => [p]
+[r, c, p] => [g, r, t]
+[p, t, d, g, c, r] => [n]
+
+
+====================================
+
+Eliminando c
+Tamaño 32
+
+[n, r, g, p] => [g, r, t]
+[r] => [p]
+[r, t, g] => [p, r, t]
+[g, r, p] => [g, r, t]
+[d, r, t, p] => [g, r, t]
+[d, t, g] => [p, r, t]
+[d, r, g, p] => [g, r, t]
+[d] => []
+[d, r, p] => [g, r, t]
+[n, t, g] => [p, r, t]
+[p, t, d, g, r, n] => [n]
+[g] => []
+[n, r, g] => [p, r, t]
+[d, t, p] => [g, r, t]
+[t] => [p, g, r]
+[p, t, d, g, r] => [n]
+[r, p] => [g, r, t]
+[n, t, p] => [g, r, t]
+[n, t, g, p] => [g, r, t]
+[t] => [p]
+[t, p] => [g, r, t]
+[n] => [d]
+[n, r, t, p] => [g, r, t]
+[n, r, p] => [g, r, t]
+[t, g] => [p, r, t]
+[t, r, p] => [g, r, t]
+[r, g] => [p, r, t]
+[r] => [p, t, g]
+[g, r, t, p] => [g, r, t]
+[d, t, g, p] => [g, r, t]
+[d, r, g] => [p, r, t]
+[g, t, p] => [g, r, t]
+
+
+====================================
+
+Eliminando d
+Tamaño 23
+
+[n, r, g, p] => [g, r, t]
+[r] => [p]
+[r, t, g] => [p, r, t]
+[g, r, p] => [g, r, t]
+[n, t, g] => [p, r, t]
+[g] => []
+[n] => []
+[n, r, g] => [p, r, t]
+[t] => [p, g, r]
+[r, p] => [g, r, t]
+[n, t, p] => [g, r, t]
+[n, t, g, p] => [g, r, t]
+[t] => [p]
+[t, p] => [g, r, t]
+[n, r, t, p] => [g, r, t]
+[n, r, p] => [g, r, t]
+[t, g] => [p, r, t]
+[t, r, p] => [g, r, t]
+[r, g] => [p, r, t]
+[p, t, g, r, n] => [n]
+[r] => [p, t, g]
+[g, r, t, p] => [g, r, t]
+[g, t, p] => [g, r, t]
+
+
+====================================
+
+Eliminando g
+Tamaño 32
+
+[r] => [p]
+[n, t, p] => [p, r, t]
+[r, p, t, n] => [n]
+[t, r, p] => [r, t]
+[n, r, p] => [p, r, t]
+[t, p] => [p, r, t]
+[t] => [p, r]
+[r, t] => [p, r, t]
+[t, n] => [p, r, t]
+[n, r, p] => [r, t]
+[n] => []
+[r, p] => [r, t]
+[n, t, p] => [r, t]
+[n, r, p, t] => [p, r, t]
+[t] => [p, r, t]
+[n, r, t, p] => []
+[r] => [p, t]
+[t, p] => [r, t]
+[t, p] => []
+[t, r, p] => []
+[t, n, r] => [p, r, t]
+[n, r, p] => []
+[t] => [p]
+[r] => [p, r, t]
+[r, n] => [p, r, t]
+[n, t, p] => []
+[r] => []
+[t] => []
+[t, r, p] => [p, r, t]
+[n, r, t, p] => [r, t]
+[r, p] => [p, r, t]
+[r, p] => []
+
+
+====================================
+
+Eliminando p
+Tamaño 16
+
+[r, n, t] => [r, t]
+[r, n] => [r, t]
+[r, t] => [r, t]
+[t, n] => [r, t]
+[r, n, t] => []
+[t] => [r, t]
+[n] => []
+[r, n] => []
+[r] => [r, t]
+[t, r] => []
+[t, r, n] => [n]
+[t] => [r]
+[t, n] => []
+[r] => [t]
+[r] => []
+[t] => []
+
+
+====================================
+
+Eliminando n
+Tamaño 8
+
+[r, t] => [r, t]
+[t] => [r, t]
+[r] => [r, t]
+[t, r] => []
+[t] => [r]
+[r] => [t]
+[r] => []
+[t] => []
+
+
+====================================
