@@ -31,6 +31,11 @@ object ImplicationRetraction {
     override def toString = vars.mkString("[",", ","]")
 
     def ->(other: CConj) = CImpl(this, other)
+
+    def toOtter =
+      if (vars.isEmpty) " $T "
+      else vars.mkString(" & ")
+
   }
 
   class CImpl(_l: CConj, _r: CConj) {
@@ -54,6 +59,8 @@ object ImplicationRetraction {
       result = result * prime + r.hashCode()
       result
     }
+
+    def toOtter = "((" + l.toOtter + ") -> (" + r.toOtter + "))."
   }
   object CImpl {
     def apply(l: CConj, r: CConj) = new CImpl(l, r)
@@ -162,6 +169,11 @@ object ImplicationRetraction {
     println(base.map{
       case (elem, index) => s"$index. \t $elem "
     }.mkString("\n","\n", "\n"))
+
+    println("Otter")
+    println(base.map{
+      case (elem, index) => elem.toOtter
+    }.mkString("\n", "\n", "\n"))
     println("\n====================================\n")
 
     val order = List(a,b,c,d,g,p,n)
@@ -177,6 +189,11 @@ object ImplicationRetraction {
         println(newSet.map{
           case (TracedImpl(parents, elem), index) => s"$index.  $parents \t $elem "
         }.mkString("\n","\n", "\n"))
+
+        println("Otter")
+        println(newSet.map{
+          case (elem, index) => elem.toOtter
+        }.mkString("\n", "\n", "\n"))
         println("\n====================================\n")
         iterate(newSet, rest)
       }
