@@ -5,6 +5,7 @@ import types.Clause._
 import types.{Clause, PropCollectionOperations}
 import types.Types._
 
+import scala.collection.immutable.ListSet
 import scala.language.implicitConversions
 
 
@@ -85,12 +86,12 @@ object ImplicationRetraction {
       else resolvent(c2,c1,v)
     }
 
-  private def selfDelta(l: CImpl, v: Atom): Set[CImpl] = {
-    if (!l.symbols.contains(v)) Set(l)
+  private def selfDelta(l: CImpl, v: Atom): ListSet[CImpl] = {
+    if (!l.symbols.contains(v)) ListSet(l)
     else {
       val CImpl(left, right) = l
-      if (left.symbols.contains(v)) Set.empty
-      else Set(CImpl(left, right.without(v)))
+      if (left.symbols.contains(v)) ListSet.empty
+      else ListSet(CImpl(left, right.without(v)))
     }
   }
 
@@ -101,19 +102,50 @@ object ImplicationRetraction {
     Set(CImpl(l1, r1.without(v)), CImpl(CConj(l1.symbols.union(l2.without(v).symbols)), r2))
   }
 
-  def removeVar(impls: Set[CImpl], v: Atom): Set[CImpl] = {
-    val h = impls.head
-    val t = impls.tail
-    if (t.isEmpty) selfDelta(h,v)
-    else removeVar(t, v) ++ impls.flatMap(item => delta(h, item, v))
+//  def removeVar(impls: Set[CImpl], v: Atom): Set[CImpl] = {
+//    val h = impls.head
+//    val t = impls.tail
+//    if (t.isEmpty) selfDelta(h,v)
+//    else removeVar(t, v) ++ impls.flatMap(item => delta(h, item, v))
+//  }
+
+  case class TracedImpl(parents: (Int, Int), impl: CImpl) {
+
+    override def equals(that: Any): Boolean = that match {
+      case that: TracedImpl => impl == that.impl
+      case _ => false
+    }
+
+    override def canEqual(that: Any): Boolean = that.isInstanceOf[TracedImpl]
+    override def hashCode = impl.hashCode()
   }
+
+  implicit def withoutTraces(items: ListSet[TracedImpl]): ListSet[CImpl] = items.map(_.impl)
+  implicit def withoutTrace(item: TracedImpl): CImpl = item.impl
+
+  type IndexedImpl = (TracedImpl, Int)
+  implicit def toIndexed(items: ListSet[TracedImpl]): ListSet[IndexedImpl] = items.zipWithIndex
+  implicit def extractImpl(item: IndexedImpl): CImpl = item._1.impl
+
+
+
+  def removeVar(impls: ListSet[IndexedImpl], v: Atom): ListSet[TracedImpl] = {
+    val (TracedImpl(_, h), id) = impls.head
+    val t = impls.tail
+
+    if (t.isEmpty) selfDelta(h, v).map(item => TracedImpl((id, id), item))
+    else removeVar(t, v) ++ impls.flatMap{
+      case ((TracedImpl(_, item), id2)) => delta(h, item, v).map(res => TracedImpl((id, id2), res))
+    }
+  }
+
 
   implicit def setToCConj(vars: Set[Atom]): CConj = CConj(vars)
 
   def main(args: Array[String]) {
     val List(a,b,c,g,p,r,t,n,d) = List(Atom("a"),Atom("b"),Atom("c"),Atom("g"),Atom("p"),Atom("r"),Atom("t"), Atom("n"), Atom("d"))
 
-    val base = Set(
+    val base = ListSet(
       Set(g) -> Set(c),
       Set(b, c, g) -> Set(a, p, r, t),
       Set(n) -> Set(c, d),
@@ -123,24 +155,28 @@ object ImplicationRetraction {
       Set(d) -> Set(c),
       Set(a) -> Set(b, p),
       Set(r) -> Set(a, b, c, g, p, t)
-    )
+    ).zipWithIndex
 
     println("Inicial:")
     println(s"Tamaño ${base.size}")
-    println(base.mkString("\n","\n", "\n"))
+    println(base.map{
+      case (elem, index) => s"$index. \t $elem "
+    }.mkString("\n","\n", "\n"))
     println("\n====================================\n")
 
-//    val order = List(a,b,c,d,g,p,n)
-    val order = List(a)
+    val order = List(a,b,c,d,g,p,n)
+//    val order = List(a)
 
-    def iterate(set: Set[CImpl], vs: List[Atom]): Set[CImpl] =
+    def iterate(set: ListSet[IndexedImpl], vs: List[Atom]): ListSet[IndexedImpl] =
       if (vs.isEmpty) set
       else {
         val v::rest = vs
         println(s"Eliminando $v")
-        val newSet = removeVar(set, v)
+        val newSet = removeVar(set, v).zipWithIndex
         println(s"Tamaño ${newSet.size}")
-        println(newSet.mkString("\n","\n", "\n"))
+        println(newSet.map{
+          case (TracedImpl(parents, elem), index) => s"$index.  $parents \t $elem "
+        }.mkString("\n","\n", "\n"))
         println("\n====================================\n")
         iterate(newSet, rest)
       }
@@ -149,7 +185,10 @@ object ImplicationRetraction {
     def CImpltoProp(impl: CImpl): Prop = impl match {
       case CImpl(l, r) => l.asProp -> r.asProp
     }
-    val result = iterate(base, order).foldLeft[Prop](Const(false)){
+
+    val fakeTracedBase = base.map{case (item, index) => (TracedImpl((-1,-1), item), index)}
+
+    val result = iterate(fakeTracedBase, order).foldLeft[Prop](Const(false)){
       case (acc, cimpl) => acc OR CImpltoProp(cimpl)
     }
 
@@ -188,9 +227,6 @@ object ImplicationRetraction {
       println("TODO OK")
     else
       println("JODETE")
-
-
-
 
   }
 }
