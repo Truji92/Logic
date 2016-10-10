@@ -149,6 +149,56 @@ object ImplicationRetraction {
 
   implicit def setToCConj(vars: Set[Atom]): CConj = CConj(vars)
 
+
+  def run(input: ListSet[CImpl], vars: List[Atom], otter: Boolean, trace: Boolean) = {
+    val base = input.zipWithIndex
+
+    if (trace) {
+      println("Inicial:")
+      println(s"Tamaño ${base.size}")
+      println(base.map{
+        case (elem, index) => s"$index. \t $elem "
+      }.mkString("\n","\n", "\n"))
+
+      if (otter) {
+        println("Otter")
+        println(base.map{
+          case (elem, index) => elem.toOtter
+        }.mkString("\n", "\n", "\n"))
+      }
+      println("\n====================================\n")
+    }
+
+    def iterate(set: ListSet[IndexedImpl], vs: List[Atom]): ListSet[IndexedImpl] =
+      if (vs.isEmpty) set
+      else {
+        val v::rest = vs
+        val newSet = removeVar(set, v).zipWithIndex
+
+        if (trace) {
+          println(s"Eliminando $v")
+          println(s"Tamaño ${newSet.size}")
+          println(newSet.map{
+            case (TracedImpl(parents, elem), index) => s"$index.  $parents \t $elem "
+          }.mkString("\n","\n", "\n"))
+
+          if (otter) {
+            println("Otter")
+            println(newSet.map{
+              case (elem, index) => elem.toOtter
+            }.mkString("\n", "\n", "\n"))
+            println("\n====================================\n")
+          }
+        }
+
+        iterate(newSet, rest)
+      }
+
+    val fakeTracedBase = base.map{case (item, index) => (TracedImpl((-1,-1), item), index)}
+
+    iterate(fakeTracedBase, vars)
+  }
+
   def main(args: Array[String]) {
     val List(a,b,c,g,p,r,t,n,d) = List(Atom("a"),Atom("b"),Atom("c"),Atom("g"),Atom("p"),Atom("r"),Atom("t"), Atom("n"), Atom("d"))
 
