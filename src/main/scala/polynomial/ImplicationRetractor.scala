@@ -25,7 +25,7 @@ object ImplicationRetractor {
 
     def symbols = vars
 
-    override def toString = vars.mkString("[",", ","]")
+    override def toString = vars.mkString("",", ","")
 
     def ->(other: CConj) = CImpl(this, other)
 

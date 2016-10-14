@@ -93,7 +93,7 @@ object App {
       Left(ListSet.empty ++ result.collect{case Left(impl) => impl})
   }
 
-  val pattern = """\[(\S+)\]=>\[(\S+)\]""".r
+  val pattern = """(\S+)=>(\S+)""".r
   def parseLine(line: String):Either[CImpl, ParseError] = line match {
     case pattern(pre, con) => parseFormula(pre, con) match {
       case Some(implication) => Left(implication)
