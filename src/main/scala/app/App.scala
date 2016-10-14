@@ -2,8 +2,8 @@ package app
 
 import java.io.File
 
-import polynomial.ImplicationRetraction
-import polynomial.ImplicationRetraction.{CConj, CImpl, TracedImpl}
+import polynomial.ImplicationRetractor
+import polynomial.ImplicationRetractor.{CConj, CImpl, TracedImpl}
 import types.Types.Atom
 
 import scala.collection.immutable.ListSet
@@ -21,7 +21,7 @@ object App {
           case Right(errors) => println("\nError al parsear el fichero: \n " + errors.mkString("\n","\n","\n"))
           case Left(input) => {
             val vs = vars.map(Atom).toList
-            val result = ImplicationRetraction.run(input, vs, otter, trace)
+            val result = ImplicationRetractor.run(input, vs, otter, trace)
             println("\n====================================")
             println("RESULTADO")
             println("====================================\n")
@@ -52,8 +52,8 @@ object App {
     trace: Boolean = false
   )
 
-  val parser = new scopt.OptionParser[Config]("Implication Retraction") {
-    head("Implication Retraction", "1.0")
+  val parser = new scopt.OptionParser[Config]("Implication Retractor") {
+    head("Implication Retractor", "1.0")
 
     arg[File]("<file>").required().action( (file, config) =>
       config.copy(inputFile = file)

@@ -9,10 +9,7 @@ import scala.collection.immutable.ListSet
 import scala.language.implicitConversions
 
 
-/**
-  * Created by alejandro on 12/07/16.
-  */
-object ImplicationRetraction {
+object ImplicationRetractor {
 
   case class CConj(vars: Set[Atom]) {
     def asProp: Prop =
@@ -109,13 +106,6 @@ object ImplicationRetraction {
     Set(CImpl(l1, r1.without(v)), CImpl(CConj(l1.symbols.union(l2.without(v).symbols)), r2))
   }
 
-//  def removeVar(impls: Set[CImpl], v: Atom): Set[CImpl] = {
-//    val h = impls.head
-//    val t = impls.tail
-//    if (t.isEmpty) selfDelta(h,v)
-//    else removeVar(t, v) ++ impls.flatMap(item => delta(h, item, v))
-//  }
-
   case class TracedImpl(parents: (Int, Int), impl: CImpl) {
 
     override def equals(that: Any): Boolean = that match {
@@ -134,18 +124,21 @@ object ImplicationRetraction {
   implicit def toIndexed(items: ListSet[TracedImpl]): ListSet[IndexedImpl] = items.zipWithIndex
   implicit def extractImpl(item: IndexedImpl): CImpl = item._1.impl
 
-
-
   def removeVar(impls: ListSet[IndexedImpl], v: Atom): ListSet[TracedImpl] = {
-    val (TracedImpl(_, h), id) = impls.head
-    val t = impls.tail
+    var rest = impls
+    var acc = scala.collection.mutable.LinkedHashSet.empty[TracedImpl]
+    while (rest.nonEmpty) {
+      val (TracedImpl(_, h), id) = rest.head
+      val t = rest.tail
 
-    if (t.isEmpty) selfDelta(h, v).map(item => TracedImpl((id, id), item))
-    else removeVar(t, v) ++ impls.flatMap{
-      case ((TracedImpl(_, item), id2)) => delta(h, item, v).map(res => TracedImpl((id, id2), res))
+      if (t.isEmpty) acc ++= selfDelta(h, v).map(item => TracedImpl((id, id), item))
+      acc ++= rest.flatMap {
+        case ((TracedImpl(_, item), id2)) => delta(h, item, v).map(res => TracedImpl((id, id2), res))
+      }
+      rest = t
     }
+    ListSet[TracedImpl](acc.toList:_*)
   }
-
 
   implicit def setToCConj(vars: Set[Atom]): CConj = CConj(vars)
 
@@ -199,101 +192,4 @@ object ImplicationRetraction {
     iterate(fakeTracedBase, vars)
   }
 
-  def main(args: Array[String]) {
-    val List(a,b,c,g,p,r,t,n,d) = List(Atom("a"),Atom("b"),Atom("c"),Atom("g"),Atom("p"),Atom("r"),Atom("t"), Atom("n"), Atom("d"))
-
-    val base = ListSet(
-      Set(g) -> Set(c),
-      Set(b, c, g) -> Set(a, p, r, t),
-      Set(n) -> Set(c, d),
-      Set(a, b, c, p) -> Set(g, r, t),
-      Set(t) -> Set(a, b, c, g, p, r),
-      Set(a, b, c, d, g, p, r, t) -> Set(n),
-      Set(d) -> Set(c),
-      Set(a) -> Set(b, p),
-      Set(r) -> Set(a, b, c, g, p, t)
-    ).zipWithIndex
-
-    println("Inicial:")
-    println(s"Tamaño ${base.size}")
-    println(base.map{
-      case (elem, index) => s"$index. \t $elem "
-    }.mkString("\n","\n", "\n"))
-
-    println("Otter")
-    println(base.map{
-      case (elem, index) => elem.toOtter
-    }.mkString("\n", "\n", "\n"))
-    println("\n====================================\n")
-
-    val order = List(a,b,c,d,g,p,n)
-//    val order = List(a)
-
-    def iterate(set: ListSet[IndexedImpl], vs: List[Atom]): ListSet[IndexedImpl] =
-      if (vs.isEmpty) set
-      else {
-        val v::rest = vs
-        println(s"Eliminando $v")
-        val newSet = removeVar(set, v).zipWithIndex
-        println(s"Tamaño ${newSet.size}")
-        println(newSet.map{
-          case (TracedImpl(parents, elem), index) => s"$index.  $parents \t $elem "
-        }.mkString("\n","\n", "\n"))
-
-        println("Otter")
-        println(newSet.map{
-          case (elem, index) => elem.toOtter
-        }.mkString("\n", "\n", "\n"))
-        println("\n====================================\n")
-        iterate(newSet, rest)
-      }
-
-
-    def CImpltoProp(impl: CImpl): Prop = impl match {
-      case CImpl(l, r) => l.asProp -> r.asProp
-    }
-
-    val fakeTracedBase = base.map{case (item, index) => (TracedImpl((-1,-1), item), index)}
-
-    val result = iterate(fakeTracedBase, order).foldLeft[Prop](Const(false)){
-      case (acc, cimpl) => acc OR CImpltoProp(cimpl)
-    }
-
-//    val expected = Set (
-//      t -> r,
-//      r -> t,
-//      Const( true ) -> (r AND t),
-//      r -> Const( true ),
-//      t -> Const( true ),
-//      Const( true ) -> t,
-//      Const( true ) -> r
-//    ).foldLeft[Prop](Const(false)){
-//      case (acc, prop) => acc OR prop
-//    }
-    
-    val expected = Set (
-      (g) -> (c),
-      (d AND t) -> (n),
-      (b AND c) -> (r AND t),
-      (n) -> (c AND d),
-      (d AND r) -> (n),
-      (r) -> (b AND c AND g AND p AND t),
-      (b AND c AND d AND g) -> (n),
-      (c AND g) -> (p AND r AND t),
-      (t) -> (b AND c AND g AND p AND r),
-      Const(true) -> (g AND t),
-      Const(true) -> (g AND r),
-      (d) -> (c),
-      (b AND c AND g) -> (p AND r AND t)
-    ).foldLeft[Prop](Const(false)){
-            case (acc, prop) => acc OR prop
-          }
-
-
-    if (expected.equivalent(result))
-      println("TODO OK")
-    else
-      println("JODETE")
-
-  }
 }
