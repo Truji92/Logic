@@ -132,7 +132,7 @@ object ImplicationRetractor {
       val t = rest.tail
 
       if (t.isEmpty) acc ++= selfDelta(h, v).map(item => TracedImpl((id, id), item))
-      acc ++= rest.flatMap {
+      else acc ++= rest.flatMap {
         case ((TracedImpl(_, item), id2)) => delta(h, item, v).map(res => TracedImpl((id, id2), res))
       }
       rest = t
