@@ -6,6 +6,7 @@ import types.{Clause, PropCollectionOperations}
 import types.Types._
 
 import scala.collection.immutable.ListSet
+import scala.collection.mutable
 import scala.language.implicitConversions
 
 
@@ -22,6 +23,8 @@ object ImplicationRetractor {
       }
 
     def without(v: Atom) = CConj(vars - v)
+
+    def without(vs: Set[Atom]) = CConj(vars -- vs)
 
     def symbols = vars
 
@@ -56,6 +59,8 @@ object ImplicationRetractor {
       result = result * prime + r.hashCode()
       result
     }
+
+    def removeVar(v: Atom) = CImpl(l.without(v), r.without(v))
 
     def toOtter = "((" + l.toOtter + ") -> (" + r.toOtter + "))."
   }
@@ -124,20 +129,75 @@ object ImplicationRetractor {
   implicit def toIndexed(items: ListSet[TracedImpl]): ListSet[IndexedImpl] = items.zipWithIndex
   implicit def extractImpl(item: IndexedImpl): CImpl = item._1.impl
 
+
   def removeVar(impls: ListSet[IndexedImpl], v: Atom): ListSet[TracedImpl] = {
     var rest = impls
     var acc = scala.collection.mutable.LinkedHashSet.empty[TracedImpl]
+    var ignorableVars = scala.collection.mutable.Set.empty[Atom]
+
     while (rest.nonEmpty) {
       val (TracedImpl(_, h), id) = rest.head
       val t = rest.tail
 
-      if (t.isEmpty) acc ++= selfDelta(h, v).map(item => TracedImpl((id, id), item))
-      acc ++= rest.flatMap {
+      val newImpls =
+      if (t.isEmpty) selfDelta(h, v).map(item => TracedImpl((id, id), item))
+      else rest.flatMap {
         case ((TracedImpl(_, item), id2)) => delta(h, item, v).map(res => TracedImpl((id, id2), res))
       }
+
+      println("NO OPT")
+      println(newImpls.mkString("\n","\n", "\n"))
+
+      val (optimized, vars) = optimize(newImpls)
+      ignorableVars ++= vars
+
+      println("OPT")
+      println(optimized.mkString("\n","\n","\n"))
+
+      acc ++= optimized
       rest = t
     }
-    ListSet[TracedImpl](acc.toList:_*)
+
+    optimizeIgnorableVars(acc, ignorableVars)
+  }
+
+  /**
+    * Elimina todas las fórmulas con consecuente vacío (ya que son ignorables) y devuelve las variables
+    * presentes en fórmulas con el antecedente vacío (y las elimina) para que puedan eliminarse del resto de fórmulas.
+    *
+    * @param impls
+    * @return
+    */
+  def optimize(impls: ListSet[TracedImpl]): (ListSet[TracedImpl], Set[Atom]) = {
+    impls.foldLeft((ListSet.empty[TracedImpl], Set.empty[Atom])) {
+      case ((newImpls, vars), tImpl) =>
+        tImpl match {
+          case TracedImpl(_, impl) =>
+            if (impl.l.vars.isEmpty) (newImpls, vars ++ impl.r.vars)
+            else if (impl.r.vars.isEmpty) (newImpls, vars)
+            else (newImpls + tImpl, vars)
+        }
+    }
+  }
+
+  def optimizeIgnorableVars(impls: mutable.LinkedHashSet[TracedImpl], ignorableVars: mutable.Set[Atom]) = {
+
+    def recursiveOptimization(impls: ListSet[TracedImpl], vars: List[Atom]): ListSet[TracedImpl] = vars match {
+      case Nil => impls
+      case h::t =>
+        val (optimized, newVars) = impls.foldLeft((ListSet.empty[TracedImpl], List.empty[Atom])) {
+          case ((acc, varsAcc), TracedImpl(k, impl)) =>
+            val newImpl = impl.removeVar(h)
+            if (newImpl.l.vars.isEmpty) (acc, varsAcc:::newImpl.r.vars.toList )
+            else if (newImpl.r.vars.isEmpty) (acc, varsAcc)
+            else (acc + TracedImpl(k, newImpl), varsAcc)
+        }
+
+        recursiveOptimization(optimized, newVars:::t)
+    }
+
+    recursiveOptimization(ListSet[TracedImpl](impls.toSeq :_*), ignorableVars.toList)
+
   }
 
   implicit def setToCConj(vars: Set[Atom]): CConj = CConj(vars)
