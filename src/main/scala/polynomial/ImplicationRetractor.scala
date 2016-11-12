@@ -145,14 +145,8 @@ object ImplicationRetractor {
         case ((TracedImpl(_, item), id2)) => delta(h, item, v).map(res => TracedImpl((id, id2), res))
       }
 
-      println("NO OPT")
-      println(newImpls.mkString("\n","\n", "\n"))
-
       val (optimized, vars) = optimize(newImpls)
       ignorableVars ++= vars
-
-      println("OPT")
-      println(optimized.mkString("\n","\n","\n"))
 
       acc ++= optimized
       rest = t
