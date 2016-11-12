@@ -130,6 +130,23 @@ object ImplicationRetractor {
   implicit def extractImpl(item: IndexedImpl): CImpl = item._1.impl
 
 
+  def removeVarV1(impls: ListSet[IndexedImpl], v: Atom): ListSet[TracedImpl] = {
+    var rest = impls
+    var acc = scala.collection.mutable.LinkedHashSet.empty[TracedImpl]
+    while (rest.nonEmpty) {
+      val (TracedImpl(_, h), id) = rest.head
+      val t = rest.tail
+
+      if (t.isEmpty) acc ++= selfDelta(h, v).map(item => TracedImpl((id, id), item))
+      acc ++= rest.flatMap {
+        case ((TracedImpl(_, item), id2)) => delta(h, item, v).map(res => TracedImpl((id, id2), res))
+      }
+      rest = t
+    }
+    ListSet[TracedImpl](acc.toList: _*)
+  }
+
+
   def removeVar(impls: ListSet[IndexedImpl], v: Atom): ListSet[TracedImpl] = {
     var rest = impls
     var acc = scala.collection.mutable.LinkedHashSet.empty[TracedImpl]
