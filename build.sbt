@@ -1,6 +1,6 @@
 name := "Logic"
 
-version := "1.0"
+version := "2.0"
 
 scalaVersion := "2.11.8"
 
@@ -18,6 +18,8 @@ unmanagedJars in Compile += file("lib/Aleatorio.jar")
 unmanagedJars in Compile += file("lib/conexp.jar")
 unmanagedJars in Compile += file("lib/contingencytable.jar")
 unmanagedJars in Compile += file("lib/util.jar")
+unmanagedJars in Compile += file("lib/ImplicatorRetractor-1.0.jar")
+unmanagedJars in Compile += file("lib/ImplicatorRetractor-2.0.jar")
 
 scalacOptions += "-Xplugin-require:scalaxy-streams"
 
