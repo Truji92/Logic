@@ -1,0 +1,204 @@
+ 
+
+Knowledge Base (size:9)
+[g] -> [c]
+[b, c, g] -> [a, p, r, t]
+[n] -> [c, d]
+[a, b, c, p] -> [g, r, t]
+[t] -> [a, b, c, g, p, r]
+[a, b, c, d, g, p, r, t] -> [n]
+[d] -> [c]
+[a] -> [b, p]
+[r] -> [a, b, c, g, p, t]
+
+Knowledge Base (size:9)
+((g) -> (c)).
+((b & c & g) -> (a & p & r & t)).
+((n) -> (c & d)).
+((a & b & c & p) -> (g & r & t)).
+((t) -> (a & b & c & g & p & r)).
+((a & b & c & d & g & p & r & t) -> (n)).
+((d) -> (c)).
+((a) -> (b & p)).
+((r) -> (a & b & c & g & p & t)).
+
+a
+Attribute: a (3 , 3)
+Knowledge Base (size:13)
+[g] -> [c]
+[d, t] -> [n]
+[b, c] -> [r, t]
+[n] -> [c, d]
+[d, r] -> [n]
+[r] -> [b, c, g, p, t]
+[b, c, d, g] -> [n]
+[c, g] -> [p, r, t]
+[t] -> [b, c, g, p, r]
+[] -> [g, t]
+[] -> [g, r]
+[d] -> [c]
+[b, c, g] -> [p, r, t]
+
+
+
+
+
+
+b
+Attribute: b (3 , 2)
+Knowledge Base (size:16)
+[g] -> [c]
+[d, t] -> [n]
+[n] -> [c, d]
+[d, r] -> [n]
+[t] -> [c, g, p, r]
+[] -> [p, t]
+[c, g] -> [p, r, t]
+[] -> [p, r]
+[d, t] -> [n, p, r]
+[] -> [g, t]
+[] -> [g, p, r]
+[] -> [g, r]
+[d] -> [c]
+[] -> [g, p, t]
+[r] -> [c, g, p, t]
+[d, r] -> [n, p, t]
+
+
+
+
+
+
+c
+Attribute: c (1 , 5)
+Knowledge Base (size:18)
+[r] -> [g, p, t]
+[d, t] -> [n]
+[d] -> []
+[d, r] -> [n]
+[t] -> [g, p, r]
+[g] -> [p, r, t]
+[] -> [p, t]
+[] -> [p, r]
+[n] -> [d]
+[d, t] -> [n, p, r]
+[d, g] -> [p, r, t]
+[] -> [g, t]
+[g, n] -> [d, p, r, t]
+[] -> [g, p, r]
+[] -> [g, r]
+[] -> [g, p, t]
+[g] -> []
+[d, r] -> [n, p, t]
+
+
+
+
+
+
+d
+Attribute: d (6 , 2)
+Knowledge Base (size:18)
+[r] -> [g, p, t]
+[t] -> [p, r]
+[t] -> [g, p, r]
+[r] -> [p, t]
+[] -> [p, t]
+[] -> [p, r]
+[] -> [g, t]
+[] -> [g, r]
+[] -> [g, p, r]
+[g] -> [p, r]
+[] -> [g, p, t]
+[g] -> []
+[n] -> []
+[g] -> [p, r, t]
+[g] -> [p, t]
+[r] -> []
+[t] -> []
+[g, n] -> [p, r, t]
+
+
+
+
+
+
+g
+Attribute: g (5 , 6)
+Knowledge Base (size:13)
+[t] -> [p, r]
+[r] -> [p, t]
+[] -> [p, t]
+[] -> [p, r]
+[n] -> [p, t]
+[n] -> [p, r]
+[] -> [p, r, t]
+[n] -> [p, r, t]
+[n] -> []
+[r] -> []
+[t] -> []
+[] -> [t]
+[] -> [r]
+
+
+
+
+
+
+p
+Attribute: p (0 , 8)
+Knowledge Base (size:11)
+[n] -> [t]
+[n] -> [r]
+[n] -> [r, t]
+[t] -> [r]
+[r] -> [t]
+[] -> [r, t]
+[n] -> []
+[r] -> []
+[t] -> []
+[] -> [t]
+[] -> [r]
+
+
+
+
+
+
+n
+Attribute: n (4 , 0)
+Knowledge Base (size:7)
+[t] -> [r]
+[r] -> [t]
+[] -> [r, t]
+[r] -> []
+[t] -> []
+[] -> [t]
+[] -> [r]
+
+
+
+
+
+
+---------------------
+
+Finalmente
+Knowledge Base (size:7)
+[t] -> [r]
+[r] -> [t]
+[] -> [r, t]
+[r] -> []
+[t] -> []
+[] -> [t]
+[] -> [r]
+
+Knowledge Base (size:7)
+((t) -> (r)).
+((r) -> (t)).
+(( True ) -> (r & t)).
+((r) -> ( True )).
+((t) -> ( True )).
+(( True ) -> (t)).
+(( True ) -> (r)).
+

@@ -14,6 +14,11 @@ libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % "test"
 
 libraryDependencies += "com.github.scopt" %% "scopt" % "3.5.0"
 
+unmanagedJars in Compile += file("lib/Aleatorio.jar")
+unmanagedJars in Compile += file("lib/conexp.jar")
+unmanagedJars in Compile += file("lib/contingencytable.jar")
+unmanagedJars in Compile += file("lib/util.jar")
+
 scalacOptions += "-Xplugin-require:scalaxy-streams"
 
 scalacOptions in Test ~= (_ filterNot (_ == "-Xplugin-require:scalaxy-streams"))
