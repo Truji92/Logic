@@ -47,6 +47,8 @@ object ImplicationRetractor {
 
     def symbols = l.symbols ++ r.symbols
 
+    def contains(v: Atom) = l.symbols.contains(v) || r.symbols.contains(v)
+
     override def equals(o: scala.Any): Boolean = o match {
       case CImpl(ol, or) => ol.vars == l.vars && or.vars == r.vars
       case _ => false
@@ -61,6 +63,8 @@ object ImplicationRetractor {
     }
 
     def removeVar(v: Atom) = CImpl(l.without(v), r.without(v))
+
+    def removeAll(vars: Set[Atom]) = CImpl(l.without(vars), r.without(vars))
 
     def toOtter = "((" + l.toOtter + ") -> (" + r.toOtter + "))."
   }
@@ -132,10 +136,11 @@ object ImplicationRetractor {
 
   def removeVarV1(impls: ListSet[IndexedImpl], v: Atom): ListSet[TracedImpl] = {
     var rest = impls
-    var acc = scala.collection.mutable.LinkedHashSet.empty[TracedImpl]
+    val acc = ListSet.newBuilder[TracedImpl]
+
     while (rest.nonEmpty) {
-      val (TracedImpl(_, h), id) = rest.head
-      val t = rest.tail
+      val (TracedImpl(_, h), id) = rest.last //en lugar de head::tail usamos init::last por razones de rendimiento de la coleccion
+      val t = rest.init
 
       if (t.isEmpty) acc ++= selfDelta(h, v).map(item => TracedImpl((id, id), item))
       acc ++= rest.flatMap {
@@ -143,33 +148,35 @@ object ImplicationRetractor {
       }
       rest = t
     }
-    ListSet[TracedImpl](acc.toList: _*)
+    acc.result
   }
 
 
   def removeVar(impls: ListSet[IndexedImpl], v: Atom): ListSet[TracedImpl] = {
     var rest = impls
-    var acc = scala.collection.mutable.LinkedHashSet.empty[TracedImpl]
+    val acc = ListSet.newBuilder[TracedImpl]
     var ignorableVars = scala.collection.mutable.Set.empty[Atom]
 
     while (rest.nonEmpty) {
-      val (TracedImpl(_, h), id) = rest.head
-      val t = rest.tail
+      val (TracedImpl(_, h), id) = rest.last //en lugar de head::tail usamos init::last por razones de rendimiento de la coleccion
+      val t = rest.init
 
       val newImpls =
-      if (t.isEmpty) selfDelta(h, v).map(item => TracedImpl((id, id), item))
-      else rest.flatMap {
-        case ((TracedImpl(_, item), id2)) => delta(h, item, v).map(res => TracedImpl((id, id2), res))
-      }
+        if (t.isEmpty) selfDelta(h, v).map(item => TracedImpl((id, id), item))
+        else rest.flatMap {
+          case ((TracedImpl(_, item), id2)) => delta(h, item, v).map(res => TracedImpl((id, id2), res))
+        }
 
       val (optimized, vars) = optimize(newImpls)
       ignorableVars ++= vars
 
       acc ++= optimized
+
       rest = t
     }
 
-    optimizeIgnorableVars(acc, ignorableVars)
+    optimizeIgnorableVarsWithoutNewOpt(acc.result(), ignorableVars.toSet)
+//    optimizeIgnorableVars(acc.result(), ignorableVars)
   }
 
   /**
@@ -180,18 +187,19 @@ object ImplicationRetractor {
     * @return
     */
   def optimize(impls: ListSet[TracedImpl]): (ListSet[TracedImpl], Set[Atom]) = {
-    impls.foldLeft((ListSet.empty[TracedImpl], Set.empty[Atom])) {
+    val (implbuilder, varBuilder) = impls.foldLeft((ListSet.newBuilder[TracedImpl], Set.newBuilder[Atom])) {
       case ((newImpls, vars), tImpl) =>
-        tImpl match {
-          case TracedImpl(_, impl) =>
-            if (impl.l.vars.isEmpty) (newImpls, vars ++ impl.r.vars)
-            else if (impl.r.vars.isEmpty) (newImpls, vars)
-            else (newImpls + tImpl, vars)
-        }
+        val impl = tImpl.impl
+
+        if (impl.l.vars.isEmpty) (newImpls, vars ++= impl.r.vars)
+        else if (impl.r.vars.isEmpty) (newImpls, vars)
+        else (newImpls += tImpl, vars)
+
     }
+    (implbuilder.result, varBuilder.result)
   }
 
-  def optimizeIgnorableVars(impls: mutable.LinkedHashSet[TracedImpl], ignorableVars: mutable.Set[Atom]) = {
+  def optimizeIgnorableVars(impls: ListSet[TracedImpl], ignorableVars: mutable.Set[Atom]) = {
 
     def recursiveOptimization(impls: ListSet[TracedImpl], vars: List[Atom]): ListSet[TracedImpl] = vars match {
       case Nil => impls
@@ -199,22 +207,42 @@ object ImplicationRetractor {
         val (optimized, newVars) = impls.foldLeft((ListSet.empty[TracedImpl], List.empty[Atom])) {
           case ((acc, varsAcc), TracedImpl(k, impl)) =>
             val newImpl = impl.removeVar(h)
-            if (newImpl.l.vars.isEmpty) (acc, varsAcc:::newImpl.r.vars.toList )
+            if (newImpl.l.vars.isEmpty ) (acc, varsAcc:::newImpl.r.vars.toList )
             else if (newImpl.r.vars.isEmpty) (acc, varsAcc)
             else (acc + TracedImpl(k, newImpl), varsAcc)
         }
 
-        recursiveOptimization(optimized, newVars:::t)
+        println("News = " + newVars.mkString(", "))
+
+        val distinctVars = newVars.filterNot(t.contains(_))
+        println("distinct = " + distinctVars.mkString(", "))
+
+        recursiveOptimization(optimized, distinctVars:::t)
     }
 
-    recursiveOptimization(ListSet[TracedImpl](impls.toSeq :_*), ignorableVars.toList)
+    recursiveOptimization(impls, ignorableVars.toList)
 
+  }
+
+  def optimizeIgnorableVarsWithoutNewOpt(impls: ListSet[TracedImpl], ignorableVars: Set[Atom]) = {
+    if (ignorableVars.isEmpty) impls
+    else {
+      impls.foldLeft(ListSet.empty[TracedImpl]) {
+        case (acc, TracedImpl(k, impl)) =>
+          val newImpl = impl.removeAll(ignorableVars)
+          if (newImpl.r.vars.isEmpty) acc
+          else acc + TracedImpl(k, newImpl)
+      }
+    }
   }
 
   implicit def setToCConj(vars: Set[Atom]): CConj = CConj(vars)
 
+  sealed trait Version
+  object V1 extends Version
+  object V2 extends Version
 
-  def run(input: ListSet[CImpl], vars: List[Atom], otter: Boolean, trace: Boolean) = {
+  def run(input: ListSet[CImpl], vars: List[Atom], otter: Boolean, trace: Boolean, version: Version = V2) = {
     val base = input.zipWithIndex
 
     if (trace) {
@@ -237,7 +265,10 @@ object ImplicationRetractor {
       if (vs.isEmpty) set
       else {
         val v::rest = vs
-        val newSet = removeVar(set, v).zipWithIndex
+        val newSet = version match {
+          case V1 => removeVarV1(set, v).zipWithIndex
+          case V2 => removeVar(set, v).zipWithIndex
+        }
 
         if (trace) {
           println(s"Eliminando $v")
