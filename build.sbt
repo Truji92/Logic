@@ -1,6 +1,6 @@
 name := "Logic"
 
-version := "2.0"
+version := "2.1"
 
 scalaVersion := "2.11.8"
 
@@ -18,8 +18,6 @@ unmanagedJars in Compile += file("lib/Aleatorio.jar")
 unmanagedJars in Compile += file("lib/conexp.jar")
 unmanagedJars in Compile += file("lib/contingencytable.jar")
 unmanagedJars in Compile += file("lib/util.jar")
-unmanagedJars in Compile += file("lib/ImplicatorRetractor-1.0.jar")
-unmanagedJars in Compile += file("lib/ImplicatorRetractor-2.0.jar")
 
 scalacOptions += "-Xplugin-require:scalaxy-streams"
 
@@ -32,3 +30,7 @@ autoCompilerPlugins := true
 addCompilerPlugin("com.nativelibs4java" %% "scalaxy-streams" % "0.3.4")
 
 scalacOptions ++= Seq("-optimise", "-Yclosure-elim", "-Yinline")
+
+assemblyJarName in assembly := "ImplicationRetractor.jar"
+
+mainClass in assembly := Some("app.App")

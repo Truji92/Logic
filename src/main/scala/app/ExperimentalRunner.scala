@@ -59,7 +59,7 @@ object ExperimentalRunner {
   }
 
   def saveCommands(path: String, vars: List[Atom]) = {
-    write(path + "commands.txt", vars.mkString(path + "result.txt -v ", ",", " -t") )
+    write(path + "commands.txt", vars.mkString(path + "input.txt -v ", ",", " -t") )
   }
 
   def write(name: String, content: String) = {
@@ -85,12 +85,5 @@ object ExperimentalRunner {
   }
 
   def genVars(size: Int) = scala.util.Random.shuffle((0 until size).map{n => Atom("A"+n)}.toList)
-
-  def timed[T](block: => T): (Long, T) = {
-    val start = System.currentTimeMillis()
-    val result = block
-    val end = System.currentTimeMillis()
-    (end-start, result)
-  }
 
 }
