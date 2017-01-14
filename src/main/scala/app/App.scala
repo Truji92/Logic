@@ -3,7 +3,7 @@ package app
 import java.io.File
 
 import polynomial.ImplicationRetractor
-import polynomial.ImplicationRetractor.{CConj, CImpl, TracedImpl}
+import polynomial.ImplicationRetractor.{CConj, CImpl, TracedImpl, V1, V2, Version}
 import types.Types.Atom
 
 import scala.collection.immutable.ListSet
@@ -15,13 +15,17 @@ object App {
 
     parser.parse(args, Config()) match {
       case Some(config) =>
-        val Config(inputFile, vars, otter, trace) = config
+        val Config(inputFile, vars, otter, trace, version, showTime) = config
 
         parseFromFile(inputFile) match {
           case Right(errors) => println("\nError al parsear el fichero: \n " + errors.mkString("\n","\n","\n"))
           case Left(input) => {
             val vs = vars.map(Atom).toList
-            val result = ImplicationRetractor.run(input, vs, otter, trace)
+
+            val (time, result) = timed {
+              ImplicationRetractor.run(input, vs, otter, trace, version)
+            }
+
             println("\n====================================")
             println("RESULTADO")
             println("====================================\n")
@@ -36,6 +40,10 @@ object App {
                 case (elem, index) => elem.toOtter
               }.mkString("\n", "\n", "\n"))
             }
+
+            if (showTime)
+              println(s"\n Tiempo de ejecución (ms): \n $time ")
+
             println("\n====================================\n")
           }
         }
@@ -49,11 +57,13 @@ object App {
     inputFile: File = new File("."),
     vars: Seq[String] = Seq(),
     otterOutput: Boolean = false,
-    trace: Boolean = false
+    trace: Boolean = false,
+    algorithmVersion: Version = V2,
+    showTime: Boolean = false
   )
 
   val parser = new scopt.OptionParser[Config]("Implication Retractor") {
-    head("Implication Retractor", "1.0")
+    head("Implication Retractor", "2.1")
 
     arg[File]("<file>").required().action( (file, config) =>
       config.copy(inputFile = file)
@@ -70,6 +80,14 @@ object App {
     opt[Unit]('t', "trace").action( (_, config) =>
       config.copy(trace = true)
     ).text("Mostrar traza de la ejecución")
+
+    opt[Unit]('T', "timed").action( (_, config) =>
+      config.copy(showTime = true)
+    ).text("Mostrar el tiempo de ejecución del algoritmo")
+
+    opt[Unit]("version1").action( (_, config) =>
+      config.copy(algorithmVersion = V1)
+    ).text("Ultizar version basica del algoritmo sin optimizaciones")
 
     override def showUsageOnError: Boolean = true
   }
