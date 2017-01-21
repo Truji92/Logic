@@ -1,0 +1,96 @@
+\chapter*{Implementación y montaje}\addcontentsline{toc}{chapter}{Implementación y montaje}
+	
+	En este apartado se explican los detalles de la implementación realizada del programa así como su funcionamiento.
+	
+	El proceso de implementación se ha realizado en varias fases, en primer lugar se ha construido un pequeño framework o librería que permita trabajar con lógica matemática de cara a poder utilizar estas herramientas para facilitar la codificación del programa final y su testeo. Las funcionalidades contenidas en esta librería están pensadas para utilizarse como herramienta de desarrollo y por tanto un usuario no puede acceder a ellas de forma directa desde el programa final.
+	
+	Una vez construida esta base, se ha realizado la implementación del algoritmo de retracción así como varias optimizaciones sobre el mismo y finalmente se ha empaquetado como aplicación java de linea de comando en un archivo .jar.
+
+\section*{Framework de programación lógica}\addcontentsline{toc}{section}{Framework de programación lógica}
+
+	Para implementar los diferentes conceptos de lógica de esta librería se ha tomado como base otra anterior, realizada en Haskell por \todo{referencia}, sobre la que se han realizado algunas modificaciones, mejoras y adaptaciones. Ya que Haskell es un lenguaje puramente funcional, el código se puede transformar a Scala de forma relativamente simple ya que aunque la sintaxis no es similar los conceptos con los que trabaja son los mismos.
+	
+	A continuación se describen los apartados más importantes de la librería y su funcionamiento.
+	
+
+\subsection*{Proposiciones}\addcontentsline{toc}{subsection}{Proposiciones}
+
+	Los componentes más básicos de la librería son las estructuras de datos que permiten crear, almacenar y operar sobre proposiciones lógicas.
+	
+	Partiendo de un tipo \textit{Prop} (Proposición) y utilizando herencia y polimorfismo definimos siete tipos de datos con los que se puede construir cualquier proposición lógica:
+	
+	\begin{description}
+		\item[Constante] Representa un valor booleano de verdadero o falso.
+		\item[Atom] Representa una proposición que solo consta de una variable. Por ejemplo $p$ o $q$ serían representados mediante una instancia de tipo Atom.
+		\item[Negación (Neg)] Representa la negación de otra proposición ($\neg$).
+		\item[Conjunción (Conj)] Representa el operador lógico $\wedge$ (AND) entre dos proposiciones.
+		\item[Disyunción (Disj)] Representa el operador lógico $\vee$ (OR) entre dos proposiciones.
+		\item[Implicación (Impl)] Representa la implicación entre dos proposiciones. En lógica representado por $\rightarrow$.
+		\item[Equivalencia (Equi)] Representa la equivalencia entre proposiciones. En lógica representado como $\leftrightarrow$.
+	\end{description}
+
+	Con estas siete estructuras puede representarse cualquier proposición lógica, por ejemplo:
+	
+	\[
+		\neg p \vee (q \rightarrow r) = Disj(Neg(Atom(p)), Impl(Atom(q), Atom(r)))
+	\]
+	
+	Tras la implementación de estas estructuras se realizó la implementación de un pequeño DSL (Domain specific language) que facilita la escritura de este tipo de fórmulas mediante el uso de algunas funciones y operadores. El ejemplo anterior escrito en este lenguaje quedaría: 
+	
+	\[
+		no(q) \; OR \; (q \; -\!\!> \, r) 
+	\]
+	
+	Otro concepto que necesita ser modelado es el de \textbf{Interpretación}, una interpretación es una asignación de valores verdadero o falso a las variables de una proposición, si tras la sustitución de los valores indicados por la interpretación la evaluación de la proposición es cierta, decimos que la interpretación es un \textbf{modelo} de dicha proposición.
+	
+	Esta entidad se maneja en la librería como un diccionario (un almacenamiento clave - valor) en el que se guardan las asignaciones a cada variable y la ausencia de alguna como clave se considera como que esa variable se asigna como falsa.
+	
+	Finalmente, se implementaron diferentes operaciones como obtener si una interpretación es modelo de una proposición o obtener todos los modelos existentes para una proposición, así como funciones que permiten operar directamente sobre conjuntos de proposiciones.
+	
+	\todo[inline]{Hasta que punto entrar en detalle en esta parte?}
+	
+	
+\subsection*{Formas normales y cláusulas}\addcontentsline{toc}{subsection}{Formas normales y cláusulas}
+
+	Una misma proposición puede representarse de diferentes formas, es usual en lógica trabajar sobre formas normalizadas de las proposiciones por lo que la librería permite la transformación de proposiciones a diferentes formas normales (forma normal negativa, conjuntiva y disyuntiva)	
+	
+	Una de las formas de representación más utilizadas es la \textbf{cláusula} y por ello se encuentra representada en la librería por un tipo de datos propio. Una cláusula es una proposición que solo contiene literales y disyunciones (o conjunciones aunque en nuestro caso este segundo modelo no se ha implementado), un \textbf{literal} puede ser un símbolo atómico (\textit{Atom} en la representación de proposiciones) o la negación de un símbolo atómico.
+	
+	De esta forma, modelando el tipo literal, podemos representar una clausula como un conjunto de literales, los cual es computacionalmente más fácil de manejar que la estructura recursiva que modela las proposiciones.
+	
+	Una de las operaciones más importantes que suele realizarse al trabajar con cláusulas es la de \textbf{resolvente}. Esta operación ya ha sido nombrada en la definición que dimos anteriormente para el operador de olvido para implicaciones. La resolvente de dos clausulas respecto a un literal es una nueva cláusula con la misma semántica que las anteriores pero que no contiene dicho literal. 
+	
+	La librería permite operaciones como el cálculo de resolventes de diferentes tipos así como cálculos de todas las resolventes posibles de conjuntos de clausulas, etc.
+	
+
+\subsection*{Razonamiento}\addcontentsline{toc}{subsection}{Razonamiento}
+
+	Hasta ahora tenemos representación y operaciones sobre entidades lógicas pero la parte más interesante es poder realizar razonamiento lógico sobre estas representaciones.	
+	
+	La librería permite el cálculo diferentes conceptos como validez, consistencia, consecuencia lógica, etc... Mediante el uso de diferentes métodos que operan sobre las diferentes representaciones (proposiciones y cláusulas). Algunos de estos sistemas de razonamiento son:
+	
+	\begin{description}
+		\item[Fuerza bruta] La librería contiene implementaciones exhaustivas de algunos de los conceptos mediante la comprobación de todas las posibilidades.
+		\item[Tableros semánticos] Es un método que actúa sobre conjuntos de proposiciones para obtener todos los modelos del conjunto. Realizando modificaciones sobre el conjunto puede utilizarse para calcular diferentes conceptos, por ejemplo podemos probar que una proposición es un teorema si el conjunto de modelos de su negación es vacío, y este conjunto puede calcularse mediante tableros semánticos.
+		\item[Davis-Putnam] Es un algoritmo que actúa sobre conjuntos de cláusulas para comprobar su satisfacibilidad, al igual que en el caso anterior pueden obtenerse diferentes resultados aplicándolo sobre modificaciones del conjunto inicial.
+		\item[Cálculo de secuentes] Es un método de razonamiento que funciona sobre proposiciones pero que no solo nos permite probar fórmulas lógicas sino que nos indica el proceso de la prueba paso a paso, de forma que cada linea de la demostración utiliza las lineas anteriores de la misma.
+	\end{description}
+
+	Con estos métodos podemos aplicar razonamiento sobre cualquier conjunto de proposiciones o cláusulas que obtengamos, permitiéndonos por ejemplo comprobar si el conjunto de implicaciones generado al aplicar el algoritmo de retracción es equivalente al original.
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

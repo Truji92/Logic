@@ -1,0 +1,111 @@
+
+\chapter*{Introducción}\addcontentsline{toc}{chapter}{Introducción}
+
+
+	Actualmente al aplicar Análisis Formal de Conceptos u otros procedimientos que puedan 
+	trabajar con bases de conocimiento basadas en implicaciones tratar con grandes cantidades 
+	de datos puede ser complicado desde el punto de vista computacional.
+	
+	Una forma de abordar este problema puede ser reducir el tamaño y complejidad de una base 
+	de conocimiento antes de empezar a trabajar con ella, por ejemplo eliminando información no 
+	relevante para lo que se intenta analizar.   
+	
+	Desde un punto de vista más humano, una persona es capaz de manejar simultáneamente varios
+	ámbitos de información, pero es capaz de separarlos a la hora de tomar decisiones según la 
+	situación en la que se encuentra. Por ejemplo, una persona modera su comportamiento en su hogar
+	de forma diferente que su entorno de trabajo, de forma que mientras trabaja tiene en cuenta factores
+	a los que no atiende en su hogar aunque este tomando una decisión sobre el mismo asunto. Tomar un café 
+	normal o descafeinado, puede tener diferentes respuestas en función del entorno o de la hora.
+	
+	El ser humano es capaz de razonar ignorando reglas que se aplican al problema que esta manejando en función del contexto. Podemos conseguir
+	algo similar en sistemas basados en reglas mediante Retracción Conservativa.
+
+
+\section*{Análisis formal de conceptos}\addcontentsline{toc}{section}{Análisis formal de conceptos}
+
+	El Análisis Formal de Conceptos (FCA) es una teoría matemática que se aplica en campos como la minería de datos con el objetivo de formalizar y estudiar las nociones de concepto y jerarquía de conceptos, su extracción y análisis.
+	
+	Al aplicar FCA se parte generalmente de una tabla en la que cada fila es un objeto, cada columna un posible atributo de los objetos y cada celda indica si ese objeto posee o no el atributo correspondiente. A esto se le conoce como el \textbf{Contexto formal}.
+	
+	A partir del contexto pueden obtenerse los conceptos formales, explicado de forma coloquial un concepto formal es un subconjunto de los atributos, todo objeto que posea esos atributos estará contenido en el concepto. Por ejemplo en una tabla que contiene animales, todos los animales que posean los atributos \textit{Vive en el agua} y \textit{Vive en la tierra} estarán contenidos en un mismo concepto que sabemos que es \textit{Animal anfibio}.
+	
+	Este conocimiento puede representarse de diferentes maneras, algunas de las más utilizadas son:
+	
+	\begin{itemize}
+		\item  \textbf{Retículo de Conceptos}: un grafo que representa los conceptos como nodos
+		y muestra una relación de orden parcial entre ellos (un concepto puede estar contenido dentro de otro).
+		
+		\item \textbf{Implicación de atributos}: este método de representación consiste en escribir un conjunto de implicaciones entre los atributos del contexto de forma que lo que se expresa es ``Todo objeto que satisface estos atributos, también satisface estos otros''.
+	\end{itemize}
+
+
+\section*{Retracción de teorías lógicas}\addcontentsline{toc}{section}{Retracción de teorías lógicas}
+	
+	A continuación se presentan diferentes conceptos de lógica matemática desde un punto de vista ``informal'' necesarios para 
+	la correcta comprensión del resto de esta memoria.
+	
+	Aunque en nuestro caso el trabajo posterior se centra sobre el tratamiento de implicaciones, estas definiciones son genéricas y 
+	son ciertas para la lógica matemática completa.
+
+
+\subsection*{Extensión y Retracciones Conservativas}
+	
+	En lógica decimos que una teoría $T$ es una \textbf{extensión conservativa} de una teoría $T'$ (o que $T'$ es una \textbf{retracción conservativa} de $T$) si toda consecuencia de $T$ en el lenguaje de $T'$ es también consecuencia de $T'$.
+	
+	La conclusión que se puede extraer de esta definición interesante para nuestro trabajo es, explicado de una forma más coloquial, que partiendo de una teoría escrita en un lenguaje podemos encontrar una teoría escrita en otro lenguaje más reducido. Todo lo que es cierto en esta nueva teoría también es cierto en la primera y todo lo que es cierto en la primera (y puede expresarse en el lenguaje de la segunda) es cierto. Esta nueva teoría será una retracción conservativa de la primera.
+
+	Esto nos permite por ejemplo, poder demostrar algo en una teoría de tamaño más reducido y fácil de trabajar, sabiendo que el resultado será válido para cualquier extensión conservativa de esa teoría.
+
+
+\subsection*{Aplicación de la retracción}
+	
+	Al trabajar en FCA podemos representar el conocimiento como conjuntos de implicaciones entre atributos y podemos utilizar los conceptos de extensión y retracción conservativa para facilitar el trabajo sobre esto conjuntos.
+	
+	Aplicar retracción de implicaciones al Análisis Formal de Conceptos nos permite obtener ese ``filtrado de conocimiento'' humano sobre una base de reglas, eliminando de la base todos los atributos que no tengan relevancia para nuestro estudio y por tanto reduciendo la complejidad del sistema pero a la vez manteniendo la validez de toda deducción o consecuencia lógica que obtengamos.
+	
+ 
+\section*{Objetivo}\addcontentsline{toc}{section}{Objetivo}
+
+	El objetivo de este proyecto es la implementación de un \textbf{Retractor de Implicaciones} capaz de actuar sobre bases
+	de conocimiento completas.
+	
+	Para ello se realizarán diferentes pasos:
+
+	\begin{description}
+	
+		\item[Framework de lógica matemática]
+		En primer lugar se implementará un framework que permita trabajar con entidades lógicas (fórmulas, implicaciones, clausulas, etc)
+		que posteriormente facilitará la implementación y testeo del retractor.
+		
+		\item[Retractor de Implicaciones]
+		Se realizará una implementación de un algoritmo retractor de implicaciones básico.
+		
+		\item[Optimizaciones]
+		Por último se añadirán diferentes optimizaciones a la implementación básica del retractor.
+	
+	\end{description}
+
+\todo[inline]{Explicacion ejemplo??}
+
+\section*{Elección del lenguaje de programación}\addcontentsline{toc}{section}{Elección del lenguaje de programación}
+
+\todo{Enlace o referencia a la web del lenguaje o no es necesario?}
+
+	La implementación se ha realizado en Scala.
+	
+	Scala es un lenguaje orientado a objetos y funcional que se ejecuta sobre la JVM (Java Virtual Machine).
+	
+	Las razones por las que se ha escogido son:
+
+	\begin{itemize}
+	
+		\item Funcional: Los lenguajes funcionales están planteados desde un punto vista muy cercano a las matemáticas por lo que implementar
+		conceptos de lógica matemática en este tipo de lenguajes es más directo.
+		
+		\item JVM: Al ser un lenguaje que se ejecuta en el entorno Java, permite de forma fácil general un ejecutable que puede funcionar en cualquier plataforma.
+	
+	\end{itemize}
+
+
+
+ 

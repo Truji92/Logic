@@ -1,0 +1,79 @@
+\chapter*{Retracción conservativa}\addcontentsline{toc}{chapter}{Retracción conservativa}
+
+\todo[inline]{nombre de capitulo adecuado?}
+	
+	Tras sentar las bases conceptuales de la retracción y extensión conservativa en la introducción de esta memoria, en este apartado especificaremos como se aplican estos conceptos de forma concreta a la lógica proposicional ya que esta es la que nos permite tratar las implicaciones que obtenemos de FCA y razonar sobre ellas.
+	
+	
+\section*{Retracción conservativa en lógica proposicional}\addcontentsline{toc}{section}{Retracción conservativa en lógica proposicional}
+
+	La definición de retracción y extensión aplicada a la lógica proposicional es la misma que en el caso genérico pero podemos especificar los conceptos de teoría y lenguaje. En este caso siendo el lenguaje un conjunto de atributos y una teoría un conjunto de proposiciones que utilizan dichos atributos (a lo cual nos referimos como base de conocimiento).
+	
+	En principio el concepto de proposición puede englobar diferentes tipos: negaciones, implicaciones, conjunciones... Nosotros trabajaremos únicamente con implicaciones, pero esto no afecta a los conceptos aquí explicados ya que nuestro trabajo sigue estando contenido dentro de la lógica proposicional, simplemente nos limitamos a trabajar con un subconjunto de la misma.
+	
+	\begin{description}
+		\item[Extensión y retracción conservativa] 
+			Partiendo de un base de conocimiento $\mathcal{L}$ decimos que $\mathcal{L'}$ es una \textbf{extensión conservativa} 
+			de $\mathcal{L}$ si $\mathcal{L'}$ contiene al menos todas los atributos presentes en $\mathcal{L}$ y 
+			además todo lo que cierto en $\mathcal{L}$ lo es también en $\mathcal{L'}$. Podemos referirnos a lo mismo 
+			diciendo que $\mathcal{L}$ es una \textbf{retracción conservativa} de $\mathcal{L'}$. 
+	\end{description}
+
+	Viendo esto, podemos ver que partiendo de una base de conocimiento podemos eliminar atributos de la misma y obtener una retracción conservativa con menor número de atributos. Para esto definimos el \textbf{operador de olvido}
+ 	
+ 	\begin{description}
+ 		\item[Operador de olvido]  	
+	 		Un \textbf{operador de olvido} del un atributo $p$ es aquel que aplicado sobre dos proposiciones devuelve un 
+	 		nuevo conjunto de proposiciones equivalentes pero que no contienen el atributo $p$.
+	 		
+	 		Es fácil demostrar que este operador aplicado sobre las combinaciones de las proposiciones de una base de conocimiento
+	 		nos permite obtener una retracción conservativa de dicha base que no contiene el atributo $p$.
+ 	\end{description}
+	 		
+ 	
+\section*{Relación con FCA}\addcontentsline{toc}{section}{Relación con FCA} 	
+
+	Ya que nuestro objetivo es trabajar con implicaciones de atributos obtenidas en FCA podemos especificar aun más los conceptos descritos en este apartado.
+	
+	\begin{description}
+		\item[Extensión y retracción conservativa] 
+			 Sea $\mathbb{C} = (O,A,I)$ un contexto formal y $\mathcal{L} = Imp(\mathbb{C})$ el conjunto de implicaciones derivado de ese contexto. Se dice que $\mathcal{L}$ es una \textbf{extensión conservativa} de $\mathcal{L}'$ (o que $\mathcal{L}'$ es una \textbf{retracción conservativa} de $\mathcal{L}$) si:
+			 
+			 \[ \mathcal{L} \models \mathcal{L}' \quad y \quad \forall L \in Imp(att(\mathcal{L}')) [\mathcal{L} \models L \Longrightarrow \mathcal{L}' \models L]  \]
+	\end{description}
+	
+	Lo cual significa que dado un conjunto de implicaciones y una extensión conservativa del mismo, cualquier implicación construida utilizando los atributos del conjunto inicial sera cierta en la extensión si lo es en el conjunto original.
+	
+	Una vez que conocemos esta definición queremos ser capaces de construir retracciones conservativas de los conjuntos de implicaciones obtenidos por medio de FCA. Para ello necesitamos definir un operador de olvido. Se pueden definir diferentes operadores de olvido todos ellos válidos desde el punto de vista lógico, pero no todos son válidos para nuestro problema.
+	
+	Puesto que estamos trabajando sobre la lógica proposicional cualquier operador de olvido válido funcionará con nuestras implicaciones, pero el conjunto resultante de su aplicación no tiene por qué estar limitado a contener únicamente implicaciones. 
+	
+	Por ello utilizaremos un operador de olvido específicamente creado para esta problemática y cuya validez se demuestra en \todo{referencia}.
+	
+	\begin{description}
+		\item[Operador de olvido para implicaciones] 
+			Sea $C_i = Y_{1}^i \rightarrow Y_{2}^i$  una implicación tal que $Y_{1}^i \cap Y_{2}^i = \emptyset$. El operador $\partial_p (C_1, C_2)$ es un operador de olvido del atributo $p$:
+			
+			\[ 
+				\partial_p (C_1, C_2) = 			
+					\begin{cases} 
+						\{C_1, C_2\} & p \notin att(C_1) \cup att(C_2) \\
+						\{C_2\} &  p \in Y_1^1, p \notin att(C_2) \\
+						\{Y_1^1 \rightarrow (Y_2^1 \, \backslash p) , C_2\} & p \in Y_2^1, p \notin att(C_2) \\
+						\{ \top \} & p \in (Y_1^1 \cap Y_1^2) \cup (Y_2^1 \cap Y_2^2) \\
+						\{Resolvente_p(C_1, C_2)\} & p \in Y_1^2 \cap Y_2^1
+					\end{cases}
+			\] 
+			
+			donde 
+			
+			\[
+				Resolvente_p(C_1, C_2) := \{Y_1^1 \rightarrow Y_2^1 \backslash \{p\}, Y_1^1 \cup (Y_1^2 \backslash \{p\}) \rightarrow Y_2^2 \}
+			\]
+	\end{description}
+
+	Este operador es simétrico, es decir $\partial_p (C_1, C_2) = \partial_p (C_2, C_1)$ y tal como indicamos anteriormente, aplicándolo sobre las combinaciones de las implicaciones de un conjunto podemos eliminar por completo un atributo del mismo.
+	
+	\todo[inline]{ejemplo de aplicacion del operador?}
+
+
