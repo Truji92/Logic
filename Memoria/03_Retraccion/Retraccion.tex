@@ -54,7 +54,8 @@
 		\item[Operador de olvido para implicaciones] 
 			Sea $C_i = Y_{1}^i \rightarrow Y_{2}^i$  una implicación tal que $Y_{1}^i \cap Y_{2}^i = \emptyset$. El operador $\partial_p (C_1, C_2)$ es un operador de olvido del atributo $p$:
 			
-			\[ 
+			\begin{equation}
+				\label{operadorOlvido}
 				\partial_p (C_1, C_2) = 			
 					\begin{cases} 
 						\{C_1, C_2\} & p \notin att(C_1) \cup att(C_2) \\
@@ -63,13 +64,14 @@
 						\{ \top \} & p \in (Y_1^1 \cap Y_1^2) \cup (Y_2^1 \cap Y_2^2) \\
 						\{Resolvente_p(C_1, C_2)\} & p \in Y_1^2 \cap Y_2^1
 					\end{cases}
-			\] 
+			\end{equation}
 			
 			donde 
 			
 			\[
 				Resolvente_p(C_1, C_2) := \{Y_1^1 \rightarrow Y_2^1 \backslash \{p\}, Y_1^1 \cup (Y_1^2 \backslash \{p\}) \rightarrow Y_2^2 \}
 			\]
+			
 	\end{description}
 
 	Este operador es simétrico, es decir $\partial_p (C_1, C_2) = \partial_p (C_2, C_1)$ y tal como indicamos anteriormente, aplicándolo sobre las combinaciones de las implicaciones de un conjunto podemos eliminar por completo un atributo del mismo.

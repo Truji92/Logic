@@ -19,8 +19,13 @@
 \contentsline {subsection}{Proposiciones}{24}{section*.29}
 \contentsline {subsection}{Formas normales y cl\IeC {\'a}usulas}{25}{section*.31}
 \contentsline {subsection}{Razonamiento}{26}{section*.32}
-\contentsline {part}{IV\hspace {1em}EJEMPLO GRANDE (CONCILIACI\IeC {\'O}N DELICIOUS) }{29}{part.4}
-\contentsline {part}{V\hspace {1em}Conclusiones}{31}{part.5}
-\contentsline {chapter}{\numberline {1}Conclusiones}{33}{chapter.1}
-\contentsline {part}{VI\hspace {1em}Bibliograf\IeC {\'\i }a}{35}{part.6}
-\contentsline {chapter}{Bibliograf\IeC {\'\i }a}{37}{section*.34}
+\contentsline {section}{Algoritmo retractor}{26}{section*.33}
+\contentsline {subsection}{Retracci\IeC {\'o}n basada en polinomios}{27}{section*.34}
+\contentsline {subsection}{Retractor de implicaciones}{27}{section*.36}
+\contentsline {subsection}{Optimizaciones sobre el algoritmo}{29}{section*.37}
+\contentsline {section}{Programa ejecutable}{30}{section*.39}
+\contentsline {part}{IV\hspace {1em}EJEMPLO GRANDE (CONCILIACI\IeC {\'O}N DELICIOUS) }{33}{part.4}
+\contentsline {part}{V\hspace {1em}Conclusiones}{35}{part.5}
+\contentsline {chapter}{\numberline {1}Conclusiones}{37}{chapter.1}
+\contentsline {part}{VI\hspace {1em}Bibliograf\IeC {\'\i }a}{39}{part.6}
+\contentsline {chapter}{Bibliograf\IeC {\'\i }a}{41}{section*.43}

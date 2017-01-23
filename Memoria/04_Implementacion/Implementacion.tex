@@ -79,7 +79,178 @@
 	Con estos métodos podemos aplicar razonamiento sobre cualquier conjunto de proposiciones o cláusulas que obtengamos, permitiéndonos por ejemplo comprobar si el conjunto de implicaciones generado al aplicar el algoritmo de retracción es equivalente al original.
 	
 	
+\section*{Algoritmo retractor}\addcontentsline{toc}{section}{Algoritmo retractor}	
 	
+	Una vez construida la base de nuestra librería de lógica podemos empezar a implementar el algoritmo de retracción.
+	
+\subsection*{Retracción basada en polinomios}\addcontentsline{toc}{subsection}{Retracción basada en polinomios}
+
+	La primera aproximación realizada al algoritmo de retracción se basa en una teoría que permite la transformación de proposiciones en polinomios sobre el anillo $\mathbb{F}_2[x]$. 
+	
+	\todo[inline]{
+		referencia a calculemus y/o añadir explicación en profundidad de esto?
+		\\ No tengo claro hasta que punto explicar esta parte ya que no hemos hablado de relacionarla con la otra retracción
+	}	
+
+	Una vez las proposiciones se convierten a polinomios puede trabajarse matemáticamente con ellos, aplicar un algoritmo de retracción basado en las derivadas de dichos polinomios y finalmente volver a convertir los polinomios a proposiciones.
+	
+	Este método es válido, capaz de funcionar con cualquier tipo de proposiciones pero presenta un problema. Durante el proceso de conversión de proposición a polinomio y viceversa, la expresión de la proposición sufre alteraciones (se forman estructuras anidadas complejas) y aunque el resultado obtenido es correcto desde el punto de vista lógico, las formulas son muy complejas desde el punto de vista humano por lo que el análisis a simple vista de los resultados se vuelve prácticamente imposible.
+	
+	
+\subsection*{Retractor de implicaciones}\addcontentsline{toc}{subsection}{Retractor de implicaciones}
+	
+	La versión definitiva del algoritmo, tal como se ha mencionado anteriormente, funciona exclusivamente sobre implicaciones con la estructura utilizada en FCA.
+	
+	Para la implementación, en primer lugar se han utilizado unas versiones modificadas de las estructuras de datos \textit{Implicación} y \textit{Conjunción} de forma que estas no puedan contener otras proposiciones de forma recursiva:
+	
+	\begin{description}
+		\item[Conjunción] En este caso, la conjunción en lugar de representar el operador binario $\wedge$ representa la conjunción sobre una lista de variables de tamaño indefinido.
+		\item[Implicación] Una implicación se define como la implicación entre dos conjunciones.
+	\end{description}
+
+	Estas estructuras se han implementado de forma que su conversión a las estructuras proposicionales de la librería lógica es implícita y por tanto toda función de esta librería puede seguir aplicándose.
+	
+	Utilizando estas estructuras, se ha realizado una implementación del operador de olvido (ecuación \ref{operadorOlvido}) explicado en el apartado de retracción.
+	
+	Aplicando este operador sobre todas las combinaciones posibles de dos implicaciones de un conjunto podemos obtener uno nuevo que no contenga un atributo determinado. Sin embargo, debido a que el operador de olvido es simétrico las combinaciones con las mismas implicaciones y distinto orden son equivalentes, lo cual nos permite mejorar el orden de complejidad de este procedimiento.
+	
+	Utilizando este operador, se implementa el algoritmo de retracción siguiendo el siguiente pseudocódigo: 
+	
+	{
+		\centering
+		\noindent\fbox{
+			\begin{minipage}{0.9\textwidth}
+				\begin{algorithmic}[1]
+					\Function{Retraccion}{$implicaciones, variable$}
+						\State $nuevasImplicaciones \gets [\;]$
+						\State $resto \gets implicaciones$
+						\State
+						\While{noVacío implicaciones}
+							\State $actual \gets implicaciones.head$
+							\State $nuevasImplicaciones \text{ ++ } implicaciones.map(
+								 $
+							\State $ \qquad impl \rightarrow opOlvido( impl, actual, variable )$
+				
+							\State $)$	
+							
+							\State $resto \gets implicaciones.tail$
+						\EndWhile
+						\State
+						\State
+						\Return$nuevasImplicaciones$
+					\EndFunction
+				\end{algorithmic}
+			\end{minipage}
+		}	
+
+	}
+	
+	Tras su aplicación obtenemos una nueva lista de implicaciones que no contiene la variable indicada por parámetro (una \textbf{retracción conservativa} del conjunto).
+	
+	Este algoritmo tiene un orden temporal de ejecución de $O(n*\log{n})$ ya que es un bucle que recorre todas las implicaciones y en cada iteración recorre las implicaciones aún no recorridas por el bucle principal. 
+	
+	Sin embargo, la aplicación de manera sucesiva del algoritmo para eliminar varias variables no tiene por qué tener una tendencia a tardar menos tiempo ya que al aplicar el operador de olvido sobre dos implicaciones podemos generar varias (0, 1 ó 2) y estamos realizando esta operación de manera combinatoria sobre el conjunto completo. En definitiva, una aplicación de este algoritmo sobre un conjunto reduce en uno (o en cero si el conjunto no contenía previamente la variable) la cantidad de atributos diferentes pero puede aumentar la cantidad de implicaciones contenidas por el conjunto. 
+	
+
+
+\subsection*{Optimizaciones sobre el algoritmo}\addcontentsline{toc}{subsection}{Optimizaciones sobre el algoritmo}
+	
+	EL aumento del número de implicaciones mencionado en el apartado anterior es el factor que más afecta al rendimiento de ejecuciones sucesivas del algoritmo por lo que se han aplicado dos optimizaciones para intentar reducir sus efectos:
+
+	\begin{description}
+		\item[Implicaciones con consecuete vacío] 
+			Una implicación con el 	consecuente (la parte a la derecha de la flecha) vacío no es útil a la hora de realizar razonamiento sobre un conjunto ya que no aporta ninguna información nueva. Por este motivo, todas las implicaciones que cumplan esta característica se filtran del conjunto final de implicaciones.
+		\item[Implicaciones con el antecedente vacío] 
+			Cuando una implicación no contiene ningún atributo a la izquierda (antecedente) significa que todos los atributos del consecuente pueden considerarse como ciertos sin ninguna precondición. 
+	
+			Basándonos en esto podemos sustituir todas la apariciones de esos atributos por el valor lógico \textit{cierto}. Y podemos ir más allá, puesto que tanto antecedente como consecuente de las implicaciones son conjunciones podemos aplicar que:
+			
+			\[
+				\text{T} \wedge p \rightarrow p
+			\]		
+			
+			Lo cual nos permite directamente eliminar todas las ocurrencias del atributo en cuestión en lugar de simplemente sustituirlas. 
+			
+			Esta optimización no produce de forma directa una reducción del número de implicaciones, pero su aplicación hace más probable que ocurran casos que permitan aplicar la optimización anterior al reducirse el número de atributos.	
+	\end{description}
+
+	Estas optimizaciones evidentemente no reducen el orden de complejidad del algoritmo pero producen una reducción apreciable del tiempo cómputo de ejecuciones sucesivas del mismo tal como puede verse en la tabla \todo{tabla de tiempos de ejecución} en la que se muestran tiempos de ejecución del algoritmo aplicado a distintos sets de implicaciones generados de forma aleatoria. En cada ejecución se realizan aplicaciones sucesivas del algoritmo del algoritmo hasta eliminar $n-2$ variables elegidas aleatoriamente entre las contenidas en el conjunto. 
+
+	
+	
+\section*{Programa ejecutable}\addcontentsline{toc}{section}{Programa ejecutable}
+
+	Con el objetivo de facilitar el uso del algoritmo su distribución se realiza empaquetándolo en un archivo ejecutable Java (.jar) de forma que puede ser utilizado en todo sistema compatible con Java y llamado desde cualquier lenguaje de programación o de forma manual desde un terminal de línea de comando. 	
+	
+	El ejecutable lee las implicaciones de un archivo de texto indicado por parámetro con el siguiente formato:
+	
+	\begin{itemize}
+		\item Una implicación por línea
+		\item Atributos separados por comas.
+		\item Antecedente y consecuente de una implicación separados por el símbolo $=>$.
+		\item No es necesario respetar ningún tipo de espaciado entre elementos.
+	\end{itemize}
+
+	Por ejemplo:
+	
+	\begin{lstlisting}
+		
+		n  =>  c, d 
+		a, b, c, p  =>  g, r, t 
+		d  =>  c 
+		g  =>  c 
+		r  =>      p, t, a,       b, g, c 
+		a  =>  b, p 
+		p, t   , a, d, b, g, c, r  =>  n 
+		t  =>  p, a, b, g, c, r 
+		b, c, g  =>  a, p, r, t 
+	
+	\end{lstlisting}
+	
+	El programa realiza una comprobación sobre la estructura de este archivo y es capaz de indicar el lugar en el que se ha cometido un error.
+	
+	A la hora de ejecutar el algoritmo, la aplicación permite algunas opciones:
+	
+	\begin{description}
+		\item[Formato Otter] 
+			Permite la opción de mostrar el resultado de la ejecución en formato Otter además del formato análogo al del fichero de entrada.
+		\item[Traza] 
+			El programa permite mostrar una traza de la ejecución del algoritmo en la que se muestra el proceso de eliminación de cada una de las variables elegidas así como la procedencia de cada implicación (indicando las implicaciones sobre las que se aplicó el operador de olvido para obtener la nueva implicación).
+		\item[Tiempo de ejecución] 
+			Permite la opción de mostrar el tiempo de ejecución del algoritmo tras terminar (sin contar el tiempo utilizado para el parseo de archivo u otras operaciones).
+		\item[Sin optimizaciones] 
+			Permite ejecutar el algoritmo sin las optimizaciones explicadas en el apartado anterior.
+	\end{description}
+
+	\todo[inline]{Anexo con una ejecución mostrando la traza??}
+	
+	Para facilitar la programación de la utilidad de línea de comando se ha utilizado una librería llamada \textit{scopt} \todo{Como se referencia esto?} que facilita la creación de un parser de opciones de línea de comando al estilo típico de Linux.
+	
+	Esta librería permite declarar de forma simple las opciones y su efecto y genera automáticamente documentación para el uso de la aplicación de línea de comando. La salida de la aplicación al cometer un error al llamarla o al utilizar la opción \textit{-help} es:
+	
+	\begin{verbatim}
+	Implication Retractor 2.1
+	Usage: Implication Retractor [options] <file>
+	
+	<file>              Fichero que contiene las fórmulas
+	-v, --vars <value>  Lista de variables a eliminar
+	-o, --otter         Mostrar salida en formato Otter
+	-t, --trace         Mostrar traza de la ejecución
+	-T, --timed         Mostrar el tiempo de ejecución del algoritmo
+	--version1          Ultizar versión básica del algoritmo sin optimizaciones
+	\end{verbatim}
+	
+	Y una llamada de ejemplo al mismo podría ser:
+	
+	\begin{verbatim}
+	retractor.jar implicaciones.txt -v p,q,r --version1
+	\end{verbatim}
+	
+	La cual generaría una retracción conservativa de las implicaciones contenidas en \textit{implicaciones.txt} sin los atributos \textit{p, q} y \textit{r} aplicando el algoritmo sin optimizaciones. 
+	
+	
+		
+		
 	
 	
 	
