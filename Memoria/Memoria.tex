@@ -1,0 +1,79 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                                 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+%%  TIPO DE DOCUMENTO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[a4paper,11pt,final]{book}
+
+\usepackage{ amssymb }
+
+%%  Include con la definicion de estilos por el usuario
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{./z_config/a_paquetes}
+\input{./z_config/a_definiciones}
+\input{./z_config/a_configuracion}
+
+
+%\includeonly{cap2_respacial/respacial}
+%\includeonly{api/api} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  DOCUMENTO DE PROYECTO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document} 
+
+%%  Titulo e Indices
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\pagenumbering{roman}
+%\renewcommand{\baselinestretch}{1}
+\include{00_Titulo/titulo}
+%\renewcommand{\baselinestretch}{1.2}
+
+
+%%  Contenido del trabajo
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\pagenumbering{arabic}
+\pagestyle{fancy} 
+\tableofcontents
+
+
+\include{01_Resumen/resumen}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\part{FCA}
+\include{02_FCA/FCA}
+
+\part{RETRACCIÓN}
+\include{03_Retraccion/Retraccion}
+
+\part{IMPLEMENTACIÓN Y MONTAJE}
+\include{04_Implementacion/Implementacion}
+
+\todo[inline]{Aqui pruebas pequeñas}
+\part{EJEMPLO GRANDE (CONCILIACIÓN DELICIOUS) }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\part{Conclusiones}
+\include{conclusiones/conclusiones} 			
+
+%%  Apendices
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\addcontentsline{toc}{part}{Apéndices}
+
+
+
+%%  Bibliografia
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\part{Bibliografía}
+\addcontentsline{toc}{chapter}{Bibliografía}
+\bibliographystyle{plain}
+\bibliography{z_Bibliografia/mybib}
+
+\end{document}

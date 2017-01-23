@@ -1,0 +1,148 @@
+\hypersetup{pdftitle={Semandal}} 
+
+%%  Configuracion de paquetes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand\lstlistingname{Listado}                   %  default is Listing
+\renewcommand\lstlistlistingname{\'Indice de listados}  %  default is Listings 
+%\renewcommand\thelstlisting{\thechapter .\arabic{lstlisting}} % captionstyle
+
+\lstset{
+  language=Java,
+  basicstyle=\tiny,
+  keywordstyle=\bfseries,
+  showstringspaces=false,
+  numbers=left, 
+  numberstyle=\tiny, 
+  stepnumber=1, 
+  numbersep=5pt,
+  frame=single,
+  tabsize=2}
+
+\makeindex 
+
+%*********************** FORMATO DE PÁGINA **************************
+
+\voffset          -5mm
+\cfoot{}
+
+\pagestyle{fancy}
+\fancyhead{} 
+\fancyhead[RE]{{\small  \nouppercase{\leftmark}}}
+%\fancyhead[RE]{{\small  \nouppercase{\today}}}
+\fancyhead[LO]{{\small  \nouppercase{\rightmark}}}
+\fancyhead[LE,RO]{\thepage}
+
+\setlength{\headheight}{15pt}
+
+\parskip 1.5ex 
+%\setlength{\parskip}{2ex}              % despues del parrafo, doble linea
+
+\itemsep= -5pt
+%\topsep = -5pt
+\setlength{\topsep}{-5pt}
+
+\renewcommand{\baselinestretch}{1,2}
+
+\voffset -0,2cm
+\textheight 21.5cm
+\textwidth 14.2cm
+
+\oddsidemargin 1cm         % estos dos son para que no varíen tanto
+\evensidemargin 0,5cm      % los margenes entre pags pares e impares
+
+\let\headwidth\textwidth
+
+\setcounter{tocdepth}{2}
+
+\setlength{\marginparwidth}{27mm}
+
+
+%%% Para los items de las listas
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\let\olditemize=\itemize
+%\def\itemize{
+%\olditemize
+%\setlength{\itemsep}{-1ex}
+%\setlength{\topsep}{-1ex}
+%}
+%\let\oldenumerate=\enumerate
+%\def\enumerate{
+%\oldenumerate
+%\setlength{\itemsep}{-1ex}
+%}
+
+
+
+
+
+
+
+
+%%% Para que no aparezcan las cabeceras de las páginas que están en blanco
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter 
+\def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
+  \hbox{} 
+  \thispagestyle{empty} 
+  \newpage
+  \if@twocolumn\hbox{}\newpage\fi\fi\fi} 
+\makeatother
+
+
+%%%  Cabecera nueva de los capítulos
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+\def\thickhrulefill{\leavevmode \leaders \hrule height 1ex \hfill \kern \z@}
+\def\@makechapterhead#1{%
+  %\vspace*{50\p@}%
+  \vspace*{10\p@}%
+  {\parindent \z@ \centering \reset@font
+        \thickhrulefill\quad
+        \scshape \@chapapp{} \thechapter
+        \quad \thickhrulefill
+        \par\nobreak
+        \vspace*{10\p@}%
+        \interlinepenalty\@M
+        \hrule
+        \vspace*{10\p@}%
+        \Huge \bfseries #1\par\nobreak
+        \par
+        \vspace*{10\p@}%
+        \hrule
+    %\vskip 40\p@
+    \vskip 100\p@
+  }}
+\def\@makeschapterhead#1{%
+  %\vspace*{50\p@}%
+  \vspace*{10\p@}%
+  {\parindent \z@ \centering \reset@font
+        \thickhrulefill
+        \par\nobreak
+        \vspace*{10\p@}%
+        \interlinepenalty\@M
+        \hrule
+        \vspace*{10\p@}%
+        \Huge \bfseries #1\par\nobreak
+        \par
+        \vspace*{10\p@}%
+        \hrule
+    %\vskip 40\p@
+    \vskip 100\p@
+  }}
+
+%% Different font in captions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newcommand{\captionfonts}{\tiny}
+%
+%\makeatletter  % Allow the use of @ in command names
+%\long\def\@makecaption#1#2{%
+%  \vskip\abovecaptionskip
+%  \sbox\@tempboxa{{\captionfonts #1: #2}}%
+%  \ifdim \wd\@tempboxa >\hsize
+%    {\captionfonts #1: #2\par}
+%  \else
+%    \hbox to\hsize{\hfil\box\@tempboxa\hfil}%
+%  \fi
+%  \vskip\belowcaptionskip}
+%\makeatother   % Cancel the effect of \makeatletter
+

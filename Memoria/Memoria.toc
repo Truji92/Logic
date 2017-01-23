@@ -1,0 +1,26 @@
+\select@language {spanish}
+\contentsline {chapter}{Introducci\IeC {\'o}n}{3}{chapter*.3}
+\contentsline {section}{An\IeC {\'a}lisis formal de conceptos}{3}{section*.4}
+\contentsline {section}{Retracci\IeC {\'o}n de teor\IeC {\'\i }as l\IeC {\'o}gicas}{4}{section*.5}
+\contentsline {section}{Objetivo}{5}{section*.8}
+\contentsline {section}{Elecci\IeC {\'o}n del lenguaje de programaci\IeC {\'o}n}{6}{section*.10}
+\contentsline {part}{I\hspace {1em}FCA}{7}{part.1}
+\contentsline {chapter}{An\IeC {\'a}lisis formal de conceptos}{9}{chapter*.12}
+\contentsline {section}{Contextos formales y concepto formal}{9}{section*.13}
+\contentsline {section}{Ret\IeC {\'\i }culo de conceptos}{11}{section*.16}
+\contentsline {section}{Implicaci\IeC {\'o}n de atributos}{12}{section*.19}
+\contentsline {part}{II\hspace {1em}RETRACCI\IeC {\'O}N}{15}{part.2}
+\contentsline {chapter}{Retracci\IeC {\'o}n conservativa}{17}{chapter*.20}
+\contentsline {section}{Retracci\IeC {\'o}n conservativa en l\IeC {\'o}gica proposicional}{17}{section*.22}
+\contentsline {section}{Relaci\IeC {\'o}n con FCA}{18}{section*.23}
+\contentsline {part}{III\hspace {1em}IMPLEMENTACI\IeC {\'O}N Y MONTAJE}{21}{part.3}
+\contentsline {chapter}{Implementaci\IeC {\'o}n y montaje}{23}{chapter*.26}
+\contentsline {section}{Framework de programaci\IeC {\'o}n l\IeC {\'o}gica}{23}{section*.27}
+\contentsline {subsection}{Proposiciones}{24}{section*.29}
+\contentsline {subsection}{Formas normales y cl\IeC {\'a}usulas}{25}{section*.31}
+\contentsline {subsection}{Razonamiento}{26}{section*.32}
+\contentsline {part}{IV\hspace {1em}EJEMPLO GRANDE (CONCILIACI\IeC {\'O}N DELICIOUS) }{29}{part.4}
+\contentsline {part}{V\hspace {1em}Conclusiones}{31}{part.5}
+\contentsline {chapter}{\numberline {1}Conclusiones}{33}{chapter.1}
+\contentsline {part}{VI\hspace {1em}Bibliograf\IeC {\'\i }a}{35}{part.6}
+\contentsline {chapter}{Bibliograf\IeC {\'\i }a}{37}{section*.34}

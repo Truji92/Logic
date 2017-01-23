@@ -1,0 +1,20 @@
+Intro
+ -explicacion FCA
+ -Retracción conservativa (sirve para todas las logicas)
+ -explicar ejemplo?
+
+ FCA
+
+ RETRACCION
+   Aplicada a logica propocicional
+
+*Conectar FCA y Retraccion
+
+IMPLEMENTACION y MONTAJE
+
+      Pruebas pequeñas
+
+
+EJEMPLO GRANDE (Conciliación del Conocimiento)
+
+Delicious

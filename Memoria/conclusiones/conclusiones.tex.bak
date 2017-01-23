@@ -1,0 +1,37 @@
+%
+%Con este proyecto se ha  obtenido una visión amplia de las aplicaciones que puede tener la siguiente iteración de la web, que es la web semántica. Hemos visto la necesidad de no solo generar contenido adaptado a esta nueva web, sino de crear sistemas capaces de procesar la información disponible y generar contenido compatible con la web semántica.
+%
+%En la parte teórica se han estudiado técnicas para la clasificación de textos, de gran utilidad para la web semántica y el procesamiento del lenguaje natura. Además estas técnicas pueden aplicarse en otras áreas de la inteligencia artificial. Ya que hemos trabajado con un conjunto de municipios limitado, se han creado un sistema lo más genérico posible para permitir ampliar el número de municipios sin requerir cambios profundos en el código del proyecto.
+%
+%En la parte práctica hemos visto la instalación y mantenimiento de herramientas relacionadas con la web, como servidores web, bases de datos y frameworks de desarrollo como Django. Además del diseño y desarrollo de aplicaciones para dispositivos móviles basados en Android.
+\chapter{Conclusiones}
+\section{Obtención de datos}
+Íbamos a centrarnos en un primer intento a todos los municipios españoles, después a todos los andaluces y por último a todos los andaluces cuyo sitio web estuviese desarrollado bajo el gestor de contenidos OpenCMS. Incluso usando este mismo gestor de contenido existen 6 estilos diferentes de desarrollar el sitio. Además la información que encontramos en las páginas no es del todo correcta (cómo por ejemplo las noticias encontradas del año 13 o del 2019).
+Para facilitar la consulta de datos deberían o bien tener una API cada municipio en su página web o usar una estructura parecida. Hemos podido comprobar que los que guardan una estructura similar son aquellos desarrollados por empresas públicas, pero en un primer momento supusimos que al trabajar bajo una plantilla que la junta ofrecía gratuitamente, la gente desarrollaría su página web bajo esta plataforma y de manera parecida. 
+El trabajo con las APIs de terceros ha sido satisfactorio y el único inconveniente que vimos fue el trabajo con el Custom Search de Google que te deja 100 consultas al día únicamente.
+
+\section{Clasificación}
+Para la clasificación, comenzamos utilizando análisis formal de conceptos y árboles de decisión, posteriormente se repitieron los experimentos con el algoritmo RIPPER. En cuanto a las herramientas tanto Concept Explorer como WEKA son sencillas de utilizar y permiten integrarlas en un proyecto Java o utilizarlas mediante una interfaz gráfica, lo que da bastante flexibilidad para trabajar con ellas. En cuanto a los métodos empleados, FCA y árboles de decisión parecen ofrecer mejores resultados que RIPPER, por lo que de volver a crear un sistema de clasificación solo utilizaría los dos primeros.
+\section{Android}
+
+La elección de android en contrapartida a django si fue acertada, por tanto volveríamos a desarrollar para esta plataforma. Su desarrollo es en un lenguaje con el que estamos familiarizados, java,  y existe mucha información en internet por si nos surge una duda, casi siempre el problema que vas a resolver ya existe.
+Cuando empezamos a desarrollar en android quizás no es una tecnología sencilla ya que hay muchas funcionalidades que se deben realizar de una manera específica como por ejemplo, el acceso a un contenido en internet debe hacerse desde una actividad asíncrona. Pero una vez que tenemos cierto manejo con ella, sobre todo cuando empezamos a desarrollarla desde 0, y por tanto coger mucha más destreza que si nos los dan hecho, las funcionalidades son casi inmediatas.
+La parte del desarrollo android que nos llevó más tiempo, una vez que acabamos el proceso de estudio e investigación sobre la herramienta, fue hacer que la parte visual fuera atractiva. También hemos aprendido mucho en este sentido ya que hemos tenido que investigar diseños aunque al final apostamos por uno propio.
+
+
+%Hemos tenido problemas a la hora de trabajar con URLS debido a los caracteres especiales, este fallo lo hemos descubierto una vez el proyecto. Cuando nos referimos a caracteres especiales a la hora de codificar una url, son aquellos caracteres que el navegador nos cambia automáticamente. A la hora de hacer el get a través de Java lo hacía tal y como nosotros le indicábamos sin hacer ningún tipo de conversión interna, por tanto hemos tenido que cada petición pasarle el conversor a formato HTML de Java.
+
+
+%Como dijimos en la introducción de este capítulo, el desarrollo en andorid está en auge ahora y este apartado nos ha venido muy bien a la hora de aprender a desarrollar ciertas funcionalidades, como las listas recargables que le da mucha rapidez a la aplicación al poder traer por páginas la información.
+
+\section{API}
+
+El desarrollo de la API ha sido en HTML con Javascript y JQuery. Quizá hubiera sido mejor utilizar django para crear el entorno web. A nivel educativo ha sido útil por aprender otros lenguajes y las tecnologías que usa Javascript tan exigidas hoy en día en el mundo laboral, pero si tuviésemos que realizar un proyecto de estas características, lo que haríamos sería desarrollar el entorno web con django explotando así todas sus características.
+
+\section{Django}
+
+	Django te permite un manejo sencillo de la base de datos, de hecho podríamos decir que es una de las herramientas más potentes y que la hemos exprimido a la mitad debido a que hemos decidido descentralizar la aplicación. Porque como hemos dicho podríamos haber desarrollado la interfaz gráfica de la API como otro proyecto de django usando sus plugins para desarrollo web que son bastante potentes, pero pensamos en que no estuviesen en la misma cpu la interfaz y la API en sí. 
+	La herramienta es bastante potente, pero la mayoría de esta potencia reside en la capacidad de instalar plugins y aprender el manejo de estos para crear algo más profesional ya que por si sola carece de algunas características bastántes útiles a la hora de investigar. 
+	Volveríamos a usar Django para un proyecto de estas características
+	
+	

@@ -1,0 +1,144 @@
+
+\chapter*{Análisis formal de conceptos}\addcontentsline{toc}{chapter}{Análisis formal de conceptos}
+
+	En este apartado se describe de forma más formal y detallada en que consiste el \textbf{Análisis formal de conceptos}, sus componentes y las dos formas de representación mencionadas en la introducción (Retículo de conceptos e Implicación de atributos).
+	
+
+\section*{Contextos formales y concepto formal}\addcontentsline{toc}{section}{Contextos formales y concepto formal}
+
+	
+	La unidad básica de representación del conocimiento en FCA es el \textbf{Contexto formal}
+	
+	\begin{description}
+		\item[Contexto Formal] Un contexto formal ($ \mathbb{C} $) es una tripleta formada por un conjunto de objetos ($O$), un conjunto de atributos ($A$) y una relación binaria ($I$) entre objetos y atributos ($I \subseteq O \times A $)
+	\end{description}
+
+	Esto normalmente se representa como una tabla donde las filas representan los objetos, las columnas los atributos y una cruz en la fila $a$ de la columna $o$ significa que el objeto $o$ posee el atributo $a$. Esto puede expresarse como $o \in O, a \in A, (o, a)\in I$.
+	
+	\begin{table}
+		\centering
+		\begin{tabular}{|c||c|c|c|c|c|c|}
+			\hline 
+			Paises & NW & UNP & CT & G8 & EU & UN \\ 
+			\hline 	
+			\hline 
+			USA & $\times$ & $\times$ &  & $\times$ &  & $\times$ \\ 
+			\hline 
+			Alemania &  &  &  & $\times$ & $\times$ & $\times$ \\ 
+			\hline 
+			Francia & $\times$ & $\times$ &  & $\times$ & $\times$ & $\times$ \\ 
+			\hline 
+			Reino Un. & $\times$ & $\times$ &  & $\times$ & $\times$ & $\times$ \\ 
+			\hline 
+			Turquía &  &  &  &  &  & $\times$ \\ 
+			\hline 
+			Qatar &  &  & $\times$ &  &  & $\times$ \\ 
+			\hline 
+			Italia &  &  & $\times$ & $\times$ & $\times$ & $\times$ \\ 
+			\hline 
+		\end{tabular} 
+		\caption{Contexto formal de paises}
+		\label{tabla_paises}
+	\end{table}
+
+	Por ejemplo, en el contexto mostrado en el cuadro \ref{tabla_paises} se describe si determinados países pertenecen a organizaciones internacionales (UNP, CT, G8, EU, UN) y si poseen armas nucleares (NW).
+	
+	El objetivo de FCA es extraer los conceptos existentes a partir del contexto formal, para ello debemos definir primero la operación básica dentro de la teoría de FCA, el \textbf{operador derivación}.
+	
+	\begin{description}
+		\item[Operador derivación] La derivada de un conjunto de atributos $At \subseteq A$ se define como: 
+		
+		\[ At' = {o \in O | \forall a \in At : (o, a) \in I} \]
+		
+		Análogamente, la derivada de un conjunto de objetos $Ob \subseteq O$ se define como:
+		
+		\[ Ob' = {a \in A | \forall o \in Ob : (o, a) \in I} \]
+		
+	\end{description}
+
+	De forma coloquial, la derivada de un conjunto de atributos es el conjunto de objetos que poseen todos esos atributos y la derivada de un conjunto de objetos es el conjunto de atributos comunes para todos esos objetos.
+	
+	Estos operadores forman una \textit{conexión de Galois} y verifican ciertas propiedades que no entraremos a analizar aquí.
+	
+	\todo[inline]{Referencia para ampliar esto}
+	
+	Finalmente a partir de la definición de derivación, podemos definir un \textbf{concepto formal}.
+	
+	\begin{description}
+		\item[Concepto formal] Un concepto formal de un contexto $\mathbb{C} = (O,A,I)$ es un par $(Ob,At)$ que cumple
+		
+		\[ At' = Ob \quad y \quad Ob' = At		\] 
+		
+		Dado el concepto $C = (Ob, At)$, se denomina: 
+		\begin{description}
+			\item[Extensión (Ext) del concepto] Conjunto de objetos $Ob$ que lo componen.
+			\item[Intensión (Int) del concepto] Conjunto de atributos $At$ del concepto. 
+		\end{description}
+	\end{description}
+	
+	Con esto podemos ver que un concepto esta formado por un conjunto de atributos y un conjunto de objetos, tales que los objetos comparten los atributos del conjunto y este conjunto solo contiene los atributos que comparten los objetos.
+	
+	Algunos de los conceptos que pueden extraerse del contexto formal del cuadro \ref{tabla_paises} son:
+	
+	\begin{enumerate}
+		\item (\{Alemania, Reino Un, Francia, Italia\}, \{EU, G8, UN\}) 
+		\item (\{USA, Francia, Reino Un\}, \{NW, UNP, G8, UN\})
+		\item (\{USA, Alemania, Francia, Reino Un, Italia\}, \{G8, UN\})
+		\item (\{Turquía, USA, Alemania, Qatar, Francia, Reino Un, Italia\}, \{UN\})
+	\end{enumerate}
+	
+	
+\section*{Retículo de conceptos}\addcontentsline{toc}{section}{Retículo de conceptos}	
+
+	Antes de definir en que consiste un retículo de conceptos, necesitamos definir las relaciones entre conceptos. La definición de concepto vista anteriormente nos permite definir un orden parcial entre los mismos:
+	
+	\begin{description}
+		\item[Relación de orden] Sea $C_1 = (O_1, A_1)$ y $ C_2 = (O_2, A_2)$ dos conceptos pertenecientes a un contexto $\mathbb{C} = (O,A,I)$. Definimos la relación de orden $ \preceq $ como:
+		
+		\[ C_1 \preceq C_2 \Longleftrightarrow O_1 \subseteq O_2 \;\; (\Leftrightarrow A_2 \subseteq A_1 ) \]
+	\end{description} 
+
+	Se dice que $C_1$ es \textbf{subconcepto} de $C_2$ (o $C_2$ es \textbf{superconcepto} de $C_1$). Explicado de forma menos formal, un concepto es subconcepto de otro cuando su conjunto de objetos es un subconjunto de los de el segundo concepto (o lo que es lo mismo, el conjunto de atributos del segundo es un subconjunto de los del primero.). 
+	
+	Esto establece una relación jerárquica de orden parcial entre los conceptos formales. El conjunto de todos los conceptos de un contexto junto con esta relación de orden forman un retículo completo que se denomina \textbf{Retículo de conceptos} y se denota como $\mathcal{L}(\mathbb{C})$.
+	
+	Representando gráficamente el retículo podemos leer fácilmente los objetos, atributos y relaciones y ayuda a comprender la estructura de los datos y el contexto. El retículo se representa como un grafo en el que los nodos representan conceptos formales y mediante el etiquetado de los mismos con los atributos y objetos puede calcularse de forma rápida la extensión o intensión de cualquiera de ellos simplemente siguiendo las lineas hacia arriba (intensión) o hacia abajo (extensión).
+	
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.5\linewidth]{02_FCA/reticulo}
+		\caption{Imagen del retículo}
+		\label{reticulo}
+	\end{figure}
+
+	En la figura \ref{reticulo} puede verse el retículo correspondiente al contexto formal del cuadro \ref{tabla_paises}.
+	
+	\todo[inline]{cono, atributos propios...? es necesario?}	
+	
+	
+\section*{Implicación de atributos}\addcontentsline{toc}{section}{Implicación de atributos}
+
+	Otra forma de especificar un contexto formal (y la que nos interesa para nuestro trabajo) es escribiendo un conjunto de implicaciones entre los atributos del contexto de forma que el contexto pueda ser totalmente reconstruido partiendo del conjunto de implicaciones.
+	
+	Una implicación es una restricción sobre los atributos con la forma: 
+	
+	\[ \{a_i,...,a_j\} \rightarrow \{a_k,...,a_m\} \]
+	
+	Lo cual puede leerse como ``Todo objeto que posee los atributos $\{a_i,...,a_j\}$ también posee los atributos $\{a_m,...,a_k\}$''.
+	
+	La definición formal de este concepto es: 
+	
+	\begin{description}
+		\item[Implicaciín entre atributos] Sea $\mathbb{C} = (O,A,I)$ un contexto formal. Una implicación de atributos es un par de conjuntos $L, R \subseteq A$, normalmente escritos $L \rightarrow R$. Una implicación $L \rightarrow R$ es válida en $\mathbb{C}$ si para todo objeto de $\mathbb{C}$ que tiene todos los atributos de $L$ también tienen todos los atributos de $R$. Todas las implicaciones extraídas de un contexto $\mathbb{C}$ se denotan como $Imp(\mathbb{C})$.
+	\end{description}
+	
+	Algunas implicaciones que pueden extraerse del contexto del cuadro \ref{tabla_paises} son:
+	
+	\begin{itemize}
+		\item $\{\;\} \rightarrow$ UN
+		\item CT, G8, UN $\rightarrow$ EU
+		\item EU, UN $\rightarrow$ G8 
+	\end{itemize}
+
+	Estas implicaciones entre atributos tienen las mismas propiedades que las pertenecientes a la lógica proposicional por lo que podemos utilizar esta última para realizar razonamiento sobre esta representación del contexto formal y transformarlo de forma acorde a las reglas de la lógica matemática. Esto nos permite aplicar la \textbf{retracción conservativa} mencionada en la introducción sobre conjuntos de implicaciones de atributos generados tras la aplicación de FCA a un contexto.
+

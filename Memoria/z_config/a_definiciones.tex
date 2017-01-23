@@ -1,0 +1,498 @@
+ 
+%*********************** NUEVOS COMANDOS  **************************
+
+\newcommand{\citafamosa}[2]{
+\begin{flushright}
+\begin{minipage}{7.00cm}
+    \em{#1} \\{\bf #2}
+\end{minipage}
+\end{flushright}
+\vspace{3mm}
+}
+
+\newcommand{\referencia}{\todo[color=green!80,size=\tiny]{referencia}}
+\newcommand{\corregir}{\color{blue}\it}   % pintar en color azul
+\newtheorem{teorema}{Teorema}[chapter]
+\newtheorem{definicion}{Definición}[chapter]
+\newtheorem{demostracion}{Demostración}[chapter]
+
+\newcommand{\lif}{\to} 
+\newcommand{\m}{\models} 
+\newcommand{\te}{\vdash} 
+\newcommand{\contenidoeq}{\subseteq} 
+\newcommand{\sqcontenidoeq}{\sqsubseteq} 
+\newcommand{\defin}{\equiv} 
+\newcommand{\paratodo}{\forall} 
+\newcommand{\existe}{\exists} 
+\newcommand{\noexiste}{\nexists} 
+\newcommand{\pertenece}{\in} 
+\newcommand{\talque}{\mid}
+\newcommand{\implica}{\rightarrow}
+\newcommand{\e}{$\times$ } 
+\newcommand{\sqcontenido}{\sqsubset} 
+\newcommand{\union}{\cup } 
+\newcommand{\interseccion}{\cap } 
+\newcommand{\sn}{{\em SinNet} } 
+\newcommand{\liff}{\leftrightarrow}
+\newcommand{\Liff}{\quad \Longleftrightarrow \quad} 
+\newcommand{\distinto}{\neq} 
+\newcommand{\vacio}{\emptyset} 
+\newcommand{\sqinterseccion}{\sqcap} 
+
+\newcommand{\menorret}{\prec_R} 
+\newcommand{\menorreteq}{\preccurlyeq_R} 
+
+
+\newcommand{\contenido}{\subset} 
+\newcommand{\producto}{\times} 
+\newcommand{\siysolosi}{\leftrightarrow}
+
+
+\newcommand{\subclasede}{\sqsubset}
+\newcommand{\disjuntacon}{\bot}
+ 
+
+%%% LETRAS
+\newcommand{\mL}{\mathbb{L}}  
+\newcommand{\mC}{\mathbb{C}}  
+\newcommand{\mK}{\mathbb{K}}  
+\newcommand{\mA}{\mathbb{A}}  
+\newcommand{\mO}{\mathbb{O}}  
+\newcommand{\mI}{\mathbb{I}}  
+\newcommand{\mR}{\mathcal{R}}  
+\newcommand{\mRR}{\mathcal{R}^*}  
+
+\newcommand{\mLL}{\mathcal{L}}  
+\newcommand{\mJ}{\mathcal{J}}  
+
+
+\newcommand{\xsubsubsection}{{\corregir COMANDO PARA BORRAR}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\movcabeza}[2]{
+\noindent
+\begin{tabular}{p{13.9cm}}
+\hline \rowcolor[gray]{0.9}
+\begin{minipage}{13.9cm}
+\centering
+\textbf{ #1$(C1,C2)$ $\implica$ #2$(C1^*,C2^*)$}
+\end{minipage}\\
+\hline
+\end{tabular}
+}
+
+\newcommand{\movpie}[2]{
+\noindent
+\begin{tabular}{p{6cm}p{7.5cm}}
+\hline
+Resultado: \\
+\begin{minipage}{6cm}
+\vspace{0.1cm}
+\centering
+\includegraphics[scale=0.3]{z_apendices/arreglos/#1}
+\end{minipage}
+ &  
+\begin{minipage}{6cm}
+\centering
+\includegraphics[width=5.8cm]{z_apendices/arreglos/#2}
+\end{minipage}\\
+\hline
+\end{tabular}
+}
+
+\newcommand{\movdemo}{\\\textbf{Demostración:}}
+
+\newcommand{\movcode}{\textbf{Código fuente:}}
+
+\newcommand{\movimientoJB}[5]{
+\noindent
+\begin{tabular}{p{6cm}p{7.5cm}}
+\hline %
+\multicolumn{2}{>{\columncolor[rgb]{0.9, 0.9, 0.9}}c}{\textbf{ #1$(C1,C2)$ $\implica$ #2$(C1^*,C2^*)$}}\\
+\hline
+\multicolumn{2}{p{13.5cm}}{\vspace{0mm} 
+\begin{minipage}{13.5cm}
+#5
+\end{minipage}
+}\\
+\hline
+Resultado: \\
+\begin{minipage}{6cm}
+\vspace{0.1cm}
+\centering
+\includegraphics[scale=0.3]{z_apendices/arreglos/#3}
+\end{minipage}
+ &  
+\begin{minipage}{6cm}
+\centering
+\includegraphics[width=5.8cm]{z_apendices/arreglos/#4}
+\end{minipage}\\
+\hline
+\end{tabular}
+%\noindent
+%\begin{tabular}{p{14cm}}
+%Algoritmo
+%\\ \hline
+%\end{tabular}
+%{#5}
+%
+%\noindent
+%\begin{tabular}{p{14cm}}
+%\hline\\
+%\end{tabular}
+%\vspace{3mm}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\movimientoJBxx}[5]{
+\noindent
+\begin{tabular}{p{14cm}}
+\hline \rowcolor[gray]{0.9}
+\begin{minipage}{13.5cm}
+\centering
+\textbf{#1(C2,C3) $\implica$ #2(C2,C3)}
+\end{minipage}
+\\ \hline
+\end{tabular}
+
+{#5}
+
+\noindent
+\begin{tabular}{p{14cm}}
+\hline \\
+\end{tabular}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\movimientoJBP}[5]{
+\noindent
+\begin{tabular}{p{14cm}}
+\hline \rowcolor[gray]{0.9}
+\begin{minipage}{13.5cm}
+\centering
+\textbf{#1(C1,O1) $\implica$ #2(C1,O1)}
+\end{minipage}
+\\ \hline
+\end{tabular}
+
+{#5}
+
+\noindent
+\begin{tabular}{p{14cm}}
+\hline \\
+\end{tabular}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%% PARA RECORDAR LAS REFERENCIAS
+%\newcommand{\insertref}[1]{\todo[color=green!80,size=\tiny]{#1}}
+%
+%\newcommand{\caja}[1]{
+% \makebox[8mm]{\rule[-1.5ex]{0pt}{6ex}\scriptsize #1}}
+%
+%\newcommand{\cajaa}[1]{
+% \makebox[18mm]{\rule[-1.5ex]{0pt}{6ex}\scriptsize #1}}
+%
+%%\newcommand{\todo}{\color{red}\it}   % pintar en color azul
+%
+%
+%\newtheorem{ejemplo}{Ejemplo}[chapter]
+%
+%%======================================================================
+%% Cajas numeradas para incluir código
+%%======================================================================
+%
+%\newlength{\hsbw}
+%\newcounter{sesioncount}
+%\setcounter{sesioncount}{0}
+%
+%%%%%%%%%%%%%%%%%%%% caja no numerada  %%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\newenvironment{sesion*}
+%  {\begin{flushleft}
+%   \setlength{\hsbw}{\linewidth}
+%   \addtolength{\hsbw}{-\arrayrulewidth}
+%   \addtolength{\hsbw}{-\tabcolsep}
+%   \addtolength{\hsbw}{-\tabcolsep}
+%   \begin{tabular}{@{}|c@{}|@{}}\hline
+%   \begin{minipage}[b]{\hsbw}
+%   \vspace{2mm}
+%   \begingroup}
+%  {\endgroup\vspace{-3mm}
+%   \end{minipage} \\
+%   \hline
+%   \end{tabular}
+%   \end{flushleft}}
+%   
+%
+%%%%%%%%%%%%%%%%%% caja normal numerada  %%%%%%%%%%%%%%%%%%%%%%
+%\newenvironment{sesion}
+%  {\begin{flushleft}
+%   \setlength{\hsbw}{\linewidth}
+%   \begin{tabular}{@{}|c@{}|@{}}\hline
+%   \begin{minipage}[b]{\hsbw}
+%   \vspace*{4mm}
+%   \em
+%   \begingroup}
+%  {\endgroup \vspace{4mm}
+%   \end{minipage} \\
+%   \hline
+%   \end{tabular}
+%   \end{flushleft}}
+%
+%
+%%%%%%%%%%%%%%%%%%% caja abierta por debajo %%%%%%%%%%%%%%
+%\newenvironment{sesion+}
+%  {\begin{flushleft}
+% % \refstepcounter{sesioncount}
+%   \setlength{\hsbw}{\linewidth}
+%   \addtolength{\hsbw}{-\arrayrulewidth}
+%   \addtolength{\hsbw}{-\tabcolsep}
+%   \addtolength{\hsbw}{-\tabcolsep}
+%   \begin{tabular}{@{}|c@{}|@{}}\hline
+%   \begin{minipage}[b]{\hsbw}
+%   \vspace*{-.5pt}
+%   \begin{flushright}
+%   \rule{0.01in}{.15in}\rule{0.3in}{0.01in}\hspace{-0.35in}
+%   \raisebox{0.04in}{\makebox[0.3in][c]{\footnotesize \thesesioncount}}
+%                                       % Si pongo \footnotesize\it
+%                                       % el numerito sale inclinado
+%   \end{flushright}
+%   \vspace*{-.47in}
+%   \begingroup}
+%  {\endgroup\vspace{-3mm}
+%   \end{minipage} \\
+%   %\hline
+%   \end{tabular}
+%   \end{flushleft}}
+%
+%
+%%%%%%%%%%%%% caja abierta por arriba %%%%%%%%%%%%%%%%%%%%%%%%%
+%\newenvironment{sesion-}
+%  {\begin{flushleft}
+%   \setlength{\hsbw}{\linewidth}
+%   \addtolength{\hsbw}{-\arrayrulewidth}
+%   \addtolength{\hsbw}{-\tabcolsep}
+%   \addtolength{\hsbw}{-\tabcolsep}
+%   \begin{tabular}{@{}|c@{}|@{}}%\hline
+%   \begin{minipage}[b]{\hsbw}
+%   \vspace{2mm}
+%   \begingroup}
+%  {\endgroup\vspace{-3mm}
+%   \end{minipage} \\
+%   \hline
+%   \end{tabular}
+%   \end{flushleft}}
+%
+%\newenvironment{sesionx}
+%  {\begin{flushleft}
+%   \setlength{\hsbw}{\linewidth}
+%   \addtolength{\hsbw}{-\arrayrulewidth}
+%   \addtolength{\hsbw}{-\tabcolsep}
+%   \addtolength{\hsbw}{-\tabcolsep}
+%   \begin{tabular}{@{}|c@{}|@{}}%\hline
+%   \begin{minipage}[b]{\hsbw}
+%   \vspace{2mm}
+%   \begingroup}
+%  {\endgroup\vspace{-3mm}
+%   \end{minipage} \\
+%   %\hline
+%   \end{tabular}
+%   \end{flushleft}}
+%
+%
+%
+%%%%%%%%%%%%% mas comandos %%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\newcommand{\boxref}[1]
+%  {\fbox{\footnotesize \phantom{4}\!\!\!\!\!\! \ref{#1}}}
+%%Si pongo \footnotesize\it
+%%el numerito sale inclinado
+%
+%\newcommand{\boxrefdos}[2]
+%  {\fbox{\footnotesize \phantom{4}\!\!\!\!\!\! \ref{#1}-\ref{#2}}}
+%%Si pongo \footnotesize\it
+%%el numerito sale inclinado
+%
+%\newcommand{\codeindex}[1]{\index{#1@{\tt #1}}}
+%
+%\newcommand{\labelindex}[1]{\label{#1}\codeindex{#1}}
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% § Verbatim extendido                                                      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\DefineVerbatimEnvironment{CVerbatim}{Verbatim}
+%{ commandchars=\\\{\},
+%  codes={\catcode`$=3\catcode`$=3},
+%  fontsize=\small,
+%  fontfamily=verdana,
+%  frame=single}
+%
+%
+%%=======================================================================
+%% Reescritura de letras
+%%=======================================================================
+%
+%\newcommand{\ol}{\overline} 
+%\renewcommand{\>}{\vec} 
+%\newcommand{\lan}{\langle} 
+%\newcommand{\ran}{\rangle} 
+% 
+%%LETRAS GRIEGAS 
+%\newcommand{\gga}{\alpha} 
+%\newcommand{\ggb}{\beta} 
+%\newcommand{\ggD}{\Delta} 
+%\newcommand{\ggd}{\delta} 
+%\newcommand{\gget}{\eta} 
+%\newcommand{\gge}{\varepsilon} 
+%\newcommand{\ggf}{\varphi} 
+%\newcommand{\ggF}{\Phi} 
+%\renewcommand{\ggg}{\gamma} 
+%\newcommand{\ggG}{\Gamma} 
+%\newcommand{\ggk}{\kappa} 
+%\newcommand{\ggl}{\lambda} 
+%\newcommand{\ggm}{\mu} 
+%\newcommand{\ggn}{\nu} 
+%\newcommand{\ggps}{\psi} 
+%\newcommand{\ggP}{\Pi} 
+%\newcommand{\ggp}{\pi} 
+%\newcommand{\ggr}{\rho} 
+%\newcommand{\ggS}{\Sigma} 
+%\newcommand{\ggs}{\sigma} 
+%\newcommand{\ggta}{\tau} 
+%\newcommand{\ggT}{\Theta} 
+%\newcommand{\ggt}{\theta} 
+%\newcommand{\ggo}{\omega} 
+%\newcommand{\ggO}{\Omega} 
+% 
+%% LETRAS CALIGRAFICAS 
+%\newcommand{\C}[1]{{\cal #1}}
+%\newcommand{\U}{{\cal U}} 
+%\newcommand{\W}{{\cal W}}  
+%%\newcommand{\L}{{\cal L}}  
+%
+%
+%
+%
+%
+% 
+%% SIMBOLOS LOGICOS 
+%\renewcommand{\le}{\exists} 
+%\newcommand{\la}{\forall} 
+%\newcommand{\Rif}{\Leftarrow} 
+%\newcommand{\rif}{\leftarrow}  
+%\newcommand{\Lor}{\bigvee} 
+%\newcommand{\Land}{\bigwedge} 
+% 
+%% SIMBOLOS METALOGICOS 
+%\newcommand{\Lif}{\quad \Longrightarrow \quad} 
+%\newcommand{\Lifn}{\Longrightarrow} 
+%\newcommand{\If}{\Longrightarrow} 
+%\newcommand{\Lifr}{\quad \Longleftarrow \quad} 
+%\newcommand{\Lifrn}{\Longleftarrow} 
+%\newcommand{\Liffn}{\Longleftrightarrow} 
+%\newcommand{\direc}{\noindent \fbox{$\Longrightarrow$} \quad} 
+%\newcommand{\recip}{\noindent \fbox{$\Longleftarrow$} \quad} 
+%\newcommand{\impd}[2]{\noindent \fbox{\parbox{1.1in}{(#1) $\Lif$ (#2)}} 
+%                       \newline} 
+%\newcommand{\Life}{\quad \mid\!\Longrightarrow \quad} 
+%\newcommand{\Lifen}{\mid\!\Longrightarrow} 
+%\newcommand{\Lifre}{\quad \Longleftarrow\!\mid \quad} 
+%\newcommand{\Lifren}{\Longleftarrow\!\mid} 
+%\newcommand{\Lifa}{\quad \Uparrow \quad} 
+%\newcommand{\Lifan}{\Uparrow} 
+%\newcommand{\Lifae}{\underline{\Uparrow}} 
+%\newcommand{\Liffa}{\quad \Updownarrow \quad} 
+%\newcommand{\Liffan}{\Updownarrow} 
+%\newcommand{\Lifab}{\quad \Downarrow \quad} 
+%\newcommand{\Lifabn}{\Downarrow} 
+%\newcommand{\nLif}{ \ /\!\!\!\!\!\!\!\Longrightarrow} 
+%\newcommand{\Liffp}{\Leftrightarrow} 
+%\newcommand{\Lifp}{\mid\!\Rightarrow} 
+%\newcommand{\Rlifp}{\Leftarrow\!\mid} 
+% 
+%% SECUENCIAS 
+%\newcommand{\veca}[2]{#1_1 \dots #1_#2}            %$veca xn$ --> x_1... x_n 
+%\newcommand{\vecb}[2]{#1_1, \dots, #1_#2}          %$vecb xn$ --> x_1,..., x_n 
+%\newcommand{\vecc}[2]{(#1_1, \dots, #1_#2)}        %$vecc xn$ --> (x_1,..., x_n) 
+% 
+%\newcommand{\sust}[4]{#1_{\vecb #2 #4} [\vecb #3 #4]} 
+%        %$sust a x t n$ --> a_{x_1,...,x_n}[t_1,...,t_n] 
+%\newcommand{\lr}[2]{\lan #1,#2 \ran} 
+% 
+%% CONJUNTOS 
+%
+%\newcommand{\pot}[2]{{#1}^{\textstyle #2}} 
+%\newcommand{\ale}[1]{\aleph_{#1}} 
+%\newcommand{\kkk}[1]{\stackrel{#1}{\smile}} 
+%  
+%% MODELOS 
+%\newcommand{\inm}{\; \widetilde \subset \;} %inmersion (en infijo) 
+%\newcommand{\inme}[2]{\C {#1} \inm \C {#2}} %inmersion 
+%\newcommand{\sel}{\; \prec \;}              %subestructura elemental (en infijo) 
+%\newcommand{\sele}[2]{\C {#1} \sel \C {#2}} %subestructura elemental 
+%\newcommand{\iel}{\; \widetilde \prec \;}   %inmersion elemental (en infijo) 
+%\newcommand{\iele}[2]{\C {#1} \iel \C {#2}} %inmersion elemental 
+%\renewcommand{\hom}{\; \simeq \;} 
+%\newcommand{\homo}[2]{\C {#1} \hom \C {#2}} %homomorfismo 
+%\newcommand{\iso}{\; \cong \;}              %subestructura 
+%\newcommand{\isom}[2]{\C {#1} \iso \C {#2}} %isomorfismo 
+%\newcommand{\sub}{\; \contenidoeq \;} 
+%\newcommand{\sube}[2]{\C {#1} \sub \C {#2}} %subestructura 
+% 
+%% FIN DE LINEA 
+%\newcommand{\nl}{\newline} 
+% 
+%% FLECHAS 
+%\newcommand{\lra}{\longrightarrow} 
+%\newcommand{\Lra}{\Longrightarrow} 
+%\newcommand{\lla}{\longleftarrow} 
+%\newcommand{\Lla}{\Longleftarrow} 
+%\newcommand{\llra}{\longleftrightarrow} 
+%\newcommand{\Llra}{\Longleftrightarrow} 
+%\newcommand{\dip}{\searrow\!\!\!\!\nwarrow} 
+%\newcommand{\dis}{\nearrow\!\!\!\!\swarrow} 
+%\newcommand{\udp}{\nwarrow} 
+%\newcommand{\ddp}{\searrow} 
+%\newcommand{\uds}{\nearrow} 
+%\newcommand{\dds}{\swarrow} 
+%\newcommand{\ua}{\uparrow} 
+%\newcommand{\da}{\downarrow} 
+%\newcommand{\uda}{\uparrow\!\!\downarrow} 
+%
+%\renewcommand{\ttdefault}{cmtt}
+%
+
+
+
+%%%%%%%%%%%  GONZALO
+%
+%\newcommand{\squnion}{\sqcup} 
+%
+%
+%
+%
