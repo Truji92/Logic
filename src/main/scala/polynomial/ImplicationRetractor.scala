@@ -5,8 +5,6 @@ import types.Clause._
 import types.{Clause, PropCollectionOperations}
 import types.Types._
 
-import scala.collection.immutable.ListSet
-import scala.collection.mutable
 import scala.language.implicitConversions
 
 
@@ -99,12 +97,12 @@ object ImplicationRetractor {
       else resolvent(c2,c1,v)
     }
 
-  private def selfDelta(l: CImpl, v: Atom): ListSet[CImpl] = {
-    if (!l.symbols.contains(v)) ListSet(l)
+  private def selfDelta(l: CImpl, v: Atom): Set[CImpl] = {
+    if (!l.symbols.contains(v)) Set(l)
     else {
       val CImpl(left, right) = l
-      if (left.symbols.contains(v)) ListSet.empty
-      else ListSet(CImpl(left, right.without(v)))
+      if (left.symbols.contains(v)) Set.empty
+      else Set(CImpl(left, right.without(v)))
     }
   }
 
@@ -126,21 +124,21 @@ object ImplicationRetractor {
     override def hashCode = impl.hashCode()
   }
 
-  implicit def withoutTraces(items: ListSet[TracedImpl]): ListSet[CImpl] = items.map(_.impl)
+  implicit def withoutTraces(items: Set[TracedImpl]): Set[CImpl] = items.map(_.impl)
   implicit def withoutTrace(item: TracedImpl): CImpl = item.impl
 
   type IndexedImpl = (TracedImpl, Int)
-  implicit def toIndexed(items: ListSet[TracedImpl]): ListSet[IndexedImpl] = items.zipWithIndex
+  implicit def toIndexed(items: Set[TracedImpl]): Set[IndexedImpl] = items.zipWithIndex
   implicit def extractImpl(item: IndexedImpl): CImpl = item._1.impl
 
 
-  def removeVarV1(impls: ListSet[IndexedImpl], v: Atom): ListSet[TracedImpl] = {
+  def removeVarV1(impls: Set[IndexedImpl], v: Atom): Set[TracedImpl] = {
     var rest = impls
-    val acc = ListSet.newBuilder[TracedImpl]
+    val acc = Set.newBuilder[TracedImpl]
 
     while (rest.nonEmpty) {
-      val (TracedImpl(_, h), id) = rest.last //en lugar de head::tail usamos init::last por razones de rendimiento de la coleccion
-      val t = rest.init
+      val (TracedImpl(_, h), id) = rest.head
+      val t = rest.tail
 
       if (t.isEmpty) acc ++= selfDelta(h, v).map(item => TracedImpl((id, id), item))
       else acc ++= rest.flatMap {
@@ -152,14 +150,14 @@ object ImplicationRetractor {
   }
 
 
-  def removeVar(impls: ListSet[IndexedImpl], v: Atom): ListSet[TracedImpl] = {
+  def removeVar(impls: Set[IndexedImpl], v: Atom): Set[TracedImpl] = {
     var rest = impls
-    val acc = ListSet.newBuilder[TracedImpl]
+    val acc = Set.newBuilder[TracedImpl]
     var ignorableVars = scala.collection.mutable.Set.empty[Atom]
 
     while (rest.nonEmpty) {
-      val (TracedImpl(_, h), id) = rest.last //en lugar de head::tail usamos init::last por razones de rendimiento de la coleccion
-      val t = rest.init
+      val (TracedImpl(_, h), id) = rest.head
+      val t = rest.tail
 
       val newImpls =
         if (t.isEmpty) selfDelta(h, v).map(item => TracedImpl((id, id), item))
@@ -176,7 +174,6 @@ object ImplicationRetractor {
     }
 
     optimizeIgnorableVarsWithoutNewOpt(acc.result(), ignorableVars.toSet)
-//    optimizeIgnorableVars(acc.result(), ignorableVars)
   }
 
   /**
@@ -186,8 +183,8 @@ object ImplicationRetractor {
     * @param impls
     * @return
     */
-  def optimize(impls: ListSet[TracedImpl]): (ListSet[TracedImpl], Set[Atom]) = {
-    val (implbuilder, varBuilder) = impls.foldLeft((ListSet.newBuilder[TracedImpl], Set.newBuilder[Atom])) {
+  def optimize(impls: Set[TracedImpl]): (Set[TracedImpl], Set[Atom]) = {
+    val (implbuilder, varBuilder) = impls.foldLeft((Set.newBuilder[TracedImpl], Set.newBuilder[Atom])) {
       case ((newImpls, vars), tImpl) =>
         val impl = tImpl.impl
 
@@ -199,35 +196,11 @@ object ImplicationRetractor {
     (implbuilder.result, varBuilder.result)
   }
 
-  def optimizeIgnorableVars(impls: ListSet[TracedImpl], ignorableVars: mutable.Set[Atom]) = {
 
-    def recursiveOptimization(impls: ListSet[TracedImpl], vars: List[Atom]): ListSet[TracedImpl] = vars match {
-      case Nil => impls
-      case h::t =>
-        val (optimized, newVars) = impls.foldLeft((ListSet.empty[TracedImpl], List.empty[Atom])) {
-          case ((acc, varsAcc), TracedImpl(k, impl)) =>
-            val newImpl = impl.removeVar(h)
-            if (newImpl.l.vars.isEmpty ) (acc, varsAcc:::newImpl.r.vars.toList )
-            else if (newImpl.r.vars.isEmpty) (acc, varsAcc)
-            else (acc + TracedImpl(k, newImpl), varsAcc)
-        }
-
-        println("News = " + newVars.mkString(", "))
-
-        val distinctVars = newVars.filterNot(t.contains(_))
-        println("distinct = " + distinctVars.mkString(", "))
-
-        recursiveOptimization(optimized, distinctVars:::t)
-    }
-
-    recursiveOptimization(impls, ignorableVars.toList)
-
-  }
-
-  def optimizeIgnorableVarsWithoutNewOpt(impls: ListSet[TracedImpl], ignorableVars: Set[Atom]) = {
+  def optimizeIgnorableVarsWithoutNewOpt(impls: Set[TracedImpl], ignorableVars: Set[Atom]) = {
     if (ignorableVars.isEmpty) impls
     else {
-      impls.foldLeft(ListSet.empty[TracedImpl]) {
+      impls.foldLeft(Set.empty[TracedImpl]) {
         case (acc, TracedImpl(k, impl)) =>
           val newImpl = impl.removeAll(ignorableVars)
           if (newImpl.r.vars.isEmpty) acc
@@ -242,26 +215,28 @@ object ImplicationRetractor {
   object V1 extends Version
   object V2 extends Version
 
-  def run(input: ListSet[CImpl], vars: List[Atom], otter: Boolean, trace: Boolean, version: Version = V2) = {
+  def run(input: Set[CImpl], vars: List[Atom], otter: Boolean, trace: Boolean, version: Version = V2) = {
     val base = input.zipWithIndex
 
     if (trace) {
       println("Inicial:")
-      println(s"Tamaño ${base.size}")
-      println(base.map{
-        case (elem, index) => s"$index. \t $elem "
-      }.mkString("\n","\n", "\n"))
+      println(s"Tamaño ${base.size} \n")
+
+      base.toArray.sortBy(_._2).foreach {
+        case (elem, index) => println(s"$index. \t $elem ")
+      }
+
 
       if (otter) {
-        println("Otter")
-        println(base.map{
-          case (elem, index) => elem.toOtter
-        }.mkString("\n", "\n", "\n"))
+        println("\nOtter \n")
+        base.foreach {
+          case (elem, index) => println(elem.toOtter)
+        }
       }
       println("\n====================================\n")
     }
 
-    def iterate(set: ListSet[IndexedImpl], vs: List[Atom]): ListSet[IndexedImpl] =
+    def iterate(set: Set[IndexedImpl], vs: List[Atom]): Set[IndexedImpl] =
       if (vs.isEmpty) set
       else {
         val v::rest = vs
@@ -272,16 +247,18 @@ object ImplicationRetractor {
 
         if (trace) {
           println(s"Eliminando $v")
-          println(s"Tamaño ${newSet.size}")
-          println(newSet.map{
-            case (TracedImpl(parents, elem), index) => s"$index.  $parents \t $elem "
-          }.mkString("\n","\n", "\n"))
+          println(s"Tamaño ${newSet.size} \n")
+
+          newSet.toArray.sortBy(_._2).foreach{
+            case (TracedImpl(parents, elem), index) => println(s"$index.  $parents \t $elem ")
+          }
 
           if (otter) {
-            println("Otter")
-            println(newSet.map{
-              case (elem, index) => elem.toOtter
-            }.mkString("\n", "\n", "\n"))
+            println("\nOtter \n")
+
+            newSet.foreach{
+              case (elem, index) => println(elem.toOtter)
+            }
             println("\n====================================\n")
           }
         }

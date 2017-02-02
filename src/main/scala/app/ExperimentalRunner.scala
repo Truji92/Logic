@@ -9,12 +9,11 @@ import polynomial.ImplicationRetractor.{CConj, CImpl, TracedImpl, V1, V2}
 import types.Types.Atom
 
 import scala.collection.JavaConversions._
-import scala.collection.immutable.ListSet
 
 
 object ExperimentalRunner {
 
-  val basePath = "results/"
+  val basePath = "resultsHash/"
 
   def main(args: Array[String]): Unit = {
 
@@ -28,6 +27,8 @@ object ExperimentalRunner {
   }
 
   def runTest(size: Int) = {
+    println(s"test $size")
+
     val impls = genImplications(size)
     val vars = genVars(size).take(size-2)
 
@@ -54,8 +55,6 @@ object ExperimentalRunner {
 
     write(path + "times.txt", List("nVars", "nRules", "timeV1", "timeV2").mkString("",", ","\n") + s"$size,${impls.size},$timeV1, $timeV2" )
 
-    println(resultV2)
-
   }
 
   def saveCommands(path: String, vars: List[Atom]) = {
@@ -69,7 +68,7 @@ object ExperimentalRunner {
   }
 
   def parseImplications(rules: util.LinkedList[Rule]) = {
-    ListSet(rules.toList: _*).map { rule =>
+    Set(rules.toList: _*).map { rule =>
       val premise = CConj(rule.getPremise.toSet.map(Atom))
       val conclusion = CConj(rule.getConclusion.toSet.map(Atom))
 

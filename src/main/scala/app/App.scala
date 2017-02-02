@@ -29,16 +29,18 @@ object App {
             println("\n====================================")
             println("RESULTADO")
             println("====================================\n")
-            println(s"Tamaño ${result.size}")
-            println(result.map{
-              case (TracedImpl(_, elem), index) => s"$index. $elem "
-            }.mkString("\n","\n", "\n"))
+            println(s"Tamaño ${result.size} \n")
+
+            result.toArray.sortBy(_._2).foreach{
+              case (TracedImpl(_, elem), index) => println(s"$index. $elem ")
+            }
 
             if (otter) {
-              println("Otter")
-              println(result.map{
-                case (elem, index) => elem.toOtter
-              }.mkString("\n", "\n", "\n"))
+              println("\nOtter\n")
+
+              result.foreach{
+                case (elem, index) => println(elem.toOtter)
+              }
             }
 
             if (showTime)
