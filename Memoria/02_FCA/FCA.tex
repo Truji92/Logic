@@ -1,7 +1,23 @@
 
 \chapter*{Análisis formal de conceptos}\addcontentsline{toc}{chapter}{Análisis formal de conceptos}
 
-	En este apartado se describe de forma más formal y detallada en que consiste el \textbf{Análisis formal de conceptos}, sus componentes y las dos formas de representación mencionadas en la introducción (Retículo de conceptos e Implicación de atributos).
+	
+	El Análisis Formal de Conceptos (FCA) es una teoría matemática que se aplica en campos como la minería de datos con el objetivo de formalizar y estudiar las nociones de concepto y jerarquía de conceptos, su extracción y análisis.
+	
+	Al aplicar FCA se parte generalmente de una tabla en la que cada fila es un objeto, cada columna un posible atributo de los objetos y cada celda indica si ese objeto posee o no el atributo correspondiente. A esto se le conoce como el \textbf{Contexto formal}.
+	
+	A partir del contexto pueden obtenerse los conceptos formales, explicado de forma coloquial un concepto formal es un subconjunto de los atributos, todo objeto que posea esos atributos estará contenido en el concepto. Por ejemplo en una tabla que contiene animales, todos los animales que posean los atributos \textit{Vive en el agua} y \textit{Vive en la tierra} estarán contenidos en un mismo concepto que sabemos que es \textit{Animal anfibio}.
+	
+	Este conocimiento puede representarse de diferentes maneras, algunas de las más utilizadas son:
+	
+	\begin{itemize}
+		\item  \textbf{Retículo de Conceptos}: un grafo que representa los conceptos como nodos
+		y muestra una relación de orden parcial entre ellos (un concepto puede estar contenido dentro de otro).
+		
+		\item \textbf{Implicación de atributos}: este método de representación consiste en escribir un conjunto de implicaciones entre los atributos del contexto de forma que lo que se expresa es ``Todo objeto que satisface estos atributos, también satisface estos otros''.
+	\end{itemize}
+
+	A continuación se describe de forma más formal y detallada en que consiste el \textbf{Análisis formal de conceptos}, sus componentes y las dos formas de representación.
 	
 
 \section*{Contextos formales y concepto formal}\addcontentsline{toc}{section}{Contextos formales y concepto formal}
@@ -83,7 +99,8 @@
 	\begin{enumerate}
 		\item (\{Alemania, Reino Un, Francia, Italia\}, \{EU, G8, UN\}) 
 		\item (\{USA, Francia, Reino Un\}, \{NW, UNP, G8, UN\})
-		\item (\{USA, Alemania, Francia, Reino Un, Italia\}, \{G8, UN\})
+		\item (\{USA, Alemania, Francia, Reino Un, Italia\}, \{G8, UN\})
+
 		\item (\{Turquía, USA, Alemania, Qatar, Francia, Reino Un, Italia\}, \{UN\})
 	\end{enumerate}
 	

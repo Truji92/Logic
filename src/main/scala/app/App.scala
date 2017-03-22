@@ -6,7 +6,6 @@ import polynomial.ImplicationRetractor
 import polynomial.ImplicationRetractor.{CConj, CImpl, TracedImpl, V1, V2, Version}
 import types.Types.Atom
 
-import scala.collection.immutable.ListSet
 import scala.io.Source
 
 object App {
@@ -98,7 +97,7 @@ object App {
     override def toString = msg
   }
 
-  def parseFromFile(file: File): Either[ListSet[CImpl], List[ParseError]] = {
+  def parseFromFile(file: File): Either[Set[CImpl], List[ParseError]] = {
     val lines = Source.fromFile(file).getLines()
 
     val ( result, errors ) = lines
@@ -110,10 +109,10 @@ object App {
     if (errors.nonEmpty)
       Right(errors.collect{case Right(error) => error}.toList)
     else
-      Left(ListSet.empty ++ result.collect{case Left(impl) => impl})
+      Left(Set.empty ++ result.collect{case Left(impl) => impl})
   }
 
-  val pattern = """(\S+)=>(\S+)""".r
+  val pattern = """(\S*)=>(\S*)""".r
   def parseLine(line: String):Either[CImpl, ParseError] = line match {
     case pattern(pre, con) => parseFormula(pre, con) match {
       case Some(implication) => Left(implication)
@@ -135,8 +134,10 @@ object App {
   def parseVars(vars: String) = {
     if (vars.matches(varsPattern))
       Some(CConj(vars.split(",").map(Atom).toSet))
+    else if (vars.trim == "")
+      Some(CConj(Set.empty))
     else
-    None
+      None
 
   }
 }

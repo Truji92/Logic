@@ -1,11 +1,34 @@
 \chapter*{Retracción conservativa}\addcontentsline{toc}{chapter}{Retracción conservativa}
 
-\todo[inline]{nombre de capitulo adecuado?}
 	
-	Tras sentar las bases conceptuales de la retracción y extensión conservativa en la introducción de esta memoria, en este apartado especificaremos como se aplican estos conceptos de forma concreta a la lógica proposicional ya que esta es la que nos permite tratar las implicaciones que obtenemos de FCA y razonar sobre ellas.
+\section*{Retracción de teorías lógicas}\addcontentsline{toc}{section}{Retracción de teorías lógicas}
+	
+	A continuación se presentan diferentes conceptos de lógica matemática desde un punto de vista ``informal'' necesarios para 
+	la correcta comprensión del resto de esta memoria.
+	
+	Aunque en nuestro caso el trabajo posterior se centra sobre el tratamiento de implicaciones, estas definiciones son genéricas y 
+	son ciertas para la lógica matemática completa.
+	
+	
+\subsection*{Extensión y Retracciones Conservativas}
+	
+	En lógica decimos que una teoría $T$ es una \textbf{extensión conservativa} de una teoría $T'$ (o que $T'$ es una \textbf{retracción conservativa} de $T$) si toda consecuencia de $T$ en el lenguaje de $T'$ es también consecuencia de $T'$.
+	
+	La conclusión que se puede extraer de esta definición interesante para nuestro trabajo es, explicado de una forma más coloquial, que partiendo de una teoría escrita en un lenguaje podemos encontrar una teoría escrita en otro lenguaje más reducido. Todo lo que es cierto en esta nueva teoría también es cierto en la primera y todo lo que es cierto en la primera (y puede expresarse en el lenguaje de la segunda) es cierto. Esta nueva teoría será una retracción conservativa de la primera.
+	
+	Esto nos permite por ejemplo, poder demostrar algo en una teoría de tamaño más reducido y fácil de trabajar, sabiendo que el resultado será válido para cualquier extensión conservativa de esa teoría.
+	
+	
+\subsection*{Aplicación de la retracción}
+	
+	Al trabajar en FCA podemos representar el conocimiento como conjuntos de implicaciones entre atributos y podemos utilizar los conceptos de extensión y retracción conservativa para facilitar el trabajo sobre esto conjuntos.
+	
+	Aplicar retracción de implicaciones al Análisis Formal de Conceptos nos permite obtener ese ``filtrado de conocimiento'' humano sobre una base de reglas, eliminando de la base todos los atributos que no tengan relevancia para nuestro estudio y por tanto reduciendo la complejidad del sistema pero a la vez manteniendo la validez de toda deducción o consecuencia lógica que obtengamos.
 	
 	
 \section*{Retracción conservativa en lógica proposicional}\addcontentsline{toc}{section}{Retracción conservativa en lógica proposicional}
+
+	Tras sentar las bases conceptuales de la retracción y extensión conservativa, en este apartado especificaremos como se aplican estos conceptos de forma concreta a la lógica proposicional ya que esta es la que nos permite tratar las implicaciones que obtenemos de FCA y razonar sobre ellas.
 
 	La definición de retracción y extensión aplicada a la lógica proposicional es la misma que en el caso genérico pero podemos especificar los conceptos de teoría y lenguaje. En este caso siendo el lenguaje un conjunto de atributos y una teoría un conjunto de proposiciones que utilizan dichos atributos (a lo cual nos referimos como base de conocimiento).
 	
@@ -48,7 +71,7 @@
 	
 	Puesto que estamos trabajando sobre la lógica proposicional cualquier operador de olvido válido funcionará con nuestras implicaciones, pero el conjunto resultante de su aplicación no tiene por qué estar limitado a contener únicamente implicaciones. 
 	
-	Por ello utilizaremos un operador de olvido específicamente creado para esta problemática y cuya validez se demuestra en \todo{referencia}.
+	Por ello utilizaremos un operador de olvido específicamente creado para esta problemática y cuya validez se demuestra en \todo{referencia al articulo}.
 	
 	\begin{description}
 		\item[Operador de olvido para implicaciones] 

@@ -1,30 +1,30 @@
 \BOOKMARK [0][-]{chapter*.3}{Introducci\363n}{}% 1
-\BOOKMARK [1][-]{section*.4}{An\341lisis formal de conceptos}{chapter*.3}% 2
-\BOOKMARK [1][-]{section*.5}{Retracci\363n de teor\355as l\363gicas}{chapter*.3}% 3
-\BOOKMARK [1][-]{section*.8}{Objetivo}{chapter*.3}% 4
-\BOOKMARK [1][-]{section*.10}{Elecci\363n del lenguaje de programaci\363n}{chapter*.3}% 5
-\BOOKMARK [-1][-]{part.1}{I FCA}{}% 6
-\BOOKMARK [0][-]{chapter*.12}{An\341lisis formal de conceptos}{part.1}% 7
-\BOOKMARK [1][-]{section*.13}{Contextos formales y concepto formal}{chapter*.12}% 8
-\BOOKMARK [1][-]{section*.16}{Ret\355culo de conceptos}{chapter*.12}% 9
-\BOOKMARK [1][-]{section*.19}{Implicaci\363n de atributos}{chapter*.12}% 10
-\BOOKMARK [-1][-]{part.2}{II RETRACCI\323N}{}% 11
-\BOOKMARK [0][-]{chapter*.20}{Retracci\363n conservativa}{part.2}% 12
-\BOOKMARK [1][-]{section*.22}{Retracci\363n conservativa en l\363gica proposicional}{chapter*.20}% 13
-\BOOKMARK [1][-]{section*.23}{Relaci\363n con FCA}{chapter*.20}% 14
-\BOOKMARK [-1][-]{part.3}{III IMPLEMENTACI\323N Y MONTAJE}{}% 15
-\BOOKMARK [0][-]{chapter*.26}{Implementaci\363n y montaje}{part.3}% 16
-\BOOKMARK [1][-]{section*.27}{Framework de programaci\363n l\363gica}{chapter*.26}% 17
-\BOOKMARK [2][-]{section*.29}{Proposiciones}{section*.27}% 18
-\BOOKMARK [2][-]{section*.31}{Formas normales y cl\341usulas}{section*.27}% 19
-\BOOKMARK [2][-]{section*.32}{Razonamiento}{section*.27}% 20
-\BOOKMARK [1][-]{section*.33}{Algoritmo retractor}{chapter*.26}% 21
-\BOOKMARK [2][-]{section*.34}{Retracci\363n basada en polinomios}{section*.33}% 22
-\BOOKMARK [2][-]{section*.36}{Retractor de implicaciones}{section*.33}% 23
-\BOOKMARK [2][-]{section*.37}{Optimizaciones sobre el algoritmo}{section*.33}% 24
-\BOOKMARK [1][-]{section*.39}{Programa ejecutable}{chapter*.26}% 25
-\BOOKMARK [-1][-]{part.4}{IV EJEMPLO GRANDE \(CONCILIACI\323N DELICIOUS\) }{}% 26
-\BOOKMARK [-1][-]{part.5}{V Conclusiones}{}% 27
-\BOOKMARK [0][-]{chapter.1}{Conclusiones}{part.5}% 28
-\BOOKMARK [-1][-]{part.6}{VI Bibliograf\355a}{}% 29
-\BOOKMARK [0][-]{section*.43}{Bibliograf\355a}{part.6}% 30
+\BOOKMARK [1][-]{section*.4}{Objetivo}{chapter*.3}% 2
+\BOOKMARK [-1][-]{part.1}{I FUNDAMENTO TE\323RICO}{}% 3
+\BOOKMARK [0][-]{chapter*.5}{An\341lisis formal de conceptos}{part.1}% 4
+\BOOKMARK [1][-]{section*.6}{Contextos formales y concepto formal}{chapter*.5}% 5
+\BOOKMARK [1][-]{section*.9}{Ret\355culo de conceptos}{chapter*.5}% 6
+\BOOKMARK [1][-]{section*.12}{Implicaci\363n de atributos}{chapter*.5}% 7
+\BOOKMARK [0][-]{chapter*.13}{Retracci\363n conservativa}{part.1}% 8
+\BOOKMARK [1][-]{section*.14}{Retracci\363n de teor\355as l\363gicas}{chapter*.13}% 9
+\BOOKMARK [1][-]{section*.17}{Retracci\363n conservativa en l\363gica proposicional}{chapter*.13}% 10
+\BOOKMARK [1][-]{section*.18}{Relaci\363n con FCA}{chapter*.13}% 11
+\BOOKMARK [-1][-]{part.2}{II DISE\321O, IMPLEMENTACI\323N Y PRUEBAS}{}% 12
+\BOOKMARK [0][-]{chapter*.21}{Dise\361o e implementaci\363n}{part.2}% 13
+\BOOKMARK [1][-]{section*.22}{Elecci\363n del lenguaje de programaci\363n}{chapter*.21}% 14
+\BOOKMARK [1][-]{section*.23}{Framework de programaci\363n l\363gica}{chapter*.21}% 15
+\BOOKMARK [2][-]{section*.25}{Proposiciones}{section*.23}% 16
+\BOOKMARK [2][-]{section*.27}{Formas normales y cl\341usulas}{section*.23}% 17
+\BOOKMARK [2][-]{section*.28}{Razonamiento}{section*.23}% 18
+\BOOKMARK [1][-]{section*.29}{Algoritmo retractor}{chapter*.21}% 19
+\BOOKMARK [2][-]{section*.30}{Retracci\363n basada en polinomios}{section*.29}% 20
+\BOOKMARK [2][-]{section*.32}{Retractor de implicaciones}{section*.29}% 21
+\BOOKMARK [2][-]{section*.33}{Optimizaciones sobre el algoritmo}{section*.29}% 22
+\BOOKMARK [1][-]{section*.34}{Programa ejecutable}{chapter*.21}% 23
+\BOOKMARK [0][-]{chapter*.37}{Pruebas y resultados}{part.2}% 24
+\BOOKMARK [1][-]{section*.38}{Resultados generales}{chapter*.37}% 25
+\BOOKMARK [1][-]{section*.40}{An\341lisis por iteraci\363n}{chapter*.37}% 26
+\BOOKMARK [-1][-]{part.3}{III Conclusiones}{}% 27
+\BOOKMARK [0][-]{chapter*.45}{Conclusiones, limitaciones y trabajo futuro}{part.3}% 28
+\BOOKMARK [-1][-]{part.4}{IV Bibliograf\355a}{}% 29
+\BOOKMARK [0][-]{section*.46}{Bibliograf\355a}{part.4}% 30

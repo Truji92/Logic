@@ -1,10 +1,29 @@
-\chapter*{Implementación y montaje}\addcontentsline{toc}{chapter}{Implementación y montaje}
+\chapter*{Diseño e implementación}\addcontentsline{toc}{chapter}{Diseño e implementación}
 	
 	En este apartado se explican los detalles de la implementación realizada del programa así como su funcionamiento.
 	
 	El proceso de implementación se ha realizado en varias fases, en primer lugar se ha construido un pequeño framework o librería que permita trabajar con lógica matemática de cara a poder utilizar estas herramientas para facilitar la codificación del programa final y su testeo. Las funcionalidades contenidas en esta librería están pensadas para utilizarse como herramienta de desarrollo y por tanto un usuario no puede acceder a ellas de forma directa desde el programa final.
 	
 	Una vez construida esta base, se ha realizado la implementación del algoritmo de retracción así como varias optimizaciones sobre el mismo y finalmente se ha empaquetado como aplicación java de linea de comando en un archivo .jar.
+
+\subsection*{Elección del lenguaje de programación}\addcontentsline{toc}{subsection}{Elección del lenguaje de programación}
+	
+	
+	La implementación se ha realizado en Scala, un lenguaje orientado a objetos y funcional que se ejecuta sobre la JVM (Java Virtual Machine).
+	
+	Las razones por las que se ha escogido son:
+	
+	\begin{itemize}
+		
+		\item Funcional: Los lenguajes funcionales están planteados desde un punto vista muy cercano a las matemáticas por lo que implementar
+		conceptos de lógica matemática en este tipo de lenguajes es más directo.
+		
+		\item JVM: Al ser un lenguaje que se ejecuta en el entorno Java, permite de forma fácil general un ejecutable que puede funcionar en cualquier plataforma.
+		
+	\end{itemize}
+
+
+
 
 \section*{Framework de programación lógica}\addcontentsline{toc}{section}{Framework de programación lógica}
 
@@ -174,9 +193,8 @@
 			Esta optimización no produce de forma directa una reducción del número de implicaciones, pero su aplicación hace más probable que ocurran casos que permitan aplicar la optimización anterior al reducirse el número de atributos.	
 	\end{description}
 
-	Estas optimizaciones evidentemente no reducen el orden de complejidad del algoritmo pero producen una reducción apreciable del tiempo cómputo de ejecuciones sucesivas del mismo tal como puede verse en la tabla \todo{tabla de tiempos de ejecución} en la que se muestran tiempos de ejecución del algoritmo aplicado a distintos sets de implicaciones generados de forma aleatoria. En cada ejecución se realizan aplicaciones sucesivas del algoritmo del algoritmo hasta eliminar $n-2$ variables elegidas aleatoriamente entre las contenidas en el conjunto. 
 
-	
+	Estas optimizaciones evidentemente no reducen el orden de complejidad del algoritmo pero reducen el número de reglas del conjunto, provocando de manera indirecta una reducción del tiempo cómputo de ejecuciones sucesivas del mismo.
 	
 \section*{Programa ejecutable}\addcontentsline{toc}{section}{Programa ejecutable}
 
@@ -227,7 +245,8 @@
 	Para facilitar la programación de la utilidad de línea de comando se ha utilizado una librería llamada \textit{scopt} \todo{Como se referencia esto?} que facilita la creación de un parser de opciones de línea de comando al estilo típico de Linux.
 	
 	Esta librería permite declarar de forma simple las opciones y su efecto y genera automáticamente documentación para el uso de la aplicación de línea de comando. La salida de la aplicación al cometer un error al llamarla o al utilizar la opción \textit{-help} es:
-	
+
+
 	\begin{verbatim}
 	Implication Retractor 2.1
 	Usage: Implication Retractor [options] <file>
