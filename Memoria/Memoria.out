@@ -1,14 +1,14 @@
 \BOOKMARK [0][-]{chapter*.3}{Introducci\363n}{}% 1
 \BOOKMARK [1][-]{section*.4}{Objetivo}{chapter*.3}% 2
 \BOOKMARK [-1][-]{part.1}{I FUNDAMENTO TE\323RICO}{}% 3
-\BOOKMARK [0][-]{chapter*.5}{An\341lisis formal de conceptos}{part.1}% 4
-\BOOKMARK [1][-]{section*.6}{Contextos formales y concepto formal}{chapter*.5}% 5
-\BOOKMARK [1][-]{section*.9}{Ret\355culo de conceptos}{chapter*.5}% 6
-\BOOKMARK [1][-]{section*.12}{Implicaci\363n de atributos}{chapter*.5}% 7
-\BOOKMARK [0][-]{chapter*.13}{Retracci\363n conservativa}{part.1}% 8
-\BOOKMARK [1][-]{section*.14}{Retracci\363n de teor\355as l\363gicas}{chapter*.13}% 9
-\BOOKMARK [1][-]{section*.17}{Retracci\363n conservativa en l\363gica proposicional}{chapter*.13}% 10
-\BOOKMARK [1][-]{section*.18}{Relaci\363n con FCA}{chapter*.13}% 11
+\BOOKMARK [0][-]{chapter*.5}{Retracci\363n conservativa}{part.1}% 4
+\BOOKMARK [1][-]{section*.6}{Retracci\363n de teor\355as l\363gicas}{chapter*.5}% 5
+\BOOKMARK [1][-]{section*.9}{Retracci\363n conservativa en l\363gica proposicional}{chapter*.5}% 6
+\BOOKMARK [0][-]{chapter*.10}{An\341lisis formal de conceptos}{part.1}% 7
+\BOOKMARK [1][-]{section*.11}{Contextos formales y concepto formal}{chapter*.10}% 8
+\BOOKMARK [1][-]{section*.14}{Ret\355culo de conceptos}{chapter*.10}% 9
+\BOOKMARK [1][-]{section*.17}{Implicaci\363n de atributos}{chapter*.10}% 10
+\BOOKMARK [0][-]{section*.18}{Retracci\363n aplicada a FCA}{part.1}% 11
 \BOOKMARK [-1][-]{part.2}{II DISE\321O, IMPLEMENTACI\323N Y PRUEBAS}{}% 12
 \BOOKMARK [0][-]{chapter*.21}{Dise\361o e implementaci\363n}{part.2}% 13
 \BOOKMARK [1][-]{section*.22}{Elecci\363n del lenguaje de programaci\363n}{chapter*.21}% 14

@@ -2,20 +2,18 @@
 \chapter*{Introducción}\addcontentsline{toc}{chapter}{Introducción}
 
 
-	Actualmente al aplicar Análisis Formal de Conceptos u otros procedimientos que puedan 
-	trabajar con bases de conocimiento basadas en implicaciones, tratar con grandes cantidades 
-	de datos puede ser complicado desde el punto de vista computacional.
+	Hoy en día se generan grandes cantidades de datos con los que normalmente se trabaja de forma informatizada. En ocasiones trabajar sobre estos conjuntos puede ser complicado y costoso desde el punto de vista computacional, sobre todo al intentar aplicar mecanismos de aprendizaje automático o razonamiento como el Análisis formal de conceptos.
 	
 	Una forma de abordar este problema puede ser reducir el tamaño y complejidad de una base 
 	de conocimiento antes de empezar a trabajar con ella, por ejemplo eliminando información no 
-	relevante para lo que se intenta analizar.   
+	relevante para lo que se intenta analizar. Sin embargo, esta eliminación no puede realizarse de forma arbitraria, debe hacerse respetando la consistencia lógica de los razonamientos que se realizan posteriormente.    
 	
 	Desde un punto de vista más humano, una persona es capaz de manejar simultáneamente varios
 	ámbitos de información, siendo capaz de separarlos a la hora de tomar decisiones según la 
 	situación en la que se encuentra. Por ejemplo, una persona modera su comportamiento en su hogar
 	de forma diferente que en su entorno de trabajo, de forma que mientras trabaja tiene en cuenta factores
 	a los que no atiende en su hogar aunque este tomando una decisión sobre el mismo asunto. Tomar un café 
-	normal o descafeinado, puede tener diferentes respuestas en función del entorno o de la hora.
+	normal o descafeinado, puede tener diferentes respuestas en función del entorno o de la hora del día.
 	
 	El ser humano es capaz de razonar ignorando reglas que se aplican al problema que esta manejando en función del contexto. Podemos conseguir
 	algo similar en sistemas basados en reglas mediante Retracción Conservativa.
@@ -25,8 +23,7 @@
  
 \section*{Objetivo}\addcontentsline{toc}{section}{Objetivo}
 
-	El objetivo de este proyecto es la implementación de un \textbf{Retractor de Implicaciones} capaz de actuar sobre bases
-	de conocimiento completas.
+	El objetivo de este proyecto es la implementación de un sistema capaz de reducir y adaptar una base de conocimiento para su posterior uso en razonamiento bajo contexto. 
 	
 	Para ello se realizarán diferentes pasos:
 
