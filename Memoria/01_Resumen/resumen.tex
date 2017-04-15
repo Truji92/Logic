@@ -4,9 +4,7 @@
 
 	Hoy en día se generan grandes cantidades de datos con los que normalmente se trabaja de forma informatizada. En ocasiones trabajar sobre estos conjuntos puede ser complicado y costoso desde el punto de vista computacional, sobre todo al intentar aplicar mecanismos de aprendizaje automático o razonamiento como el Análisis formal de conceptos.
 	
-	Una forma de abordar este problema puede ser reducir el tamaño y complejidad de una base 
-	de conocimiento antes de empezar a trabajar con ella, por ejemplo eliminando información no 
-	relevante para lo que se intenta analizar. Sin embargo, esta eliminación no puede realizarse de forma arbitraria, debe hacerse respetando la consistencia lógica de los razonamientos que se realizan posteriormente.    
+	Una forma de abordar este problema puede ser reducir el tamaño y complejidad de una base de conocimiento antes de empezar a trabajar con ella, por ejemplo eliminando información no contenida en el contexto de  lo que se intenta analizar. Sin embargo, esta eliminación no puede realizarse de forma arbitraria, debe hacerse respetando la consistencia lógica de los razonamientos que se realizan posteriormente.    
 	
 	Desde un punto de vista más humano, una persona es capaz de manejar simultáneamente varios
 	ámbitos de información, siendo capaz de separarlos a la hora de tomar decisiones según la 
@@ -23,22 +21,22 @@
  
 \section*{Objetivo}\addcontentsline{toc}{section}{Objetivo}
 
-	El objetivo de este proyecto es la implementación de un sistema capaz de reducir y adaptar una base de conocimiento para su posterior uso en razonamiento bajo contexto. 
+	El objetivo de este proyecto es la implementación de un sistema eficaz capaz de reducir una base de conocimiento, preservando la consistencia lógica, para su posterior uso en razonamiento bajo contexto. 
 	
 	Para ello se realizarán diferentes pasos:
 
 	\begin{description}
 	
-		\item[Framework de lógica matemática]
-		En primer lugar se implementará un framework que permita trabajar con entidades lógicas (fórmulas, implicaciones, clausulas, etc)
-		que posteriormente facilitará la implementación y testeo del retractor.
+		\item[Framework lógico-matemático]
+			Implementación de un framework que permita trabajar con entidades lógicas (fórmulas, implicaciones, clausulas, etc)
+			que posteriormente facilita la implementación y testeo del retractor.
 		
 		\item[Retractor de Implicaciones]
-		Se realizará una implementación de un algoritmo retractor de implicaciones básico.
+			Implementación de un algoritmo retractor de implicaciones básico.
 		
 		\item[Optimizaciones]
-		Por último se añadirán diferentes optimizaciones a la implementación básica del retractor.
-	
+			Aplicación de propiedades matemáticas de la retracción para la optimización de la implementación anterior.
+			
 	\end{description}
 
  

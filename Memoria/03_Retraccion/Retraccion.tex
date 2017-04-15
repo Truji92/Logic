@@ -3,8 +3,7 @@
 	
 \section*{Retracción de teorías lógicas}\addcontentsline{toc}{section}{Retracción de teorías lógicas}
 	
-	A continuación se presentan diferentes conceptos de lógica matemática desde un punto de vista ``informal'' necesarios para 
-	la correcta comprensión del resto de esta memoria.
+	En este apartado se presentan diferentes conceptos de lógica matemática necesarios para la correcta comprensión del resto de esta memoria.
 	
 	Aunque en nuestro caso el trabajo posterior se centra sobre el tratamiento de implicaciones, estas definiciones son genéricas y 
 	son ciertas para la lógica matemática completa.
@@ -12,9 +11,9 @@
 	
 \subsection*{Extensión y Retracciones Conservativas}
 	
-	En lógica se dice que una teoría $T$ es una \textbf{extensión conservativa} de una teoría $T'$ (o que $T'$ es una \textbf{retracción conservativa} de $T$) si toda consecuencia de $T$ en el lenguaje de $T'$ es también consecuencia de $T'$.
+	En terminos de lógica matemática se dice que una teoría $T$ es una \textbf{extensión conservativa} de una teoría $T'$ (o, lo que es lo mismo, $T'$ es una \textbf{retracción conservativa} de $T$) si toda consecuencia lógica de $T$ en el lenguaje de $T'$ es también consecuencia lógica de $T'$.
 	
-	La conclusión que se puede extraer de esta definición interesante para nuestro trabajo es, explicado de una forma más coloquial, que partiendo de una teoría escrita en un lenguaje podemos encontrar una teoría escrita en otro lenguaje más reducido. Todo lo que es cierto en esta nueva teoría también es cierto en la primera y todo lo que es cierto en la primera (y puede expresarse en el lenguaje de la segunda) es cierto. Esta nueva teoría será una retracción conservativa de la primera.
+	Explicado de una forma más coloquial, esto significa que partiendo de una teoría escrita en un lenguaje podemos encontrar una teoría escrita en otro lenguaje más reducido. Todo lo que es cierto en esta nueva teoría también es cierto en la primera y todo lo que es cierto en la primera (y puede expresarse en el lenguaje de la segunda) es cierto. Esta nueva teoría será una retracción conservativa de la primera.
 	
 	Esto nos permite por ejemplo, poder demostrar algo en una teoría de tamaño más reducido y fácil de trabajar, sabiendo que el resultado será válido para cualquier extensión conservativa de esa teoría.
 	
@@ -28,29 +27,54 @@
 	
 \section*{Retracción conservativa en lógica proposicional}\addcontentsline{toc}{section}{Retracción conservativa en lógica proposicional}
 
-	Tras sentar las bases conceptuales de la retracción y extensión conservativa, en este apartado especificaremos como se aplican estos conceptos de forma concreta a la lógica proposicional ya que esta es la que nos permite tratar las implicaciones que obtenemos de FCA y razonar sobre ellas.
+	A partir de esta definición de la retracción y extensión conservativa, en este apartado especificaremos como vamos a aplicar estos conceptos de forma concreta a la lógica proposicional ya que esta es la que se utiliza para trabajar con las implicaciones que obtenemos de FCA y razonar sobre ellas.
 
-	La definición de retracción y extensión aplicada a la lógica proposicional es la misma que en el caso genérico pero podemos especificar los conceptos de teoría y lenguaje. En este caso siendo el lenguaje un conjunto de atributos y una teoría un conjunto de proposiciones que utilizan dichos atributos (a lo cual nos referimos como base de conocimiento).
+	Aplicando la definición de retracción de forma directa a la lógica proposicional podemos especificar algunos conceptos para optimizar la implementación. En este caso, el lenguaje es un conjunto de atributos y una teoría un conjunto de proposiciones que utilizan dichos atributos (a lo cual nos referimos como base de conocimiento).
 	
-	En principio el concepto de proposición puede englobar diferentes tipos: negaciones, implicaciones, conjunciones... Nosotros trabajaremos únicamente con implicaciones, pero esto no afecta a los conceptos aquí explicados ya que nuestro trabajo sigue estando contenido dentro de la lógica proposicional, simplemente nos limitamos a trabajar con un subconjunto de la misma.
+	Aunque el concepto de proposición engloba diferentes tipos: negaciones, implicaciones, conjunciones, etc... Nosotros vamos a trabajar únicamente con implicaciones. Esto no afecta a los conceptos aquí explicados ya que nuestro trabajo sigue estando contenido dentro de la lógica proposicional.
 	
 	\begin{description}
 		\item[Extensión y retracción conservativa] 
 			Partiendo de un base de conocimiento $\mathcal{L}$ decimos que $\mathcal{L'}$ es una \textbf{extensión conservativa} 
 			de $\mathcal{L}$ si $\mathcal{L'}$ contiene al menos todas los atributos presentes en $\mathcal{L}$ y 
-			además todo lo que cierto en $\mathcal{L}$ lo es también en $\mathcal{L'}$. Podemos referirnos a lo mismo 
-			diciendo que $\mathcal{L}$ es una \textbf{retracción conservativa} de $\mathcal{L'}$. 
+			además todo lo que cierto en $\mathcal{L}$ lo es también en $\mathcal{L'}$. Del mismo modo podemos decir que $\mathcal{L}$ es una \textbf{retracción conservativa} de $\mathcal{L'}$. 
 	\end{description}
 
-	Viendo esto, podemos ver que partiendo de una base de conocimiento podemos eliminar atributos de la misma y obtener una retracción conservativa con menor número de atributos. Para esto definimos el \textbf{operador de olvido}
+	 Es decir, a partir de una base de conocimiento podríamos eliminar ciertos atributos de la misma y obtener una retracción conservativa, con menor número de atributos. Para esto definimos el \textbf{operador de olvido}. 
+	 
+	 \begin{description}
+	 	\item[Operador de olvido]  	
+	 	Un \textbf{operador de olvido} de un atributo $p$ es aquel que aplicado sobre dos proposiciones devuelve un 
+	 	nuevo conjunto de proposiciones equivalentes pero que no contienen el atributo $p$.
+	 	
+	 	Si aplicamos este operador sobre una base de conocimiento
+	 	nos permite obtener una nueva base de conocimiento que es una retracción conservativa de la anterior y no contiene el atributo $p$.
+	 \end{description}
+	 
+	 Para explicar este operador, en primer lugar hablaremos de la interpretación polinomial de la lógica proposicional.
+	 
+	 \subsection*{Lógica proposicional y el anillo $\mathbb{F}_2[x]$}\addcontentsline{toc}{subsection}{Lógica proposicional y el anillo 			$\mathbb{F}_2[x]$}
+	 	
+	 	Existen teorías probadas \todo{referencia?} que permiten transformar proposiciones lógicas a polinomios, permitiendo el uso de herramientas algebraicas para resolver problemas lógicos.
+	 	
+	 	Esta transformación da como resultado polinomios del anillo  $\mathbb{F}_2[x]$, es decir, polinomios de grado 1 cuyos coeficientes solo pueden ser 0 o 1.
+	 	
+	 	\todo{Deberia poner las reglas de transformación formula-polinomio?}
+	 	
+	 	A estos polinomios puede aplicarse cualquier operación algebraica, como por ejemplo la derivada. Esto nos permite definir una derivada lógica de la forma:
+	 	
+	 	\todo[inline]{No se hacer el gráfico de ciclo de formula - polinomio - formula}
+	 	
+	 	Siendo,
+	 	
+	 	\[
+	 		\partial = \theta \circ d \circ \pi
+	 	\]
+	 	
+	 	Utilizando esto, tal como se demuestra en \todo{referencia}, puede definirse la \textbf{Regla de independencia} (o \textbf{regla $\partial$}) en fórmulas polinómicas que nos permite a partir de dos polinomios obtener uno nuevo que no contiene una variable concreta. Esta regla junto con los operadores para realizar la conversión entre proposiciones y polinomios nos permite obtener un \textbf{operador de olvido}.
+	
+	 
+		 \todo[inline]{He estado intentando entender la relación entre la regla de independencia y la retracción pero no consigo comprender todo el lenguaje matemático del artículo (Por lo que probablemente el párrafo de arriba sea una burrada), no he querido escribir más en este apartado porque prefiero que me expliques bien en que consiste la regla y por qué permite realizar la retracción y a partir de ahí redactarlo correctamente}
  	
- 	\begin{description}
- 		\item[Operador de olvido]  	
-	 		Un \textbf{operador de olvido} del un atributo $p$ es aquel que aplicado sobre dos proposiciones devuelve un 
-	 		nuevo conjunto de proposiciones equivalentes pero que no contienen el atributo $p$.
-	 		
-	 		Es fácil demostrar que este operador aplicado sobre las combinaciones de las proposiciones de una base de conocimiento
-	 		nos permite obtener una retracción conservativa de dicha base que no contiene el atributo $p$.
- 	\end{description}
-	 		
+
  

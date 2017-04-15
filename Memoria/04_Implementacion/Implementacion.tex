@@ -66,7 +66,6 @@
 	
 	Finalmente, se implementaron diferentes operaciones como obtener si una interpretación es modelo de una proposición o obtener todos los modelos existentes para una proposición, así como funciones que permiten operar directamente sobre conjuntos de proposiciones.
 	
-	\todo[inline]{Hasta que punto entrar en detalle en esta parte?}
 	
 	
 \subsection*{Formas normales y cláusulas}\addcontentsline{toc}{subsection}{Formas normales y cláusulas}
@@ -89,7 +88,7 @@
 	La librería permite el cálculo diferentes conceptos como validez, consistencia, consecuencia lógica, etc... Mediante el uso de diferentes métodos que operan sobre las diferentes representaciones (proposiciones y cláusulas). Algunos de estos sistemas de razonamiento son:
 	
 	\begin{description}
-		\item[Fuerza bruta] La librería contiene implementaciones exhaustivas de algunos de los conceptos mediante la comprobación de todas las posibilidades.
+		\item[Tabla de verdad (Fuerza bruta)] La librería contiene implementaciones exhaustivas de algunos de los conceptos mediante la comprobación de todas las posibilidades.
 		\item[Tableros semánticos] Es un método que actúa sobre conjuntos de proposiciones para obtener todos los modelos del conjunto. Realizando modificaciones sobre el conjunto puede utilizarse para calcular diferentes conceptos, por ejemplo podemos probar que una proposición es un teorema si el conjunto de modelos de su negación es vacío, y este conjunto puede calcularse mediante tableros semánticos.
 		\item[Davis-Putnam] Es un algoritmo que actúa sobre conjuntos de cláusulas para comprobar su satisfacibilidad, al igual que en el caso anterior pueden obtenerse diferentes resultados aplicándolo sobre modificaciones del conjunto inicial.
 		\item[Cálculo de secuentes] Es un método de razonamiento que funciona sobre proposiciones pero que no solo nos permite probar fórmulas lógicas sino que nos indica el proceso de la prueba paso a paso, de forma que cada linea de la demostración utiliza las lineas anteriores de la misma.
@@ -104,14 +103,9 @@
 	
 \subsection*{Retracción basada en polinomios}\addcontentsline{toc}{subsection}{Retracción basada en polinomios}
 
-	La primera aproximación realizada al algoritmo de retracción se basa en una teoría que permite la transformación de proposiciones en polinomios sobre el anillo $\mathbb{F}_2[x]$. 
-	
-	\todo[inline]{
-		referencia a calculemus y/o añadir explicación en profundidad de esto?
-		\\ No tengo claro hasta que punto explicar esta parte ya que no hemos hablado de relacionarla con la otra retracción
-	}	
+	La primera aproximación realizada al algoritmo de retracción se basa en la transformación de proposiciones en polinomios sobre el anillo $\mathbb{F}_2[x]$. 
 
-	Una vez las proposiciones se convierten a polinomios puede trabajarse matemáticamente con ellos, aplicar un algoritmo de retracción basado en las derivadas de dichos polinomios y finalmente volver a convertir los polinomios a proposiciones.
+	Tal como se explica en el fundamento teórico, una vez las proposiciones se convierten a polinomios puede trabajarse matemáticamente con ellos, aplicar un algoritmo de retracción basado en las derivadas de dichos polinomios y finalmente volver a convertir los polinomios a proposiciones.
 	
 	Este método es válido, capaz de funcionar con cualquier tipo de proposiciones pero presenta un problema. Durante el proceso de conversión de proposición a polinomio y viceversa, la expresión de la proposición sufre alteraciones (se forman estructuras anidadas complejas) y aunque el resultado obtenido es correcto desde el punto de vista lógico, las formulas son muy complejas desde el punto de vista humano por lo que el análisis a simple vista de los resultados se vuelve prácticamente imposible.
 	
@@ -140,20 +134,16 @@
 		\noindent\fbox{
 			\begin{minipage}{0.9\textwidth}
 				\begin{algorithmic}[1]
-					\Function{Retraccion}{$implicaciones, variable$}
-						\State $nuevasImplicaciones \gets [\;]$
-						\State $resto \gets implicaciones$
+					\Function{Retraccion}{$implicaciones,$ $variable$}
+						\State nuevasImplicaciones $\gets$ [ ]
 						\State
-						\While{noVacío implicaciones}
-							\State $actual \gets implicaciones.head$
-							\State $nuevasImplicaciones \text{ ++ } implicaciones.map(
-								 $
-							\State $ \qquad impl \rightarrow opOlvido( impl, actual, variable )$
-				
-							\State $)$	
-							
-							\State $resto \gets implicaciones.tail$
-						\EndWhile
+						\For{i $\gets$ 0 to implicaciones.size }
+							\For{j $\gets$ i to implicaciones.size}
+								\State{a $\gets$ implicaciones(i)}
+								\State{b $\gets$ implicaciones(j)}
+								\State nuevasImplicaciones $\text{ ++ }$ opOlvido(a, b, variable)
+							\EndFor
+						\EndFor
 						\State
 						\State
 						\Return$nuevasImplicaciones$
@@ -163,6 +153,7 @@
 		}	
 
 	}
+
 	
 	Tras su aplicación obtenemos una nueva lista de implicaciones que no contiene la variable indicada por parámetro (una \textbf{retracción conservativa} del conjunto).
 	
