@@ -6,27 +6,27 @@
 \contentsline {section}{Retracci\IeC {\'o}n de teor\IeC {\'\i }as l\IeC {\'o}gicas}{7}{section*.6}
 \contentsline {section}{Retracci\IeC {\'o}n conservativa en l\IeC {\'o}gica proposicional}{8}{section*.9}
 \contentsline {subsection}{L\IeC {\'o}gica proposicional y el anillo $\mathbb {F}_2[x]$}{9}{section*.10}
-\contentsline {chapter}{An\IeC {\'a}lisis formal de conceptos}{11}{chapter*.16}
-\contentsline {section}{Contextos y conceptos formales}{12}{section*.17}
-\contentsline {section}{Ret\IeC {\'\i }culo de conceptos}{14}{section*.20}
-\contentsline {section}{Implicaci\IeC {\'o}n de atributos}{14}{section*.22}
-\contentsline {section}{Retracci\IeC {\'o}n aplicada a FCA}{16}{section*.24}
+\contentsline {chapter}{An\IeC {\'a}lisis formal de conceptos}{11}{chapter*.11}
+\contentsline {section}{Contextos y conceptos formales}{12}{section*.12}
+\contentsline {section}{Ret\IeC {\'\i }culo de conceptos}{14}{section*.14}
+\contentsline {section}{Implicaci\IeC {\'o}n de atributos}{14}{section*.16}
+\contentsline {section}{Retracci\IeC {\'o}n aplicada a FCA}{16}{section*.18}
 \contentsline {part}{II\hspace {1em}DISE\IeC {\~N}O, IMPLEMENTACI\IeC {\'O}N Y PRUEBAS}{19}{part.2}
-\contentsline {chapter}{Dise\IeC {\~n}o e implementaci\IeC {\'o}n}{21}{chapter*.27}
-\contentsline {subsection}{Elecci\IeC {\'o}n del lenguaje de programaci\IeC {\'o}n}{21}{section*.28}
-\contentsline {section}{Framework de programaci\IeC {\'o}n l\IeC {\'o}gica}{22}{section*.29}
-\contentsline {subsection}{Proposiciones}{22}{section*.31}
-\contentsline {subsection}{Formas normales y cl\IeC {\'a}usulas}{23}{section*.32}
-\contentsline {subsection}{Razonamiento}{24}{section*.33}
-\contentsline {section}{Algoritmo retractor}{25}{section*.34}
-\contentsline {subsection}{Retracci\IeC {\'o}n basada en polinomios}{25}{section*.35}
-\contentsline {subsection}{Retractor de implicaciones}{25}{section*.36}
-\contentsline {subsection}{Optimizaciones sobre el algoritmo}{27}{section*.37}
-\contentsline {section}{Programa ejecutable}{28}{section*.38}
-\contentsline {chapter}{Pruebas y resultados}{31}{chapter*.41}
-\contentsline {section}{Resultados generales}{31}{section*.42}
-\contentsline {section}{An\IeC {\'a}lisis por iteraci\IeC {\'o}n}{33}{section*.44}
-\contentsline {part}{III\hspace {1em}Conclusiones}{35}{part.3}
-\contentsline {chapter}{Conclusiones, limitaciones y trabajo futuro}{37}{chapter*.49}
-\contentsline {part}{IV\hspace {1em}Bibliograf\IeC {\'\i }a}{39}{part.4}
-\contentsline {chapter}{Bibliograf\IeC {\'\i }a}{41}{section*.50}
+\contentsline {chapter}{Dise\IeC {\~n}o e implementaci\IeC {\'o}n}{21}{chapter*.19}
+\contentsline {subsection}{Elecci\IeC {\'o}n del lenguaje de programaci\IeC {\'o}n}{21}{section*.20}
+\contentsline {section}{Framework de programaci\IeC {\'o}n l\IeC {\'o}gica}{22}{section*.21}
+\contentsline {subsection}{Proposiciones}{22}{section*.22}
+\contentsline {subsection}{Formas normales y cl\IeC {\'a}usulas}{25}{section*.23}
+\contentsline {subsection}{Razonamiento}{25}{section*.24}
+\contentsline {section}{Algoritmo retractor}{26}{section*.25}
+\contentsline {subsection}{Retracci\IeC {\'o}n basada en polinomios}{26}{section*.26}
+\contentsline {subsection}{Retractor de implicaciones}{27}{section*.27}
+\contentsline {subsection}{Optimizaciones sobre el algoritmo}{28}{section*.28}
+\contentsline {section}{Programa ejecutable}{29}{section*.29}
+\contentsline {chapter}{Pruebas y resultados}{33}{chapter*.31}
+\contentsline {section}{Resultados generales}{34}{section*.32}
+\contentsline {section}{An\IeC {\'a}lisis por iteraci\IeC {\'o}n}{36}{section*.35}
+\contentsline {part}{III\hspace {1em}Conclusiones}{41}{part.3}
+\contentsline {chapter}{Conclusiones, limitaciones y trabajo futuro}{43}{chapter*.42}
+\contentsline {part}{IV\hspace {1em}Bibliograf\IeC {\'\i }a}{45}{part.4}
+\contentsline {chapter}{Bibliograf\IeC {\'\i }a}{47}{section*.43}

@@ -1,3 +1,24 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{1}
+
+\bibitem{retraccion}
+Joaquín Borrego-Díaz Gonzalo A. Aranda-Corral and Juan Galán-Páez.
+\newblock Conservative retractions of implication bases.
+
+\bibitem{calculemus}
+M.~Magdalena Fernández-Lebrón Gonzalo A. Aranda-Corral, Joaquıín
+  Borrego-Díaz.
+\newblock Conservative retractions of propositional logic theories by means of
+  boolean derivatives. theoretical foundations.
+
+\bibitem{haskell}
+José A.~Alonso Jiménez.
+\newblock {\em Lógica en Haskell}.
+\newblock Dpto. de Ciencias de la Computación e Inteligencia Artificial,
+  Universidad de Sevilla, Sevilla, 2008.
+
+\bibitem{imp_polinomios}
+Gonzalo A. Aranda-Corral y Joaquín Borrego-Díaz José A. Alonso-Jiménez.
+\newblock Sistema certificado de decisión proposicional basado en polinomios.
+\newblock 2009.
 
 \end{thebibliography}

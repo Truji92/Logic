@@ -1,12 +1,59 @@
-This is BibTeX, Version 0.99dThe top-level auxiliary file: Memoria.aux
+This is BibTeX, Version 0.99d (TeX Live 2016/Arch Linux)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: Memoria.aux
 A level-1 auxiliary file: 00_Titulo/titulo.aux
 A level-1 auxiliary file: 01_Resumen/resumen.aux
-A level-1 auxiliary file: 02_FCA/FCA.aux
 A level-1 auxiliary file: 03_Retraccion/Retraccion.aux
+A level-1 auxiliary file: 02_FCA/FCA.aux
 A level-1 auxiliary file: 04_Implementacion/Implementacion.aux
 A level-1 auxiliary file: 05_Pruebas/Pruebas.aux
 A level-1 auxiliary file: conclusiones/conclusiones.aux
 The style file: plain.bst
-I found no \citation commands---while reading file Memoria.aux
 Database file #1: z_Bibliografia/mybib.bib
-(There was 1 error message)
+Warning--empty journal in retraccion
+Warning--empty year in retraccion
+Warning--empty journal in calculemus
+Warning--empty year in calculemus
+Warning--empty journal in imp_polinomios
+You've used 4 entries,
+            2118 wiz_defined-function locations,
+            520 strings with 4815 characters,
+and the built_in function-call counts, 876 in all, are:
+= -- 76
+> -- 34
+< -- 0
++ -- 14
+- -- 10
+* -- 45
+:= -- 164
+add.period$ -- 10
+call.type$ -- 4
+change.case$ -- 16
+chr.to.int$ -- 0
+cite$ -- 9
+duplicate$ -- 42
+empty$ -- 74
+format.name$ -- 10
+if$ -- 171
+int.to.chr$ -- 0
+int.to.str$ -- 4
+missing$ -- 5
+newline$ -- 21
+num.names$ -- 8
+pop$ -- 30
+preamble$ -- 1
+purify$ -- 13
+quote$ -- 0
+skip$ -- 26
+stack$ -- 0
+substring$ -- 20
+swap$ -- 1
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 14
+warning$ -- 5
+while$ -- 8
+width$ -- 5
+write$ -- 36
+(There were 5 warnings)

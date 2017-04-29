@@ -55,15 +55,46 @@
 	 
 	 \subsection*{Lógica proposicional y el anillo $\mathbb{F}_2[x]$}\addcontentsline{toc}{subsection}{Lógica proposicional y el anillo 			$\mathbb{F}_2[x]$}
 	 	
-	 	Existen teorías probadas \todo{referencia?} que permiten transformar proposiciones lógicas a polinomios, permitiendo el uso de herramientas algebraicas para resolver problemas lógicos.
+	 	Existen teorías probadas que permiten transformar proposiciones lógicas a polinomios, permitiendo el uso de herramientas algebraicas para resolver problemas lógicos.
 	 	
 	 	Esta transformación da como resultado polinomios del anillo  $\mathbb{F}_2[x]$, es decir, polinomios de grado 1 cuyos coeficientes solo pueden ser 0 o 1.
 	 	
-	 	\todo{Deberia poner las reglas de transformación formula-polinomio?}
+	 	Las reglas utilizadas son:
 	 	
-	 	A estos polinomios puede aplicarse cualquier operación algebraica, como por ejemplo la derivada. Esto nos permite definir una derivada lógica de la forma:
+	 	$\pi: Prop \to \mathbb{F}_2[x]$ para transformar proposiciones a polinomio, definida por las ecuaciones:
 	 	
-	 	\todo[inline]{No se hacer el gráfico de ciclo de formula - polinomio - formula}
+	 	\begin{itemize}
+	 		\item $\pi(\bot) = 0$, $\pi(p_i) = x_i$, $\pi(\neg F) = 1 + \pi(F)$
+	 		\item $\pi(F_1 \wedge F_2) = \pi(F_1) \cdot \pi(F_2)$
+	 		\item $\pi(F_1) \vee F_2) = \pi(F_1) + \pi(F_2) + \pi(F_1) \cdot \pi(F_2)$
+	 		\item $\pi(F_1 \to F_2) = 1 + \pi(F_1) + \pi(F_1) \cdot \pi(F_2)$
+	 		\item $\pi(F_1 \leftrightarrow F_2) = 1 + \pi(F_1) + \pi(F_2)$
+	 	\end{itemize}
+ 	
+ 		$\Theta: \mathbb{F}_2[x] \to Prop$ para transformar de polinomio a proposición lógica, definida por:
+ 		
+ 		\begin{itemize}
+ 			\item $\Theta(0) = \bot$, $\Theta(1) = \top$, $\Theta(x_1) = p_i$
+ 			\item $\Theta(a \cdot b) = \Theta(a) \wedge \Theta(b)$
+ 			\item $\Theta(a + b) = \neg(\Theta(a) \leftrightarrow \Theta(b))$
+ 		\end{itemize}
+ 	
+ 		Más información sobre estas transformaciones puede encontrarse en \cite{imp_polinomios}.
+	 	
+	 	A estos polinomios puede aplicarse cualquier operación algebraica, como por ejemplo la derivada. 
+	 	
+	 	Al derivar un polinomio en $\mathbb{F}_2[x]$ respecto a una variable dejando el resto constante, siempre obtendremos un nuevo polinomio que no contiene dicha variable (ya que si la variable aparece siempre tendrá exponente 1). Utilizando esta idea podemos buscar la forma de eliminar variables de nuestras fórmulas.
+	 	
+	 	Podemos definir una derivada lógica de la forma:
+	 	
+	 	$$
+	 	\begin{array}{ccc}
+	 	PForm                   & \stackrel{\partial}{\to}         & PForm          \\
+	 	\pi \downarrow               &     \#        &  \uparrow  \Theta \\
+	 	{\mathbb F}_2[{\bf x}]   & \stackrel{d}{\to}         & {\mathbb F}_2[{\bf x}]  \\ 
+	 	\end{array}
+	 	$$
+	 	
 	 	
 	 	Siendo,
 	 	
@@ -71,10 +102,7 @@
 	 		\partial = \theta \circ d \circ \pi
 	 	\]
 	 	
-	 	Utilizando esto, tal como se demuestra en \todo{referencia}, puede definirse la \textbf{Regla de independencia} (o \textbf{regla $\partial$}) en fórmulas polinómicas que nos permite a partir de dos polinomios obtener uno nuevo que no contiene una variable concreta. Esta regla junto con los operadores para realizar la conversión entre proposiciones y polinomios nos permite obtener un \textbf{operador de olvido}.
+	 	Utilizando esto, tal como se demuestra en \cite{calculemus}, puede definirse la \textbf{Regla de independencia} (o \textbf{regla $\partial$}) en fórmulas polinómicas que nos permite a partir de dos polinomios obtener uno nuevo que no contiene una variable concreta pero que es equivalente (desde el punto de vista lógico) a los iniciales. Esta regla puede utilizarse como un \textbf{operador de olvido} genérico.
 	
-	 
-		 \todo[inline]{He estado intentando entender la relación entre la regla de independencia y la retracción pero no consigo comprender todo el lenguaje matemático del artículo (Por lo que probablemente el párrafo de arriba sea una burrada), no he querido escribir más en este apartado porque prefiero que me expliques bien en que consiste la regla y por qué permite realizar la retracción y a partir de ahí redactarlo correctamente}
- 	
-
+	
  

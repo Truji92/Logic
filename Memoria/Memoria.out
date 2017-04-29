@@ -5,27 +5,27 @@
 \BOOKMARK [1][-]{section*.6}{Retracci\363n de teor\355as l\363gicas}{chapter*.5}% 5
 \BOOKMARK [1][-]{section*.9}{Retracci\363n conservativa en l\363gica proposicional}{chapter*.5}% 6
 \BOOKMARK [2][-]{section*.10}{L\363gica proposicional y el anillo F2[x]}{section*.9}% 7
-\BOOKMARK [0][-]{chapter*.16}{An\341lisis formal de conceptos}{part.1}% 8
-\BOOKMARK [1][-]{section*.17}{Contextos y conceptos formales}{chapter*.16}% 9
-\BOOKMARK [1][-]{section*.20}{Ret\355culo de conceptos}{chapter*.16}% 10
-\BOOKMARK [1][-]{section*.22}{Implicaci\363n de atributos}{chapter*.16}% 11
-\BOOKMARK [1][-]{section*.24}{Retracci\363n aplicada a FCA}{chapter*.16}% 12
+\BOOKMARK [0][-]{chapter*.11}{An\341lisis formal de conceptos}{part.1}% 8
+\BOOKMARK [1][-]{section*.12}{Contextos y conceptos formales}{chapter*.11}% 9
+\BOOKMARK [1][-]{section*.14}{Ret\355culo de conceptos}{chapter*.11}% 10
+\BOOKMARK [1][-]{section*.16}{Implicaci\363n de atributos}{chapter*.11}% 11
+\BOOKMARK [1][-]{section*.18}{Retracci\363n aplicada a FCA}{chapter*.11}% 12
 \BOOKMARK [-1][-]{part.2}{II DISE\321O, IMPLEMENTACI\323N Y PRUEBAS}{}% 13
-\BOOKMARK [0][-]{chapter*.27}{Dise\361o e implementaci\363n}{part.2}% 14
-\BOOKMARK [1][-]{section*.28}{Elecci\363n del lenguaje de programaci\363n}{chapter*.27}% 15
-\BOOKMARK [1][-]{section*.29}{Framework de programaci\363n l\363gica}{chapter*.27}% 16
-\BOOKMARK [2][-]{section*.31}{Proposiciones}{section*.29}% 17
-\BOOKMARK [2][-]{section*.32}{Formas normales y cl\341usulas}{section*.29}% 18
-\BOOKMARK [2][-]{section*.33}{Razonamiento}{section*.29}% 19
-\BOOKMARK [1][-]{section*.34}{Algoritmo retractor}{chapter*.27}% 20
-\BOOKMARK [2][-]{section*.35}{Retracci\363n basada en polinomios}{section*.34}% 21
-\BOOKMARK [2][-]{section*.36}{Retractor de implicaciones}{section*.34}% 22
-\BOOKMARK [2][-]{section*.37}{Optimizaciones sobre el algoritmo}{section*.34}% 23
-\BOOKMARK [1][-]{section*.38}{Programa ejecutable}{chapter*.27}% 24
-\BOOKMARK [0][-]{chapter*.41}{Pruebas y resultados}{part.2}% 25
-\BOOKMARK [1][-]{section*.42}{Resultados generales}{chapter*.41}% 26
-\BOOKMARK [1][-]{section*.44}{An\341lisis por iteraci\363n}{chapter*.41}% 27
+\BOOKMARK [0][-]{chapter*.19}{Dise\361o e implementaci\363n}{part.2}% 14
+\BOOKMARK [1][-]{section*.20}{Elecci\363n del lenguaje de programaci\363n}{chapter*.19}% 15
+\BOOKMARK [1][-]{section*.21}{Framework de programaci\363n l\363gica}{chapter*.19}% 16
+\BOOKMARK [2][-]{section*.22}{Proposiciones}{section*.21}% 17
+\BOOKMARK [2][-]{section*.23}{Formas normales y cl\341usulas}{section*.21}% 18
+\BOOKMARK [2][-]{section*.24}{Razonamiento}{section*.21}% 19
+\BOOKMARK [1][-]{section*.25}{Algoritmo retractor}{chapter*.19}% 20
+\BOOKMARK [2][-]{section*.26}{Retracci\363n basada en polinomios}{section*.25}% 21
+\BOOKMARK [2][-]{section*.27}{Retractor de implicaciones}{section*.25}% 22
+\BOOKMARK [2][-]{section*.28}{Optimizaciones sobre el algoritmo}{section*.25}% 23
+\BOOKMARK [1][-]{section*.29}{Programa ejecutable}{chapter*.19}% 24
+\BOOKMARK [0][-]{chapter*.31}{Pruebas y resultados}{part.2}% 25
+\BOOKMARK [1][-]{section*.32}{Resultados generales}{chapter*.31}% 26
+\BOOKMARK [1][-]{section*.35}{An\341lisis por iteraci\363n}{chapter*.31}% 27
 \BOOKMARK [-1][-]{part.3}{III Conclusiones}{}% 28
-\BOOKMARK [0][-]{chapter*.49}{Conclusiones, limitaciones y trabajo futuro}{part.3}% 29
+\BOOKMARK [0][-]{chapter*.42}{Conclusiones, limitaciones y trabajo futuro}{part.3}% 29
 \BOOKMARK [-1][-]{part.4}{IV Bibliograf\355a}{}% 30
-\BOOKMARK [0][-]{section*.50}{Bibliograf\355a}{part.4}% 31
+\BOOKMARK [0][-]{section*.43}{Bibliograf\355a}{part.4}% 31

@@ -1,3 +1,28 @@
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstdefinestyle{myScalastyle}{
+	frame=tb,
+	language=scala,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	frame=none,
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3,
+}
+
+
 \chapter*{Diseño e implementación}\addcontentsline{toc}{chapter}{Diseño e implementación}
 	
 	En este apartado se explican los detalles de la implementación realizada del programa así como su funcionamiento.
@@ -27,7 +52,7 @@
 
 \section*{Framework de programación lógica}\addcontentsline{toc}{section}{Framework de programación lógica}
 
-	Para implementar los diferentes conceptos de lógica de esta librería se ha tomado como base otra anterior, realizada en Haskell por \todo{referencia}, sobre la que se han realizado algunas modificaciones, mejoras y adaptaciones. Ya que Haskell es un lenguaje puramente funcional, el código se puede transformar a Scala de forma relativamente simple ya que aunque la sintaxis no es similar los conceptos con los que trabaja son los mismos.
+	Para implementar los diferentes conceptos de lógica de esta librería se ha tomado como base otra anterior, realizada en Haskell (ver \cite{haskell}), sobre la que se han realizado algunas modificaciones, mejoras y adaptaciones. Ya que Haskell es un lenguaje puramente funcional, el código se puede transformar a Scala de forma relativamente simple ya que aunque la sintaxis no es similar los conceptos con los que trabaja son los mismos.
 	
 	A continuación se describen los apartados más importantes de la librería y su funcionamiento.
 	
@@ -48,6 +73,23 @@
 		\item[Equivalencia (Equi)] Representa la equivalencia entre proposiciones. En lógica representado como $\leftrightarrow$.
 	\end{description}
 
+	Un resumen del código que define estas estructuras (ignorando partes no relevantes):
+	
+	\begin{lstlisting}[style=myScalastyle]
+
+	type Symbol = String
+	
+	sealed trait Prop 
+	case class Const(boolean: Boolean) extends Prop
+	case class Atom(symbol: Symbol) extends Prop
+	case class Neg(prop: Prop) extends Prop
+	case class Conj(left: Prop, right: Prop) extends Prop
+	case class Disj(left: Prop, right: Prop) extends Prop
+	case class Impl(left: Prop, right: Prop) extends Prop
+	case class Equi(left: Prop, right: Prop) extends Prop
+		
+	\end{lstlisting}
+
 	Con estas siete estructuras puede representarse cualquier proposición lógica, por ejemplo:
 	
 	\[
@@ -56,17 +98,71 @@
 	
 	Tras la implementación de estas estructuras se realizó la implementación de un pequeño DSL (Domain specific language) que facilita la escritura de este tipo de fórmulas mediante el uso de algunas funciones y operadores. El ejemplo anterior escrito en este lenguaje quedaría: 
 	
-	\[
-		no(q) \; OR \; (q \; -\!\!> \, r) 
-	\]
+		
+	\begin{lstlisting}[style=myScalastyle]
+	
+	val p = Atom("p")
+	val q = Atom("q")
+	val r = Atom("r")
+	
+	val prop = no(q) OR (q -> r)
+	\end{lstlisting}
 	
 	Otro concepto que necesita ser modelado es el de \textbf{Interpretación}, una interpretación es una asignación de valores verdadero o falso a las variables de una proposición, si tras la sustitución de los valores indicados por la interpretación la evaluación de la proposición es cierta, decimos que la interpretación es un \textbf{modelo} de dicha proposición.
 	
 	Esta entidad se maneja en la librería como un diccionario (un almacenamiento clave - valor) en el que se guardan las asignaciones a cada variable y la ausencia de alguna como clave se considera como que esa variable se asigna como falsa.
 	
+	\begin{lstlisting}[style=myScalastyle]
+		
+		type Interpretation = Map[Atom, Boolean]
+	
+	\end{lstlisting}
+	
 	Finalmente, se implementaron diferentes operaciones como obtener si una interpretación es modelo de una proposición o obtener todos los modelos existentes para una proposición, así como funciones que permiten operar directamente sobre conjuntos de proposiciones.
 	
+	Por ejemplo, la función de la entidad Prop que calcula el significado de una proposición en base a una interpretación es:
 	
+	\begin{lstlisting}[style=myScalastyle]
+	
+	sealed trait Prop {
+	...
+	
+		def meaning(interp: Interpretation): Boolean = this match {
+			case Const(value) => value
+			case Atom(symbol) => interp.getOrElse(Atom(symbol), false)
+			case Neg(prop) =>  !prop.meaning(interp)
+			case Conj(p, q) => p.meaning(interp) && q.meaning(interp)
+			case Disj(p, q) => p.meaning(interp) || q.meaning(interp)
+			case Impl(p, q) => (!(p meaning interp)) || (q meaning interp)
+			case Equi(p, q) => {
+				lazy val pm = p.meaning(interp)
+				lazy val qm = q.meaning(interp)
+				(!pm || qm) && (!qm || pm)
+			}
+		}
+		
+	...
+	}
+	
+	\end{lstlisting}
+	
+	A partir de esto pueden implementarse de forma fácil otros conceptos como el de modelo o validez (tautología):
+	
+	\begin{lstlisting}[style=myScalastyle]
+	sealed trait Prop {
+	...
+		def isModel(interpretation: Interpretation) = meaning(interpretation)
+	
+		def interpretations = symbols.subsets().map( interp => {
+			interp.map(elem => (elem, true)).toMap
+		})
+		
+		def models = interpretations.filter(isModel)
+		
+		def isValid = interpretations sameElements models
+	...
+	}
+	\end{lstlisting}	
 	
 \subsection*{Formas normales y cláusulas}\addcontentsline{toc}{subsection}{Formas normales y cláusulas}
 
@@ -89,7 +185,8 @@
 	
 	\begin{description}
 		\item[Tabla de verdad (Fuerza bruta)] La librería contiene implementaciones exhaustivas de algunos de los conceptos mediante la comprobación de todas las posibilidades.
-		\item[Tableros semánticos] Es un método que actúa sobre conjuntos de proposiciones para obtener todos los modelos del conjunto. Realizando modificaciones sobre el conjunto puede utilizarse para calcular diferentes conceptos, por ejemplo podemos probar que una proposición es un teorema si el conjunto de modelos de su negación es vacío, y este conjunto puede calcularse mediante tableros semánticos.
+		\item[Tableros semánticos] Es un método que actúa sobre conjuntos de proposiciones para obtener todos los modelos del conjunto. Realizando modificaciones sobre el conjunto puede utilizarse para calcular diferentes conceptos, por ejemplo podemos probar que una proposición es un teorema si el conjunto de modelos de su negación es vacío, y este conjunto puede calcularse mediante tableros semánticos. 
+		
 		\item[Davis-Putnam] Es un algoritmo que actúa sobre conjuntos de cláusulas para comprobar su satisfacibilidad, al igual que en el caso anterior pueden obtenerse diferentes resultados aplicándolo sobre modificaciones del conjunto inicial.
 		\item[Cálculo de secuentes] Es un método de razonamiento que funciona sobre proposiciones pero que no solo nos permite probar fórmulas lógicas sino que nos indica el proceso de la prueba paso a paso, de forma que cada linea de la demostración utiliza las lineas anteriores de la misma.
 	\end{description}
@@ -230,8 +327,6 @@
 		\item[Sin optimizaciones] 
 			Permite ejecutar el algoritmo sin las optimizaciones explicadas en el apartado anterior.
 	\end{description}
-
-	\todo[inline]{Anexo con una ejecución mostrando la traza??}
 	
 	Para facilitar la programación de la utilidad de línea de comando se ha utilizado una librería llamada \textit{scopt} \todo{Como se referencia esto?} que facilita la creación de un parser de opciones de línea de comando al estilo típico de Linux.
 	

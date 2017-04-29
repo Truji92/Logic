@@ -6,12 +6,21 @@
 	
 	Para la generación de reglas se han utilizado contextos de tamaño cuadrado (mismo número de atributos que de ejemplos) que se han rellenado de forma aleatoria en base a un valor de densidad. Esta densidad representa la probabilidad de que un ejemplo posea un atributo.
 
+\newpage
 
 \section*{Resultados generales}\addcontentsline{toc}{section}{Resultados generales}
 
 	En primer lugar analizaremos la ejecución global del algoritmo, es decir la eliminación de todas las variables. 
 	
-	En la tabla \ref{tiempos_totales} puede verse información de ejecuciones sobre diferentes conjuntos y el cálculo del porcentaje de mejora de la versión optimizada del algoritmo sobre la no optimizada.
+	\begin{figure}[h]
+	
+		\includegraphics[width=1\linewidth]{05_Pruebas/graficas/general}
+		\caption{Porcentaje de mejora del algoritmo optimizado sobre el no optimizado en función de densidad y tamaño del contexto inicial.}
+		\label{fig:general}
+	\end{figure}
+	
+	En la figura \ref{fig:general} (que representa la tabla \ref{tiempos_totales}) puede verse información de ejecuciones sobre diferentes conjuntos y el cálculo del porcentaje de mejora de la versión optimizada del algoritmo sobre la no optimizada.
+	
 
 	\begin{table}[htbp]
 		\caption{Tiempos de ejecución de las dos versiones del algoritmo (v1: sin optimizaciones, v2: optimizado) para diferentes conjuntos de reglas}
@@ -28,7 +37,7 @@
 				10 & 0,6 & 15 & 8 & 3 & 62,5 \\ \hline
 				10 & 0,7 & 20 & 14 & 11 & 21,4 \\ \hline
 				10 & 0,8 & 15 & 17 & 6 & 64,7 \\ \hline
-				10 & 0,9 & 3 & 0 & 0 & - \\ \hline
+				10 & 0,9 & 3 & 0 & 0 & 0 \\ \hline
 				12 & 0,1 & 17 & 206 & 163 & 20,9 \\ \hline
 				12 & 0,2 & 23 & 1015 & 731 & 28,0 \\ \hline
 				12 & 0,3 & 31 & 734 & 484 & 34,1 \\ \hline
@@ -46,7 +55,7 @@
 				14 & 0,6 & 68 & 6632 & 3030 & 54,3 \\ \hline
 				14 & 0,7 & 95 & 9347 & 3873 & 58,6 \\ \hline
 				14 & 0,8 & 39 & 135 & 75 & 44,4 \\ \hline
-				14 & 0,9 & 7 & 0 & 0 & - \\ \hline
+				14 & 0,9 & 7 & 0 & 0 & 0 \\ \hline
 				16 & 0,1 & 41 & 164563 & 133748 & 18,7 \\ \hline
 				16 & 0,2 & 53 & 84052 & 65228 & 22,4 \\ \hline
 				16 & 0,3 & 84 & 13513731 & 11221599 & 17,0 \\ \hline
@@ -55,19 +64,43 @@
 				16 & 0,6 & 148 & 1734667 & 1053872 & 39,2 \\ \hline
 				16 & 0,7 & 80 & 3101 & 1349 & 56,5 \\ \hline
 				16 & 0,8 & 53 & 243 & 173 & 28,8 \\ \hline
-				16 & 0,9 & 6 & 0 & 2 & - \\ \hline
+				16 & 0,9 & 6 & 0 & 2 & 0 \\ \hline
 			\end{tabular}
 		\end{center}
 		\label{tiempos_totales}
 	\end{table}
 
-	En todos los casos el algoritmo con optimizaciones obtiene mejores resultados (o iguales en casos muy pequeños) que el no optimizado, variando el porcentaje de mejora entre un 14\% y un 65\% con un valor medio de 36,5\%.
+	En todos los casos el algoritmo con optimizaciones obtiene mejores resultados (o iguales en casos muy pequeños) que el no optimizado, variando el porcentaje de mejora \textbf{entre un 14\% y un 65\% con un valor medio de 36,5\%.}
+	
+	También puede observarse un mayor peso de la optimización en densidades medias-altas. Uno de los motivos a los que puede deberse esto es que a esas densidades el número resultante de reglas suele ser mayor, lo cual facilita que se creen la situaciones que las optimizaciones pueden tratar. 
+	\newpage
 	
 \section*{Análisis por iteración}\addcontentsline{toc}{section}{Análisis por iteración}
 
 	Ya que el objetivo del las optimizaciones implementadas es reducir el tamaño del conjunto en ejecuciones sucesivas del algoritmo, se han analizado las ejecuciones de la tabla \ref{tiempos_totales} iteración por iteración para poder ver el efecto concreto de dichas optimizaciones sobre los conjuntos de reglas.
 	
-	En las tablas \ref{iteraciones10d4}, \ref{iteraciones14d4}, \ref{iteraciones16d3} \todo{meter algunas como ejemplo aquí o todas en un anexo?} se muestran algunas de estas ejecuciones en detalle.
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{05_Pruebas/graficas/10_4}
+		\caption{Tiempos de ejecución por iteración para un contexto de tamaño 10 y densidad 0.4}
+		\label{fig:10_4}
+	\end{figure}
+
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{05_Pruebas/graficas/14_4}
+		\caption{Tiempos de ejecución por iteración para un contexto de tamaño 14 y densidad 0.4}
+		\label{fig:14_4}
+	\end{figure}
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{05_Pruebas/graficas/16_3}
+		\caption{Tiempos de ejecución por iteración para un contexto de tamaño 16 y densidad 0.3}
+		\label{fig:16_3}
+	\end{figure}
+	
+	En las figuras \ref{fig:10_4}, \ref{fig:14_4}, \ref{fig:16_3}  se muestran algunas de estas ejecuciones en detalle.
 	
 	En general, puede verse que la primera iteración presenta el mismo tiempo de ejecución para ambas versiones o en ocasiones un tiempo ligeramente mayor para la versión optimizada. Esto es lógico ya que la versión optimizada realiza más operaciones sobre el conjunto pero no se beneficia de las optimizaciones.
 	
@@ -75,7 +108,7 @@
 	
 	Estas trazas también permiten apreciar que en general el algoritmo provoca un crecimiento en el número de reglas con cada eliminación hasta que llega a un punto de inflexión tras el cual el número de reglas disminuye tras cada ejecución. 
 	
-	\begin{table}[htbp]
+	\begin{table}[h]
 		\caption{Detalle de las iteraciones con un contexto 10x10 y densidad 0.4}
 		\begin{center}
 			\begin{tabular}{|r|r|r|r|r|}
@@ -97,7 +130,7 @@
 	\end{table}
 
 
-	\begin{table}[htbp]
+	\begin{table}[h]
 		\caption{Detalle de las iteraciones con un contexto 14x14 y densidad 0.4}
 		\begin{center}
 			\begin{tabular}{|r|r|r|r|r|}
@@ -122,7 +155,7 @@
 		\label{iteraciones14d4}
 	\end{table}
 	
-	\begin{table}[htbp]
+	\begin{table}[h]
 		\caption{Detalle de las iteraciones con un contexto 16x16 y densidad 0.3}
 		\begin{center}
 			\begin{tabular}{|r|r|r|r|r|}

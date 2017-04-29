@@ -79,8 +79,6 @@
 	
 	%Este operador forman una \textit{conexión de Galois} y verifican ciertas propiedades que no entraremos a analizar aquí.
 	
-	\todo[inline]{Referencia para ampliar esto}
-	
 	Finalmente a partir de la definición de derivación, se define un \textbf{concepto formal}.
 	
 	\begin{description}
@@ -169,9 +167,9 @@
 	 
 	 Para poder razonar sobre estos conjuntos de reglas se utilizan las reglas de Armstrong \todo{ref} para implicaciones: 
 	 
-	 \[
-	 	\frac{}{X \to X} (Identidad) \; \frac{X \to Y}{X \cup Z \to Y}(Extensión) \; \frac{X \to Y \quad X \cup Z \to W}{X \cup Z \to W}(Substitución)
-	 \]
+	 $
+	 	\frac{}{X \to X} (Identidad) \; \frac{X \to Y}{X \cup Z \to Y}(Extension) \; \frac{X \to Y \quad X \cup Z \to W}{X \cup Z \to W}(Substitucion)
+	 $
 	
 	Mediante la aplicación sucesiva de estas reglas puede realizarse razonamiento hacia delante partiendo de cualquier conjunto de implicaciones.
 	
@@ -187,7 +185,7 @@ Ya que nuestro objetivo es trabajar con implicaciones de atributos obtenidas en 
 	Siendo $H = att(\mathcal{L}')$ el conjunto de atributos que aparecen en las implicaciones de $\mathcal{L}'$ y $K = impl(H)$ todas las implicaciones que pueden construirse con el conjunto de atributos $H$, se cumple que: 
 	
 	
-	\[ \mathcal{L} \models \mathcal{L}' \quad y \quad \forall L \in K \;\; [\mathcal{L} \models L \Longrightarrow \mathcal{L}' \models L]  \]
+	\[ \mathcal{L} \models \mathcal{L}' \quad y \quad \forall L \in K \;\; [si \ \mathcal{L} \models L \Longrightarrow \mathcal{L}' \models L]  \]
 
 \end{description}
 
@@ -197,9 +195,7 @@ Una vez que conocemos esta definición queremos ser capaces de construir retracc
 
 Puesto que estamos trabajando sobre la lógica proposicional cualquier operador de olvido válido funcionará con nuestras implicaciones, pero el conjunto resultante de su aplicación no tiene por qué estar limitado a contener únicamente implicaciones. 
 
-Por ello utilizaremos un operador de olvido específicamente creado para esta problemática y cuya validez se demuestra en \todo{referencia al articulo}.
-
-\todo[inline]{Tal como he dicho en la nota del apartado de retracción no se como relacionar correctamente los polinomios con el operador de olvido.}
+Por ello utilizaremos un operador de olvido específicamente creado para esta problemática y cuya validez se demuestra en \cite{retraccion}.
 
 
 \begin{description}
