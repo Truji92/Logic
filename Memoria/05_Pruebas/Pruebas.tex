@@ -5,6 +5,7 @@
 	Sobre cada conjunto de reglas se ha ejecutado el algoritmo hasta eliminar todas las variables presentes en el mismo y se ha monitorizado el tiempo de ejecución y el número de reglas resultante en cada iteración.	
 	
 	Para la generación de reglas se han utilizado contextos de tamaño cuadrado (mismo número de atributos que de ejemplos) que se han rellenado de forma aleatoria en base a un valor de densidad. Esta densidad representa la probabilidad de que un ejemplo posea un atributo.
+	
 
 \newpage
 
@@ -79,21 +80,21 @@
 
 	Ya que el objetivo del las optimizaciones implementadas es reducir el tamaño del conjunto en ejecuciones sucesivas del algoritmo, se han analizado las ejecuciones de la tabla \ref{tiempos_totales} iteración por iteración para poder ver el efecto concreto de dichas optimizaciones sobre los conjuntos de reglas.
 	
-	\begin{figure}[h]
+	\begin{figure}[htbp]
 		\centering
 		\includegraphics[width=1\linewidth]{05_Pruebas/graficas/10_4}
 		\caption{Tiempos de ejecución por iteración para un contexto de tamaño 10 y densidad 0.4}
 		\label{fig:10_4}
 	\end{figure}
 
-	\begin{figure}[h]
+	\begin{figure}[htbp]
 		\centering
 		\includegraphics[width=1\linewidth]{05_Pruebas/graficas/14_4}
 		\caption{Tiempos de ejecución por iteración para un contexto de tamaño 14 y densidad 0.4}
 		\label{fig:14_4}
 	\end{figure}
 	
-	\begin{figure}[h]
+	\begin{figure}[htbp]
 		\centering
 		\includegraphics[width=1\linewidth]{05_Pruebas/graficas/16_3}
 		\caption{Tiempos de ejecución por iteración para un contexto de tamaño 16 y densidad 0.3}
@@ -108,7 +109,7 @@
 	
 	Estas trazas también permiten apreciar que en general el algoritmo provoca un crecimiento en el número de reglas con cada eliminación hasta que llega a un punto de inflexión tras el cual el número de reglas disminuye tras cada ejecución. 
 	
-	\begin{table}[h]
+	\begin{table}[htbp]
 		\caption{Detalle de las iteraciones con un contexto 10x10 y densidad 0.4}
 		\begin{center}
 			\begin{tabular}{|r|r|r|r|r|}
@@ -130,7 +131,7 @@
 	\end{table}
 
 
-	\begin{table}[h]
+	\begin{table}[htbp]
 		\caption{Detalle de las iteraciones con un contexto 14x14 y densidad 0.4}
 		\begin{center}
 			\begin{tabular}{|r|r|r|r|r|}
@@ -155,7 +156,7 @@
 		\label{iteraciones14d4}
 	\end{table}
 	
-	\begin{table}[h]
+	\begin{table}[htbp]
 		\caption{Detalle de las iteraciones con un contexto 16x16 y densidad 0.3}
 		\begin{center}
 			\begin{tabular}{|r|r|r|r|r|}
@@ -183,9 +184,21 @@
 	\end{table}
 	
 		
+
+\section*{Comparación entre generación y retracción}\addcontentsline{toc}{section}{Comparación entre generación y retracción}		
 		
-		
-		
-		
+	Por último se ha comparado el tiempo necesario para generar las implicaciones correspondientes a un contexto de tamaño N y el tiempo necesario para obtener un conjunto de implicaciones equivalente a partir de un contexto de tamaño N+1.
 	
+	Para contextos de tamaño menor a 30 generar el contexto es más rápido que calcular la retracción conservativa sobre un conjunto generado a partir de un contexto con una variable adicional.
+	
+	Sin embargo para tamaños mayores el tiempo se iguala y finalmente a partir de tamaño 36 (como puede verse en la figura \ref{generacion}) resulta más rápido calcular la retracción que generar el conjunto desde cero.
+	
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=1\linewidth]{05_Pruebas/graficas/generacionLineas}
+		\caption{Tiempos de generación y retracción de conjuntos del mismo tamaño}
+		\label{generacion}
+	\end{figure}
+
 		

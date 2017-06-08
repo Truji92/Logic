@@ -170,7 +170,7 @@
 	
 	Una de las formas de representación más utilizadas es la \textbf{cláusula} y por ello se encuentra representada en la librería por un tipo de datos propio. Una cláusula es una proposición que solo contiene literales y disyunciones (o conjunciones aunque en nuestro caso este segundo modelo no se ha implementado), un \textbf{literal} puede ser un símbolo atómico (\textit{Atom} en la representación de proposiciones) o la negación de un símbolo atómico.
 	
-	De esta forma, modelando el tipo literal, podemos representar una clausula como un conjunto de literales, los cual es computacionalmente más fácil de manejar que la estructura recursiva que modela las proposiciones.
+	De esta forma, modelando el tipo literal, podemos representar una cláusula como un conjunto de literales, los cual es computacionalmente más fácil de manejar que la estructura recursiva que modela las proposiciones.
 	
 	Una de las operaciones más importantes que suele realizarse al trabajar con cláusulas es la de \textbf{resolvente}. Esta operación ya ha sido nombrada en la definición que dimos anteriormente para el operador de olvido para implicaciones. La resolvente de dos clausulas respecto a un literal es una nueva cláusula con la misma semántica que las anteriores pero que no contiene dicho literal. 
 	
@@ -328,7 +328,7 @@
 			Permite ejecutar el algoritmo sin las optimizaciones explicadas en el apartado anterior.
 	\end{description}
 	
-	Para facilitar la programación de la utilidad de línea de comando se ha utilizado una librería llamada \textit{scopt} \todo{Como se referencia esto?} que facilita la creación de un parser de opciones de línea de comando al estilo típico de Linux.
+	Para facilitar la programación de la utilidad de línea de comando se ha utilizado una librería llamada \textit{scopt} (https://github.com/scopt/scopt) que facilita la creación de un parser de opciones de línea de comando al estilo típico de Linux.
 	
 	Esta librería permite declarar de forma simple las opciones y su efecto y genera automáticamente documentación para el uso de la aplicación de línea de comando. La salida de la aplicación al cometer un error al llamarla o al utilizar la opción \textit{-help} es:
 

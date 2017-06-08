@@ -165,10 +165,10 @@
 
 	 Podemos interpretar estas fórmulas como si pertenecieran a la lógica proposicional y aplicar los algoritmos de razonamiento de la misma. Esto nos permite aplicar la \textbf{retracción conservativa} mencionada en la introducción sobre conjuntos de implicaciones de atributos generados tras la aplicación de FCA a un contexto.
 	 
-	 Para poder razonar sobre estos conjuntos de reglas se utilizan las reglas de Armstrong \todo{ref} para implicaciones: 
+	 Para poder razonar sobre estos conjuntos de reglas se utilizan las reglas de Armstrong para implicaciones: 
 	 
 	 $
-	 	\frac{}{X \to X} (Identidad) \; \frac{X \to Y}{X \cup Z \to Y}(Extension) \; \frac{X \to Y \quad X \cup Z \to W}{X \cup Z \to W}(Substitucion)
+	 	\frac{}{X \to X} (Identidad) \; \frac{X \to Y}{X \cup Z \to Y}(Extension) \; \frac{X \to Y \quad Y \cup Z \to W}{X \cup Z \to W}(Substitucion)
 	 $
 	
 	Mediante la aplicación sucesiva de estas reglas puede realizarse razonamiento hacia delante partiendo de cualquier conjunto de implicaciones.

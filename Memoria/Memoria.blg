@@ -10,50 +10,48 @@ A level-1 auxiliary file: 05_Pruebas/Pruebas.aux
 A level-1 auxiliary file: conclusiones/conclusiones.aux
 The style file: plain.bst
 Database file #1: z_Bibliografia/mybib.bib
+Warning--entry type for "tesis" isn't style-file defined
+--line 33 of file z_Bibliografia/mybib.bib
 Warning--empty journal in retraccion
-Warning--empty year in retraccion
-Warning--empty journal in calculemus
-Warning--empty year in calculemus
-Warning--empty journal in imp_polinomios
-You've used 4 entries,
+You've used 5 entries,
             2118 wiz_defined-function locations,
-            520 strings with 4815 characters,
-and the built_in function-call counts, 876 in all, are:
-= -- 76
-> -- 34
+            528 strings with 5193 characters,
+and the built_in function-call counts, 1079 in all, are:
+= -- 98
+> -- 41
 < -- 0
-+ -- 14
-- -- 10
-* -- 45
-:= -- 164
-add.period$ -- 10
-call.type$ -- 4
-change.case$ -- 16
++ -- 17
+- -- 12
+* -- 44
+:= -- 201
+add.period$ -- 14
+call.type$ -- 5
+change.case$ -- 20
 chr.to.int$ -- 0
-cite$ -- 9
-duplicate$ -- 42
-empty$ -- 74
-format.name$ -- 10
-if$ -- 171
+cite$ -- 6
+duplicate$ -- 49
+empty$ -- 96
+format.name$ -- 12
+if$ -- 219
 int.to.chr$ -- 0
-int.to.str$ -- 4
+int.to.str$ -- 5
 missing$ -- 5
-newline$ -- 21
-num.names$ -- 8
+newline$ -- 27
+num.names$ -- 10
 pop$ -- 30
 preamble$ -- 1
-purify$ -- 13
+purify$ -- 16
 quote$ -- 0
-skip$ -- 26
+skip$ -- 38
 stack$ -- 0
-substring$ -- 20
-swap$ -- 1
+substring$ -- 25
+swap$ -- 4
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 14
-warning$ -- 5
-while$ -- 8
-width$ -- 5
-write$ -- 36
-(There were 5 warnings)
+type$ -- 18
+warning$ -- 1
+while$ -- 10
+width$ -- 6
+write$ -- 49
+(There were 2 warnings)

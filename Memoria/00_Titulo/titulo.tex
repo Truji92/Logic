@@ -1,7 +1,22 @@
 \thispagestyle{empty}
-\begin{center}
-\includegraphics[scale=0.4]{./00_Titulo/figs/logoUHU}
-\end{center}
+
+\begin{tikzpicture}[remember picture, overlay]
+\draw[line width = 1pt] ($(current page.north west) + (1in,-1in)$) rectangle ($(current page.south east) + (-0.8in,1in)$);
+\end{tikzpicture}
+
+
+
+\begin{figure}
+	\centering
+	\subfloat{
+		\includegraphics[scale=24]{./00_Titulo/figs/LogoEtsi}
+	}
+	\hspace{4.3cm}
+	\subfloat{
+		\includegraphics[scale=30]{./00_Titulo/figs/uhues}
+	}
+\end{figure}
+
 \vspace*{0cm}
 \Large 
 %\begin{center}
@@ -10,12 +25,31 @@
 %
 %\end{center}
 
-\vspace{2cm}
 
-\LARGE
+\Huge
+
 
 \begin{center}
-{\bf  Aplicación de retracción conservativa al análisis formal de conceptos}
+	{\bf  \Huge Escuela Técnica Superior de Ingeniería}
+
+	{\bf  \Huge Universidad de Huelva}
+\end{center}
+
+
+\begin{center}
+	{Grado en Ingeniería Informática}
+\end{center}
+
+\vspace{1cm}
+
+\begin{center}
+	{\bf Trabajo Fin de Grado}
+\end{center}
+
+
+
+\begin{center}
+	{  Aplicación de retracción conservativa al análisis formal de conceptos}
 \end{center} 
 
 \Large
@@ -35,16 +69,12 @@
 \hspace*{.5\textwidth}
 \normalsize
 \begin{tabular}{l}
-Memoria presentada por\\
+	\LARGE
 Alejandro Trujillo Caballero\\
+\hspace{3.39cm}	30 de mayo de 2017
 
 
 \end{tabular} \par
-
-
-Tutor:
-Gonzalo A. Aranda Corral\newline
-
 
 \newpage
 \thispagestyle{empty}

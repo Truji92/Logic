@@ -1,14 +1,22 @@
 \begin{thebibliography}{1}
 
+\bibitem{calculemus}
+Fernández-Lebrón~M.M. Aranda-Corral~G.A., Borrego-Díaz~J.
+\newblock Conservative retractions of propositional logic theories by means of
+  boolean derivatives: Theoretical foundations.
+\newblock {\em Carette J., Dixon L., Coen C.S., Watt S.M. (eds) Intelligent
+  Computer Mathematics. CICM 2009. Lecture Notes in Computer Science, vol 5625.
+  Springer, Berlin, Heidelberg}, 2009.
+
+\bibitem{tesis}
+Gonzalo A.~Aranda Corral.
+\newblock Tratamiento de la semántica emergente mediante sistemas de agentes
+  basados en conocimiento.
+
 \bibitem{retraccion}
 Joaquín Borrego-Díaz Gonzalo A. Aranda-Corral and Juan Galán-Páez.
 \newblock Conservative retractions of implication bases.
-
-\bibitem{calculemus}
-M.~Magdalena Fernández-Lebrón Gonzalo A. Aranda-Corral, Joaquıín
-  Borrego-Díaz.
-\newblock Conservative retractions of propositional logic theories by means of
-  boolean derivatives. theoretical foundations.
+\newblock (Pendiente de publicación).
 
 \bibitem{haskell}
 José A.~Alonso Jiménez.
@@ -19,6 +27,7 @@ José A.~Alonso Jiménez.
 \bibitem{imp_polinomios}
 Gonzalo A. Aranda-Corral y Joaquín Borrego-Díaz José A. Alonso-Jiménez.
 \newblock Sistema certificado de decisión proposicional basado en polinomios.
-\newblock 2009.
+\newblock {\em Workshop on Computational Logics and Artificial Intelligence},
+  2009.
 
 \end{thebibliography}
